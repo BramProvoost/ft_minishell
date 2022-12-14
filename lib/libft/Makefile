@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         ::::::::             #
-#    Makefile                                           :+:    :+:             #
-#                                                      +:+                     #
-#    By: bprovoos <bprovoos@student.codam.nl>         +#+                      #
-#                                                    +#+                       #
-#    Created: 2022/01/19 08:27:15 by bprovoos      #+#    #+#                  #
-#    Updated: 2022/11/16 17:29:36 by bprovoos      ########   odam.nl          #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: edawood <edawood@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2022/01/19 08:27:15 by bprovoos          #+#    #+#              #
+#    Updated: 2022/12/11 15:11:43 by edawood          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -70,7 +70,9 @@ BONUSSRCS	= ft_lstnew.o $\
 
 # The code below does not need to be changed
 
-CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
+CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		+= $(if $(FSAN), -fsanitize=address -g)
+CFLAGS		+= $(if $(DEBUG) , -g)
 RM 			= rm -rf
 SRCOBJ		= $(SRCS:.c=.o)
 BONUSOBJ	= $(BONUSSRCS:.c=.o)
@@ -87,7 +89,7 @@ $(NAME): $(OBJ)
 	ar crs $(NAME) $(OBJ)
 
 %.o : %.c $(HEADER)
-	$(CC) -c $(FLAGS) -o $@ $<
+	$(CC) -c $(CFLAGS) -o $@ $<
 
 bonus:
 	$(MAKE) BONUS=1
