@@ -2,16 +2,22 @@ NAME		:= minishell
 CFLAGS		:= -Wextra -Wall -Werror
 CFLAGS		+= $(if $(FSAN) , -fsanitize=address -g)
 CFLAGS		+= $(if $(DEBUG) , -g)
-LIBFT		:= ./lib/libft
-HEADERS	:= $(addprefix -I , \
-			  libft)
-LIBS	:= $(LIBFT)/libft.a
+CFLAGS		+= $(if $(TEST) , -lcriterion)
+# LIBFT		:= ./lib/libft
+# HEADERS	:= $(addprefix -I , \
+# 			  libft, \
+# 			  /Users/bprovoos/homebrew/opt/criterion/include
+# 			  )
+HEADERS := -I libft -I /Users/bprovoos/homebrew/opt/criterion/include
+
+# LIBS	:= $(LIBFT)/libft.a
 SRCS	:= $(shell find ./srcs -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
 FUNCTIONS_OBJ=$(OBJS:.c=.o)
 
-all: libft $(NAME)
+# all: libft $(NAME)
+all: $(NAME)
 
 libft:
 	@echo ======== LIBFT ========
@@ -25,12 +31,12 @@ $(NAME): $(FUNCTIONS_OBJ)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
 
 clean:
-	@rm -f $(OBJS)
+	@rm -rf $(OBJS)
 	@$(MAKE) -C $(LIBFT) clean
 
 fclean: clean
-	@rm -f $(NAME)
-	@rm -f ./lib/libft/libft.a
+	@rm -rf $(NAME)
+	@rm -rf ./lib/libft/libft.a
 
 fsan:
 	$(MAKE) FSAN=1
@@ -43,6 +49,12 @@ debug:
 
 rebug: fclean
 	$(MAKE) debug
+
+test:
+	$(MAKE) TEST=1
+
+retest: fclean
+	$(MAKE) test
 
 
 re: clean all

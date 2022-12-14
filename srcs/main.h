@@ -6,12 +6,18 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/07 19:40:18 by bprovoos      ########   odam.nl         */
+/*   Updated: 2022/12/14 09:25:32 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
+
+// # define METACHARACTER " \t\n|&;()<>"
+
+# include <stdlib.h>
+# include <stdio.h>
+// # include <readline.h>
 
 typedef enum e_type {
 	WORD,
@@ -38,6 +44,6 @@ typedef struct s_line {
 }	t_line;
 
 /* tokenizer.c */
-t_token	tokenizer(char *line);
+t_token	*tokenizer(char *raw_line);
 
 #endif
