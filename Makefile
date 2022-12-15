@@ -3,21 +3,19 @@ CFLAGS		:= -Wextra -Wall -Werror
 CFLAGS		+= $(if $(FSAN) , -fsanitize=address -g)
 CFLAGS		+= $(if $(DEBUG) , -g)
 CFLAGS		+= $(if $(TEST) , -lcriterion)
-# LIBFT		:= ./lib/libft
-# HEADERS	:= $(addprefix -I , \
-# 			  libft, \
-# 			  /Users/bprovoos/homebrew/opt/criterion/include
-# 			  )
-HEADERS := -I libft -I /Users/bprovoos/homebrew/opt/criterion/include
+LIBFT		:= old_minishell/libs/libft
+HEADERS	:= $(addprefix -I , \
+			  libft \
+			  )
 
-# LIBS	:= $(LIBFT)/libft.a
+
+LIBS	:= $(LIBFT)/libft.a
 SRCS	:= $(shell find ./srcs -iname "*.c")
 OBJS	:= ${SRCS:.c=.o}
 
 FUNCTIONS_OBJ=$(OBJS:.c=.o)
 
-# all: libft $(NAME)
-all: $(NAME)
+all: libft $(NAME)
 
 libft:
 	@echo ======== LIBFT ========

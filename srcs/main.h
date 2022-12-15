@@ -6,17 +6,19 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/14 09:25:32 by bprovoos      ########   odam.nl         */
+/*   Updated: 2022/12/15 14:12:31 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-// # define METACHARACTER " \t\n|&;()<>"
+# define METACHARACTER " \t\n|&;()<>"
 
+# include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include "../old_minishell/libs/libft/libft.h"
 // # include <readline.h>
 
 typedef enum e_type {
@@ -45,5 +47,7 @@ typedef struct s_line {
 
 /* tokenizer.c */
 t_token	*tokenizer(char *raw_line);
+
+void	print_tokens(t_token *token);
 
 #endif
