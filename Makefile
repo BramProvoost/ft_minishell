@@ -34,7 +34,7 @@ clean:
 
 fclean: clean
 	@rm -rf $(NAME)
-	@rm -rf ./lib/libft/libft.a
+	@$(MAKE) -C $(LIBFT) fclean
 
 fsan:
 	$(MAKE) FSAN=1
