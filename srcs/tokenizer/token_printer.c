@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/15 14:24:24 by bprovoos      ########   odam.nl         */
+/*   Updated: 2022/12/22 15:34:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 char	*type_to_string(t_type type)
 {
+	if (type == CMD)
+		return ("CMD");
 	if (type == WORD)
 		return ("WORD");
 	if (type == PIPE)
@@ -26,8 +28,6 @@ char	*type_to_string(t_type type)
 		return ("OUTPUT_S");
 	if (type == OUTPUT_D)
 		return ("OUTPUT_D");
-	if (type == TOKEN_EOF)
-		return ("TOKEN_EOF");
 	return ("No token found");
 }
 
@@ -37,8 +37,8 @@ void	print_tokens(t_token *token)
 		token = token->prev;
 	while (token->next != NULL)
 	{
-		printf("type: %s\ttext: %s\n", type_to_string(token->type), token->text);
+		printf("type: %s\ttext: %s\n", type_to_string(token->type), token->value);
 		token = token->next;
 	}
-	printf("type: %s\ttext: %s\n", type_to_string(token->type), token->text);
+	printf("type: %s\ttext: %s\n", type_to_string(token->type), token->value);
 }

@@ -6,13 +6,13 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/15 19:09:02 by bprovoos      ########   odam.nl         */
+/*   Updated: 2022/12/22 18:57:50 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-t_token	*new_token(t_token *last, t_type type)
+t_token *create_token(void)
 {
 	t_token *new;
 
@@ -22,23 +22,24 @@ t_token	*new_token(t_token *last, t_type type)
 		ft_putendl_fd("malloc fail", 1);
 		exit(1);
 	}
-	if (last)
-	{
-		last->next = new;
-		new->prev = last;
-	}
-	new->type = type;
 	return (new);
 }
 
-void	add_type_to_token_list(t_token *token, t_type type)
+t_token	*last_token(t_token *lst)
 {
-	while (token->next)
-		token = token->next;
-	if (token->type == TOKEN_EOF)
-		token->type = type;
+	if (!lst)
+		return (create_token());
+	while (lst->next)
+		lst = lst->next;
+	return (lst);
+}
+
+void	add_token_back(t_token *lst, t_token *new)
+{
+	if (!lst)
+		lst = new;
 	else
-		token->next = new_token(token, type);
+		last_token(lst)->next = new;
 }
 
 void	next_char(t_line *line)
@@ -60,40 +61,10 @@ char	get_current_char(t_line line)
 	return ('\0');
 }
 
-// int	token_case(t_line line, char *chars)
-// {
-	
-// }
-
-// t_type	get_type_of_char(t_line *line)
-// {
-// 	// if (token_case(*line, " \t\n"))
-// 	// {
-// 	// 	next_char(line);
-// 	// 	return (get_type_of_char(line));
-// 	// }
-// 	if (token_case(*line, "|"))
-// 		return (PIPE);
-// 	if (token_case(*line, "<"))
-// 		return (INPUT_S);
-// 	if (token_case(*line, "<<"))
-// 		return (INPUT_D);
-// 	if (token_case(*line, ">"))
-// 		return (OUTPUT_S);
-// 	if (token_case(*line, ">>"))
-// 		return (OUTPUT_D);
-// 	return (WORD);
-// }
-
-void	move_position(t_token *token, t_line *line)
+void	move_position(t_token *token_lst, t_line *line)
 {
-	while (token->next)
-		token = token->next;
-	if (token->type == INPUT_D)
-		line->position++;
-	if (token->type == OUTPUT_D)
-		line->position++;
-	line->position++;
+	token_lst = last_token(token_lst);
+	line->position += token_lst->len;
 }
 
 t_type	get_type_of_token(t_line line)
@@ -116,22 +87,93 @@ t_type	get_type_of_token(t_line line)
 	return (WORD);
 }
 
+void	pipe_case(t_token *token)
+{
+	add_token_back(token, create_token());
+	token = last_token(token);
+	token->type = PIPE;
+	token->value = "|";
+	token->len = 1;
+}
+
+void	input_case(t_token *token, t_line line)
+{
+	char	n;
+
+	n = get_next_char(line);
+	if (n == '<')
+	{
+		token->type = INPUT_D;
+		token->value = "<<";
+		token->len = 2;
+	}
+	else
+	{
+		token->type = INPUT_S;
+		token->value = "<";
+		token->len = 1;
+	}
+}
+
+void	output_case(t_token *token, t_line line)
+{
+	char	n;
+
+	n = get_next_char(line);
+	if (n == '>')
+	{
+		token->type = OUTPUT_D;
+		token->value = ">>";
+		token->len = 2;
+	}
+	else
+	{
+		token->type = OUTPUT_S;
+		token->value = ">";
+		token->len = 1;
+	}
+}
+
+void	data_to_token(t_token *token, t_line *line)
+{
+	char	c;
+
+	c = get_current_char(*line);
+	if (c == '|')
+		pipe_case(token);
+	else if (c == '<')
+		input_case(token, *line);
+	else if (c == '>')
+		output_case(token, *line);
+	else if (c != '\0')
+	{
+		next_char(line);
+		data_to_token(token, line);
+	}
+}
+
+/*
+Do not create a new token before you need it.
+*/
+
 t_token	*tokenizer(char *raw_line)
 {
 	t_line	line;
-	t_token *token;
-	t_type	type;
+	t_token *token_lst;
 
 	line.text = raw_line;
 	line.len = ft_strlen(raw_line);
 	line.position = 0;
-	token = new_token(NULL, TOKEN_EOF);
+	token_lst = NULL;
+	// token_lst = create_token();
 	while(line.position < line.len)
 	{
-		type = get_type_of_token(line);
-		add_type_to_token_list(token, type);
-		move_position(token, &line);
+		// add_token_back(token_lst, create_token());
+		data_to_token(token_lst, &line);
+		move_position(token_lst, &line);
 	}
-	add_type_to_token_list(token, TOKEN_EOF);
-	return (token);
+	/* overwrite last token */
+	// last_token(token_lst)->type = CMD;
+	// last_token(token_lst)->value = "ls -la";
+	return (token_lst);
 }
