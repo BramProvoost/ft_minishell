@@ -19,7 +19,7 @@ all: libft $(NAME)
 
 libft:
 	@echo ======== LIBFT ========
-	@$(MAKE) -C $(LIBFT)
+	@$(MAKE) bonus -C $(LIBFT)
 
 
 %.o: %.c
@@ -30,11 +30,11 @@ $(NAME): $(FUNCTIONS_OBJ)
 
 clean:
 	@rm -rf $(OBJS)
-	@$(MAKE) -C $(LIBFT) clean
+	@$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
 	@rm -rf $(NAME)
-	@$(MAKE) -C $(LIBFT) fclean
+	@$(MAKE) fclean -C $(LIBFT) 
 
 fsan:
 	$(MAKE) FSAN=1

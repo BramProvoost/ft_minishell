@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/21 09:29:18 by bprovoos      ########   odam.nl         */
+/*   Updated: 2022/12/22 14:49:43 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,17 +23,17 @@
 
 typedef enum e_type {
 	WORD,
+	CMD,
 	PIPE,
 	INPUT_S,
 	INPUT_D,
 	OUTPUT_S,
-	OUTPUT_D,
-	TOKEN_EOF,
+	OUTPUT_D
 }	t_type;
 
 typedef struct s_token {
 	t_type			type;
-	char			*text;
+	void			*value;
 	long			len;
 	struct s_token	*next;
 	struct s_token	*prev;
