@@ -6,11 +6,23 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/04 15:17:04 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/04 16:05:33 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+void	delete_tokens(t_token *head)
+{
+	t_token	*temp;
+
+	while (head->next != NULL)
+	{
+		temp = head;
+		head = head->next;
+		free(temp);
+	}
+}
 
 t_token *create_token(void)
 {

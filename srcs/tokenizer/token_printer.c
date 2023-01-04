@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/22 15:34:09 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/04 16:02:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,8 +33,6 @@ char	*type_to_string(t_type type)
 
 void	print_tokens(t_token *token)
 {
-	while (token->prev)
-		token = token->prev;
 	while (token->next != NULL)
 	{
 		printf("type: %s\ttext: %s\n", type_to_string(token->type), token->value);

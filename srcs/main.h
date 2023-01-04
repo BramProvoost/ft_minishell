@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/22 14:49:43 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/04 16:01:00 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,7 @@ typedef struct s_line {
 
 /* tokenizer.c */
 t_token	*tokenizer(char *raw_line);
+void	delete_tokens(t_token *lst);
 
 void	print_tokens(t_token *token);
 
