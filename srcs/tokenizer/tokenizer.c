@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/04 16:05:33 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/04 18:40:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	delete_tokens(t_token *head)
 	{
 		temp = head;
 		head = head->next;
+		free(temp->value);
 		free(temp);
 	}
 }
@@ -79,25 +80,25 @@ void	move_position(t_token *token_lst, t_line *line)
 	line->position += token_lst->len;
 }
 
-t_type	get_type_of_token(t_line line)
-{
-	char	c;
-	char	n;
+// t_type	get_type_of_token(t_line line)
+// {
+// 	char	c;
+// 	char	n;
 
-	c = get_current_char(line);
-	n = get_next_char(line);
-	if (c == '|')
-		return (PIPE);
-	if (c == '<' && n == '<')
-		return (INPUT_D);
-	if (c == '<')
-		return (INPUT_S);
-	if (c == '>' && n == '>')
-		return (OUTPUT_D);
-	if (c == '>')
-		return (OUTPUT_S);
-	return (WORD);
-}
+// 	c = get_current_char(line);
+// 	n = get_next_char(line);
+// 	if (c == '|')
+// 		return (PIPE);
+// 	if (c == '<' && n == '<')
+// 		return (INPUT_D);
+// 	if (c == '<')
+// 		return (INPUT_S);
+// 	if (c == '>' && n == '>')
+// 		return (OUTPUT_D);
+// 	if (c == '>')
+// 		return (OUTPUT_S);
+// 	return (WORD);
+// }
 
 void	pipe_case(t_token **token)
 {
@@ -121,13 +122,13 @@ void	input_case(t_token **token, t_line line)
 	if (n == '<')
 	{
 		last->type = INPUT_D;
-		last->value = "<<";
+		last->value = ft_strdup("<<");
 		last->len = 2;
 	}
 	else
 	{
 		last->type = INPUT_S;
-		last->value = "<";
+		last->value = ft_strdup("<");
 		last->len = 1;
 	}
 }
@@ -143,15 +144,46 @@ void	output_case(t_token **token, t_line line)
 	if (n == '>')
 	{
 		last->type = OUTPUT_D;
-		last->value = ">>";
+		last->value = ft_strdup(">>");
 		last->len = 2;
 	}
 	else
 	{
 		last->type = OUTPUT_S;
-		last->value = ">";
+		last->value = ft_strdup(">");
 		last->len = 1;
 	}
+}
+
+char	*ft_strlendump(const char *str, size_t length)
+{
+	char	*temp;
+
+	temp = (char *)malloc(sizeof(*str) * (length + 1));
+	if (!temp)
+		return (NULL);
+	temp[length] = '\0';
+	while (length > 0)
+	{
+		length--;
+		temp[length] = str[length];
+	}
+	return (temp);
+}
+
+void	word_case(t_token **token, t_line line)
+{
+	t_token	*word_token;
+
+	/*	check if last node is word case.
+		append to word or create wordt */
+	/* add only token if it is not a word case! */
+	if (!*token)
+		add_token_back(token, create_token());
+	else if (last_token(*token)->type != WORD)
+		add_token_back(token, create_token());
+	word_token = last_token(*token);
+	word_token->value = ft_strjoin(word_token->value, ft_strlendump(&line.text[line.position], 1));
 }
 
 void	data_to_token(t_token **token, t_line *line)
@@ -167,16 +199,11 @@ void	data_to_token(t_token **token, t_line *line)
 		output_case(token, *line);
 	else if (c != '\0')
 	{
+		word_case(token, *line);
 		next_char(line);
 		data_to_token(token, line);
 	}
 }
-
-/*
-Do not create a new token before you need it.
-or
-Create and Remove token if you don't need it.
-*/
 
 t_token	*tokenizer(char *raw_line)
 {
@@ -187,18 +214,10 @@ t_token	*tokenizer(char *raw_line)
 	line.len = ft_strlen(raw_line);
 	line.position = 0;
 	token_lst = NULL;
-
-	// token_lst = create_token();
-	
 	while(line.position < line.len)
 	{
-		// add_token_back(token_lst, create_token());
 		data_to_token(&token_lst, &line);
 		move_position(token_lst, &line);
 	}
-	
-	/* overwrite last token */
-	// last_token(token_lst)->type = CMD;
-	// last_token(token_lst)->value = "ls -la";
 	return (token_lst);
 }
