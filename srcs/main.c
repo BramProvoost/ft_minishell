@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/04 18:40:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/05 21:25:24 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,24 @@ int	main(int argc, char *argv[], char **envp)
 	t_token	*token;
 
 	// token = tokenizer("ls -la");
-	token = tokenizer("< echo hello > outfile");
+	// token = tokenizer("echo      hello  world>outfile");
+	// token = tokenizer("echo hello > world > outfile");
+	// token = tokenizer("echo'hello > world'>outfile");
+	// token = tokenizer("echo 'hello > world' > outfile");
+	// token = tokenizer("echo  'hello > world'  >  outfile");
+	// token = tokenizer("echo \"hello > world\" > outfile");
 	// token = tokenizer("<b<<|>d>>");
 	// token = tokenizer("||");
 	// token = tokenizer("<|<<");
+
+	/* geen 2 lege tokens voor de ' maken.
+	na een ' een verder gaan met een nieuwe token.
+	*/
+	
+	token = tokenizer("'ab'cd'ef'gh'ij'kl");
+	// token = tokenizer("'ab\"cd'ef'gh\"ij'kl");
+	// token = tokenizer(" 'ab'cd'ef'g");
+	// token = tokenizer("z'ab'cd'ef'g");
 	print_tokens(token);
 	delete_tokens(token);
 	(void)argc;

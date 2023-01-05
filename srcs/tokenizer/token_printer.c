@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/04 16:17:33 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/05 13:45:27 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,9 @@ void	print_tokens(t_token *token)
 {
 	while (token->next != NULL)
 	{
-		printf("type: %s\ttext: %s\n", type_to_string(token->type), token->value);
+		printf("type: %s\tlen: %li\ttext: \"%s\"\n", type_to_string(token->type), token->len, token->value);
 		token = token->next;
 	}
 	if (token!= NULL)
-		printf("type: %s\ttext: %s\n", type_to_string(token->type), token->value);
+		printf("type: %s\tlen: %li\ttext: \"%s\"\n", type_to_string(token->type), token->len, token->value);
 }

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/04 16:01:00 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/05 14:32:11 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,46 @@ typedef struct s_token {
 }	t_token;
 
 typedef struct s_line {
-	char	*text;
-	long	len;
+	char	quote;
 	long	position;
+	long	len;
+	char	*text;
 }	t_line;
+
+/* 
+What is the program flow for a lexer, tokenizer and parser?
+
+The program flow for a lexer, tokenizer, and parser typically works as follows:
+1. The lexer takes in a stream of characters as input and produces a stream of tokens (lexemes) as output.
+2. The tokenizer takes in the stream of tokens from the lexer and groups them into higher-level constructs called phrases.
+3. The parser takes in the stream of phrases from the tokenizer and generates a parse tree or an abstract syntax tree (AST) that represents the structure of the input according to the rules of the language being parsed.
+
+Here is a more detailed description of each step:
+
+1. Lexing:
+- The lexer scans the input characters one by one, identifying the lexemes (tokens) in the input.
+- A lexeme is a sequence of characters that belongs to the same token class (e.g., identifier, keyword, operator, etc.).
+- The lexer uses regular expressions or a set of rules to identify the lexemes in the input.
+- For each lexeme, the lexer creates a token that consists of a token type and a lexeme value, and adds it to the output stream of tokens.
+
+2. Tokenizing:
+- The tokenizer takes in the stream of tokens from the lexer and groups them into phrases.
+- A phrase is a group of tokens that form a higher-level construct in the language, such as a statement or an expression.
+- The tokenizer uses the syntax rules of the language to identify the phrases in the input.
+- For each phrase, the tokenizer creates a phrase object and adds it to the output stream of phrases.
+
+3. Parsing:
+- The parser takes in the stream of phrases from the tokenizer and generates a parse tree or an AST that represents the structure of the input.
+- A parse tree is a tree-like representation of the syntactic structure of the input, with the root of the tree being the overall structure of the input and the leaves being the individual tokens.
+- An AST is a simplified version of the parse tree that only includes the information needed for further processing, such as type checking and code generation.
+- The parser uses the syntax rules of the language to build the parse tree or AST.
+- The parse tree or AST can then be used for various purposes, such as interpreting or compiling the input.
+*/
 
 /* tokenizer.c */
 t_token	*tokenizer(char *raw_line);
 void	delete_tokens(t_token *lst);
-
+void	data_to_token(t_token **token, t_line *line);
 void	print_tokens(t_token *token);
 
 #endif

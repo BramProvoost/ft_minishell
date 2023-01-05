@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/10/12 09:55:42 by bprovoos      #+#    #+#                 */
-/*   Updated: 2022/12/21 09:46:47 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/05 11:02:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,21 @@ command  ::=  word
 
 redirection  ::=  redirectionop filename
 redirectionop  ::=  "<"  |  ">"  |  "<<"  |  ">>"
+
+BNF Bash 2.0
+<letter> ::= a|b|c|d|e|f|g|h|i|j|k|l|m|n|o|p|q|r|s|t|u|v|w|x|y|z| A|B|C|D|E|F|G|H|I|J|K|L|M|N|O|P|Q|R|S|T|U|V|W|X|Y|Z 
+<digit> ::= 0|1|2|3|4|5|6|7|8|9 
+<number> ::= <digit> | <number> <digit> 
+<word> ::= <letter> | <word> <letter> | <word> '_' 
+<word_list> ::= <word> | <word_list> <word> 
+<assignment_word> ::= <word> '=' <word> 
+<redirection> ::= '>' <word> | '<' <word> | <number> '>' <word> | <number> '<' <word> | '>>' <word> | <number> '>>' <word> | '<<' <word> | <number> '<<' <word> | '<&' <number> | <number> '<&' <number> | '>&' <number> | <number> '>&' <number> | '<&' <word> | <number> '<&' <word> | '>&' <word> | <number> '>&' <word> | '<<-' <word> | <number> '<<-' <word> | '>&' '-' | <number> '>&' '-' | '<&' '-' | <number> '<&' '-' | '&>' <word> | <number> '<>' <word> | '<>' <word> | '>|' <word> | <number> '>|' <word> 
+<simple_command_element> ::= <word> | <assignment_word> | <redirection> 
+<redirection_list> ::= <redirection> | <redirection_list> <redirection> 
+<simple_command> ::= <simple_command_element> | <simple_command> <simple_command_element> 
+<command> ::= <simple_command> | <shell_command> | <shell_command> <redirection_list> 
+<shell_command> ::= <for_command> | <case_command> | while <compound_list> do <compound_list> done | until <compound_list> do <compound_list> done | <select_command> | <if_command> | <subshell> | <group_command> | <function_def> 
+<for_command> ::= for <word> <newline_list> ...
 */
 
 /* command list
