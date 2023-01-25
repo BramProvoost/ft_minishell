@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/05 21:19:38 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/25 18:43:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,16 @@ t_token	*last_token(t_token *lst)
 
 void	add_token_back(t_token **lst, t_token *new)
 {
+	t_token	*last;
+
 	if (!*lst)
 		*lst = new;
 	else
-		last_token(*lst)->next = new;
+	{
+		last = last_token(*lst);
+		last->next = new;
+		new->prev = last;
+	}
 }
 
 void	next_char(t_line *line)

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/05 14:32:11 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/25 17:57:28 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ typedef enum e_type {
 
 typedef struct s_token {
 	t_type			type;
-	void			*value;
+	char			*value;
 	long			len;
 	struct s_token	*next;
 	struct s_token	*prev;
@@ -52,7 +52,8 @@ What is the program flow for a lexer, tokenizer and parser?
 The program flow for a lexer, tokenizer, and parser typically works as follows:
 1. The lexer takes in a stream of characters as input and produces a stream of tokens (lexemes) as output.
 2. The tokenizer takes in the stream of tokens from the lexer and groups them into higher-level constructs called phrases.
-3. The parser takes in the stream of phrases from the tokenizer and generates a parse tree or an abstract syntax tree (AST) that represents the structure of the input according to the rules of the language being parsed.
+3. The parser takes in the stream of phrases from the tokenizer and generates a parse tree or an abstract syntax tree (AST) 
+that represents the structure of the input according to the rules of the language being parsed.
 
 Here is a more detailed description of each step:
 
@@ -70,11 +71,23 @@ Here is a more detailed description of each step:
 
 3. Parsing:
 - The parser takes in the stream of phrases from the tokenizer and generates a parse tree or an AST that represents the structure of the input.
-- A parse tree is a tree-like representation of the syntactic structure of the input, with the root of the tree being the overall structure of the input and the leaves being the individual tokens.
-- An AST is a simplified version of the parse tree that only includes the information needed for further processing, such as type checking and code generation.
+- A parse tree is a tree-like representation of the syntactic structure of the input, with the root of the tree being the overall structure of 
+the input and the leaves being the individual tokens.
+- An AST is a simplified version of the parse tree that only includes the information needed for further processing, such as type checking and 
+code generation.
 - The parser uses the syntax rules of the language to build the parse tree or AST.
 - The parse tree or AST can then be used for various purposes, such as interpreting or compiling the input.
 */
+
+/*
+A tokenizer breaks a stream of text into tokens, usually by looking for whitespace (tabs, spaces, new lines).
+
+A lexer is basically a tokenizer, but it usually attaches extra context to the tokens -- this token is a number, that token is a 
+string literal, this other token is an equality operator.
+
+A parser takes the stream of tokens from the lexer and turns it into an abstract syntax tree representing the (usually) program 
+represented by the original text.
+ */
 
 /* tokenizer.c */
 t_token	*tokenizer(char *raw_line);
