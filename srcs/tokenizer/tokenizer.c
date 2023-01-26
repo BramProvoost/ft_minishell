@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/25 18:43:21 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 14:07:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,14 @@ void	word_case(t_token **token, t_line *line)
 {
 	t_token	*word_token;
 	char	*last_char;
+	char	c;
 
 	if (!*token)
 		add_token_back(token, create_token());
+	c = line->text[line->position - 1];
+	if (line->position > 0 && line->quote == 0)
+		if (c == '\'' || c == '"')
+			add_token_back(token, create_token());
 	if (last_token(*token)->type != WORD)
 		add_token_back(token, create_token());
 	else if (line->position > 0 && line->text[line->position - 1] == ' ' && line->quote == 0)
@@ -167,6 +172,10 @@ void	space_case(t_token **token, t_line *line)
 	data_to_token(token, line);
 }
 
+/* 
+detect start qoute and include 
+detect end qoute and include 
+*/
 void	quote_case(t_token **token, t_line *line)
 {
 	char	c;
@@ -174,7 +183,7 @@ void	quote_case(t_token **token, t_line *line)
 	c = get_current_char(*line);
 	if (c == line->quote)
 		line->quote = 0;
-	else
+	else if (line->quote == 0)
 	{
 		line->quote = c;
 		add_token_back(token, create_token());
@@ -201,7 +210,7 @@ void	data_to_token(t_token **token, t_line *line)
 		else if (c != '\0')
 			word_case(token, line);
 	}
-	else if (c != '\0')
+	else if (c != '\0')	/* Add case for $ when " */
 		word_case(token, line);
 }
 
