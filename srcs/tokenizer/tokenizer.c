@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 14:07:15 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 14:16:23 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,10 +172,6 @@ void	space_case(t_token **token, t_line *line)
 	data_to_token(token, line);
 }
 
-/* 
-detect start qoute and include 
-detect end qoute and include 
-*/
 void	quote_case(t_token **token, t_line *line)
 {
 	char	c;
@@ -210,7 +206,7 @@ void	data_to_token(t_token **token, t_line *line)
 		else if (c != '\0')
 			word_case(token, line);
 	}
-	else if (c != '\0')	/* Add case for $ when " */
+	else if (c != '\0')
 		word_case(token, line);
 }
 

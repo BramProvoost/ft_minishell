@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 14:06:24 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 14:14:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int	main(int argc, char *argv[], char **envp)
 	token = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// token = tokenizer(" 'ab'cd'ef'g");
 	// token = tokenizer("z'ab'cd'ef'g");
+
 	print_tokens(token);
 	delete_tokens(token);
 	(void)argc;
