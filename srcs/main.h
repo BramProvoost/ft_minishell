@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/25 17:57:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 09:44:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 # define MAIN_H
 
 # define METACHARACTER " \t\n|&;()<>"
+# define NC "\033[0m"
+# define GREEN "\033[38;5;2m"
 
 # include <unistd.h>
 # include <stdlib.h>

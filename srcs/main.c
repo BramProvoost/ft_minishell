@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/25 15:50:31 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 14:06:24 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int	main(int argc, char *argv[], char **envp)
 	// token = tokenizer("echo  'hello > world'  >  outfile");
 	// token = tokenizer("echo \"hello > world\" > outfile");
 	// token = tokenizer("<b<<|>d>>");
+	// token = tokenizer(" < b << | > d >> ");
 	// token = tokenizer("||");
 	// token = tokenizer("<|<<");
 
