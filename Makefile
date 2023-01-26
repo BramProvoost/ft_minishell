@@ -8,10 +8,6 @@ HEADERS	:= $(addprefix -I , \
 			  libft \
 			  )
 
-# $brew install readline
-# $brew info readline
-# adjust this lines for your machine
-
 LIBS		:= $(LIBFT)/libft.a
 READLINE_LIB = -lreadline
 SRCS		:= $(shell find ./srcs -iname "*.c")
