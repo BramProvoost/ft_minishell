@@ -8,10 +8,14 @@ HEADERS	:= $(addprefix -I , \
 			  libft \
 			  )
 
+# $brew install readline
+# $brew info readline
+# adjust this lines for your machine
 
-LIBS	:= $(LIBFT)/libft.a
-SRCS	:= $(shell find ./srcs -iname "*.c")
-OBJS	:= ${SRCS:.c=.o}
+LIBS		:= $(LIBFT)/libft.a
+READLINE_LIB = -lreadline
+SRCS		:= $(shell find ./srcs -iname "*.c")
+OBJS		:= ${SRCS:.c=.o}
 
 FUNCTIONS_OBJ=$(OBJS:.c=.o)
 
@@ -26,7 +30,7 @@ libft:
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
 $(NAME): $(FUNCTIONS_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) $(READLINE_LIB)
 
 clean:
 	@rm -rf $(OBJS)
