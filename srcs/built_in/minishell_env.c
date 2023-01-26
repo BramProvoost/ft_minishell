@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minishell_env.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 11:11:18 by bramjr            #+#    #+#             */
-/*   Updated: 2023/01/26 12:19:45 by edawood          ###   ########.fr       */
+/*   Created: 2023/01/25 16:24:14 by edawood           #+#    #+#             */
+/*   Updated: 2023/01/26 19:26:22 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../executor.h"
 
-size_t	ft_strlen(const char *str)
+int minishell_env(t_env *env)
 {
-	size_t	counter;
-
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+    while (env)
+    {
+        if (env->has_value == true)
+        {
+            ft_putstr_fd(env->key, 1);
+            ft_putstr_fd("=", 1);
+            ft_putendl_fd(env->value, 1);
+            env = env->next;
+        }
+    }
+    return (SUCCESS);
 }
