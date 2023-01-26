@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 15:25:13 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/26 16:59:41 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,35 @@ typedef struct s_line {
 	char	*text;
 }	t_line;
 
+/* line_reader.c */
+void	line_reader(char **line, const char *display_name);
+
+/* tokenizer.c */
+t_token	*tokenizer(char *raw_line);
+void	delete_tokens(t_token *lst);
+void	data_to_token(t_token **token, t_line *line);
+void	print_tokens(t_token *token);
+
+/* hande_token.c */
+void	delete_tokens(t_token *head);
+t_token *create_token(void);
+t_token	*last_token(t_token *lst);
+void	add_token_back(t_token **lst, t_token *new);
+
+/* line_functions.c */
+void	next_char(t_line *line);
+char	get_next_char(t_line line);
+char	get_current_char(t_line line);
+void	move_position(t_token *token_lst, t_line *line);
+
+/* case_handler.c */
+void	pipe_case(t_token **token);
+void	input_case(t_token **token, t_line line);
+void	output_case(t_token **token, t_line line);
+void	word_case(t_token **token, t_line *line);
+
+#endif
+
 /* 
 What is the program flow for a lexer, tokenizer and parser?
 
@@ -92,11 +121,3 @@ string literal, this other token is an equality operator.
 A parser takes the stream of tokens from the lexer and turns it into an abstract syntax tree representing the (usually) program 
 represented by the original text.
  */
-
-/* tokenizer.c */
-t_token	*tokenizer(char *raw_line);
-void	delete_tokens(t_token *lst);
-void	data_to_token(t_token **token, t_line *line);
-void	print_tokens(t_token *token);
-
-#endif
