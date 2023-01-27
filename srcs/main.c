@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 17:21:55 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/27 09:39:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,10 @@ int	shell(char *line, char **envp)
 	// token = tokenizer("z'ab'cd'ef'g");
 
 	token = tokenizer(line);
-	print_tokens(token);
-	delete_tokens(token);
-	(void)line;
+	print_tokens(token);	// temp using for visualizing
+	(void)line;		// temp until using line
 	(void)envp;		// temp until using envp
+	delete_tokens(token);
 	return (0);
 }
 
