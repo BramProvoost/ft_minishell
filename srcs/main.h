@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 16:59:41 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/27 12:01:13 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../old_minishell/libs/libft/libft.h"
-// # include <readline.h>
 
 typedef enum e_type {
 	WORD,
@@ -76,6 +75,9 @@ void	pipe_case(t_token **token);
 void	input_case(t_token **token, t_line line);
 void	output_case(t_token **token, t_line line);
 void	word_case(t_token **token, t_line *line);
+
+/* check_grammer.c */
+int	gramer_is_valid(t_token *tokens);
 
 #endif
 
