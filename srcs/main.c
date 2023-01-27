@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/27 09:39:09 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/01/27 12:22:40 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,32 +14,40 @@
 
 int	shell(char *line, char **envp)
 {
-	t_token	*token;
+	t_token	*tokens;
 
-	// token = tokenizer("");
-	// token = tokenizer("ls -la");
-	// token = tokenizer("ls -la");
-	// token = tokenizer("echo      hello  world>outfile");
-	// token = tokenizer("echo hello > world > outfile");
-	// token = tokenizer("echo'hello > world'>outfile");
-	// token = tokenizer("echo 'hello > world' > outfile");
-	// token = tokenizer("echo  'hello > world'  >  outfile");
-	// token = tokenizer("echo \"hello > world\" > outfile");
-	// token = tokenizer("<b<<|>d>>");
-	// token = tokenizer(" < b << | > d >> ");
-	// token = tokenizer("||");
-	// token = tokenizer("<|<<");
-	// token = tokenizer("'ab'cd'ef'gh'ij'kl");
-	// token = tokenizer("'ab\"cd'ef'gh\"ij'kl");
-	// token = tokenizer(" 'ab'cd'ef'g");
-	// token = tokenizer("z'ab'cd'ef'g");
+	// tokens = tokenizer("");
+	// tokens = tokenizer("ls -la");
+	// tokens = tokenizer("ls -la");
+	// tokens = tokenizer("echo      hello  world>outfile");
+	// tokens = tokenizer("echo hello > world > outfile");
+	// tokens = tokenizer("echo'hello > world'>outfile");
+	// tokens = tokenizer("echo 'hello > world' > outfile");
+	// tokens = tokenizer("echo  'hello > world'  >  outfile");
+	// tokens = tokenizer("echo \"hello > world\" > outfile");
+	// tokens = tokenizer("<b<<|>d>>");
+	// tokens = tokenizer(" < b << | > d >> ");
+	// tokens = tokenizer("||");
+	// tokens = tokenizer("<|<<");
+	// tokens = tokenizer("'ab'cd'ef'gh'ij'kl");
+	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
+	// tokens = tokenizer(" 'ab'cd'ef'g");
+	// tokens = tokenizer("z'ab'cd'ef'g");
 
-	token = tokenizer(line);
-	print_tokens(token);	// temp using for visualizing
+	tokens = tokenizer(line);
+	print_tokens(tokens);	// temp using for visualizing
+	if (gramer_is_valid(tokens))
+	{
+		printf("grammer is valid\n");	// temp for testing
+	}
+	else
+	{
+		printf("grammer is not valid\n");	// temp for testing
+	}
 	(void)line;		// temp until using line
 	(void)envp;		// temp until using envp
-	delete_tokens(token);
-	return (0);
+	delete_tokens(tokens);
+	return (EXIT_SUCCESS);
 }
 
 int	main(int argc, char *argv[], char **envp)
@@ -53,5 +61,5 @@ int	main(int argc, char *argv[], char **envp)
 	}
 	(void)argc;
 	(void)argv;
-	return (0);
+	return (EXIT_SUCCESS);
 }
