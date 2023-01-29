@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/26 19:34:58 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 11:01:33 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,9 +79,5 @@ bool    create_env_list(t_env **head, char **envp)
         tmp = tmp->next;
         i++;
     }
-    if (minishell_env(*head))
-        return (true);
-    else
-        return (false);
     return (true);
 }
