@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:48:44 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/25 20:19:08 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 13:46:05 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,15 @@
 
 void	free_2d(char **paths)
 {
-	while (*paths)
+	int i;
+
+	i = 0;
+	while (paths[i])
 	{
-		free(*paths);
-		paths++;
+		free(paths[i]);
+		i++;
 	}
+	free(paths);
 	return ;
 }
 
@@ -27,7 +31,7 @@ char    *get_all_paths(char *path, t_env *env)
     while (env->next)
 	{
 		if (!ft_strncmp(path, env->key, 5))
-			return (env->key + 5);
+			return (env->value);
 		env = env->next;
 	}
 	return (NULL);
@@ -40,7 +44,7 @@ char    **init_paths(t_args *args)
     int     i;
 
     i = 0;
-	temp_path = get_all_paths("PATH=", args->env);
+	temp_path = get_all_paths("PATH", args->env);
     if (!temp_path)
         paths = ft_split("", ':');
     else
