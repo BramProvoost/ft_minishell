@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/26 19:26:09 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 17:40:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ void prepare_to_pipe_and_fork(t_cmd *cmd, t_args *args)
 {
 	int		pipe_fds[2];
 	pid_t	fork_pid;
+
 	if (pipe(pipe_fds) == ERROR)
 		ft_error();
 	fork_pid = fork();
@@ -63,42 +64,63 @@ void	executor(t_cmd *cmd, t_args *args)
 		return ;
 	args->paths = init_paths(args);
 	if (!cmd->next)
+	{
 		simple_command(cmd, args);
-	// else
-	// 	prepare_to_pipe_and_fork(cmd, args);
-	// wait_for_pids(args);
+	}
+	else
+		prepare_to_pipe_and_fork(cmd, args);
+	wait_for_pids(args);
 }
 
-int	main(int argc, char **argv, char **env)
-{
-	t_args args;
-	t_cmd cmd;
+// int	main(int argc, char **argv, char **env)
+// {
+// 	t_args args;
+// 	t_cmd cmd;
+// 	t_cmd *temp;
+// 	t_file *file;
 	
-	if (argc != 3)
-	{
-		ft_putendl_fd("Error: wrong number of args", 2);
-		exit(1);
-	}
-	cmd.file = (t_file *)malloc(sizeof(t_file));
-	cmd.exec = (t_exec *)malloc(sizeof(t_exec));
-	cmd.file->file_name = ft_strdup(argv[1]);
-	cmd.file->type = INPUT_SINGLE;
-	cmd.arg = ft_strdup(argv[2]);
-	cmd.exec->args = ft_split(cmd.arg, ' ');
-	cmd.next = NULL;
-	// cmd.arg = argv[3];
-	// cmd.file = cmd.file->next;
-	// cmd.file->file_name = argv[4];
-	// cmd.file->type = OUTPUT;
-	// copy_env(&args, env);
-	create_env_list(&args.env, env);
-	free_env_list(&args.env);
-	// executor(&cmd, &args);
-	free(cmd.file->file_name);
-	free(cmd.file);
-	free_2d(cmd.exec->args);
-	free(cmd.arg);
-	// free_2d(args.paths);
-	system("leaks minishell");
-	return (0);
-}
+// 	temp = &cmd;
+// 	if (argc != 5)
+// 	{
+// 		ft_putendl_fd("Error: wrong number of args", 2);
+// 		exit(1);
+// 	}
+// 	cmd.file = (t_file *)malloc(sizeof(t_file));
+// 	cmd.file->next = (t_file *)malloc(sizeof(t_file));
+// 	cmd.next->file = (t_file *)malloc(sizeof(t_file));
+// 	cmd.exec = (t_exec *)malloc(sizeof(t_exec));
+// 	cmd.next = (t_cmd *)malloc(sizeof(t_cmd));
+// 	cmd.next->exec = (t_exec *)malloc(sizeof(t_exec));
+// 	cmd.file->file_name = ft_strdup(argv[1]);
+// 	cmd.file->type = INPUT_SINGLE;
+// 	cmd.arg = ft_strdup(argv[2]);
+// 	cmd.exec->args = ft_split(cmd.arg, ' ');
+// 	cmd.next->arg = argv[3];
+// 	cmd.next->exec->args = ft_split(cmd.next->arg, ' ');
+// 	cmd.file->next->file_name = ft_strdup(argv[4]);
+// 	cmd.file->next->type = OUTPUT_SINGLE;
+// 	cmd.next->next = NULL;
+// 	cmd.file->next->next = NULL;
+	
+// 	create_env_list(&args.env, env);
+// 	while (temp)
+// 	{
+// 		executor(temp, &args);
+// 		temp = temp->next;
+// 	}
+// 	free_env_list(&args.env);
+// 	free_2d(args.paths);
+	
+// 	free(cmd.file->next->file_name);
+// 	free_2d(cmd.next->exec->args);
+// 	free_2d(cmd.exec->args);
+// 	free(cmd.arg);
+// 	free(cmd.file->file_name);
+// 	free(cmd.next->exec);
+// 	free(cmd.next);
+// 	free(cmd.exec);
+// 	free(cmd.file->next);
+// 	free(cmd.file);
+// 	// system("leaks minishell");
+// 	return (0);
+// }
