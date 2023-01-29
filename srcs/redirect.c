@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2022/12/24 14:12:18 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 13:36:51 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int duplicate(t_args *args, int fd, int fileno)
 		args->status_code = errno;
 		return (ERROR);
 	}
-	if (fd != READ && fd != WRITE)
+	if (fd == READ && fd == WRITE)
 		close(fd);
 	return (SUCCESS);
 }
