@@ -6,11 +6,24 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/26 19:35:24 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 11:01:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../executor.h"
+
+static void	print_export(t_args *args)
+{
+	while (args->env->next)
+	{
+		ft_putstr_fd("declare -x ", 1);
+		ft_putstr_fd(args->env->key, 1);
+		ft_putstr_fd("=\"", 1);
+		ft_putstr_fd(args->env->value, 1);
+		ft_putendl_fd("\"", 1);
+		args->env = args->env->next;
+	}
+}
 
 void	set_env(char *key, char *value, t_args *args)
 {
@@ -54,7 +67,6 @@ int	minishell_export(char *arg, t_cmd *cmd, t_args *args)
 	int		j;
 	char	*key;
 	char	*value;
-	static int test = 0;
 
 	i = 1;
 	if (!arg)
@@ -73,8 +85,7 @@ int	minishell_export(char *arg, t_cmd *cmd, t_args *args)
 		export_util(key, value, args);
 		i++;
 	}
-	if (test == 1)
-		return (SUCCESS);
-	test++;
+	if (i == 1)
+		print_export(args);
 	return (SUCCESS);
 }

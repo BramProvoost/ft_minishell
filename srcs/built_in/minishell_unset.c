@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:31:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/26 19:19:24 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 11:01:49 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,5 @@ int	minishell_unset(t_cmd *cmd, t_args *args)
 		}
 		i++;
 	}
-	// minishell_env(args);
 	return (SUCCESS);
 }
