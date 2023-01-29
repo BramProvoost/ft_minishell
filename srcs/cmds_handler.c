@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/26 12:15:16 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 15:07:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,19 @@ char	*get_full_cmd(char *cmd, char **paths)
 
 void	child_process(t_cmd *cmd, t_args *args, int fd[2], int prev_fd)
 {
-	if (!redirect_input(args, cmd->file, prev_fd))
+	if (redirect_input(args, cmd->file, prev_fd) != SUCCESS)
 	{
 		close(fd[0]);
 		exit(args->status_code);
 	}
 	if (cmd->next)
-		if (!redirect_output(args, cmd->file, prev_fd))
+	{
+		if (redirect_output(args, cmd->file, prev_fd) != SUCCESS)
 		{
 			close(fd[1]);
 			exit(args->status_code);
 		}
+	}
 	ft_execute(cmd, args);
 }
 
@@ -95,7 +97,7 @@ void	ft_execute(t_cmd *cmd, t_args *args)
 	cmd1 = ft_split(cmd->arg, ' ');
 	if (!cmd1 || !*cmd1 || args->paths == NULL)
 		error_exit(errno, cmd->arg);
-	full_cmd = get_full_cmd(*cmd1, args->paths);
+	full_cmd = get_full_cmd(cmd1[0], args->paths);
 	env_list = env_to_list(args);
 	if (!full_cmd)
 		error_cmd_not_found(cmd->arg);
