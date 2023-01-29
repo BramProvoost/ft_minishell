@@ -6,13 +6,13 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 17:40:03 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 19:47:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../executor.h"
 
-void prepare_to_pipe_and_fork(t_cmd *cmd, t_args *args)
+void	prepare_to_pipe_and_fork(t_cmd *cmd, t_args *args)
 {
 	int		pipe_fds[2];
 	pid_t	fork_pid;
@@ -29,15 +29,15 @@ void prepare_to_pipe_and_fork(t_cmd *cmd, t_args *args)
 
 void	simple_command(t_cmd *cmd, t_args *args)
 {
-	pid_t fork_pid;
+	pid_t	fork_pid;
 
-	if (redirect_input(args, cmd->file, STDIN_FILENO) == ERROR)
+	if (redirect_input(args, cmd, STDIN_FILENO) == ERROR)
 	{
 		ft_putendl_fd("Error: input redirection", STDERR_FILENO);
 		args->status_code = ERROR;
 		exit(args->status_code);
 	}
-	if (redirect_output(args, cmd->file, STDOUT_FILENO) == ERROR)
+	if (redirect_output(args, cmd, STDOUT_FILENO) == ERROR)
 	{
 		ft_putendl_fd("Error: output redirection", STDERR_FILENO);
 		args->status_code = ERROR;
@@ -54,7 +54,7 @@ void	simple_command(t_cmd *cmd, t_args *args)
 		if (fork_pid == ERROR)
 			ft_error();
 		if (fork_pid == CHILD)
-			ft_execute(cmd, args);	
+			ft_execute(cmd, args);
 	}
 }
 
@@ -78,7 +78,6 @@ void	executor(t_cmd *cmd, t_args *args)
 // 	t_cmd cmd;
 // 	t_cmd *temp;
 // 	t_file *file;
-	
 // 	temp = &cmd;
 // 	if (argc != 5)
 // 	{
@@ -101,7 +100,6 @@ void	executor(t_cmd *cmd, t_args *args)
 // 	cmd.file->next->type = OUTPUT_SINGLE;
 // 	cmd.next->next = NULL;
 // 	cmd.file->next->next = NULL;
-	
 // 	create_env_list(&args.env, env);
 // 	while (temp)
 // 	{
@@ -110,7 +108,6 @@ void	executor(t_cmd *cmd, t_args *args)
 // 	}
 // 	free_env_list(&args.env);
 // 	free_2d(args.paths);
-	
 // 	free(cmd.file->next->file_name);
 // 	free_2d(cmd.next->exec->args);
 // 	free_2d(cmd.exec->args);

@@ -62,7 +62,7 @@ typedef enum s_file_type {
 	INPUT_DOUBLE,
 	HEREDOC,
     OUTPUT_SINGLE,
-    OUTPUT_DOUBLE,
+    OUTPUT_APPEND,
 }	t_file_type;
 
 typedef struct s_file {
@@ -93,8 +93,11 @@ int	    chdir_error(char *str, int32_t error);
 
 //File handler functions
 int     duplicate(t_args *args, int fd, int fileno);
-int     redirect_input(t_args *args, t_file *file, int fd);
-int     redirect_output(t_args *args, t_file *file, int fd);
+int     redirect_input(t_cmd *cmd, t_args *args, int fd);
+int     redirect_output(t_cmd *cmd, t_args *args, int fd);
+int     heredoc(t_cmd *cmd, t_args *args);
+int     run_heredoc(t_cmd *cmd, t_args *args, char *delimiter);
+int     create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
 int     is_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args);

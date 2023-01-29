@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 15:07:25 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 19:49:43 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ char	*get_full_cmd(char *cmd, char **paths)
 
 void	child_process(t_cmd *cmd, t_args *args, int fd[2], int prev_fd)
 {
-	if (redirect_input(args, cmd->file, prev_fd) != SUCCESS)
+	if (redirect_input(args, cmd, prev_fd) != SUCCESS)
 	{
 		close(fd[0]);
 		exit(args->status_code);
 	}
 	if (cmd->next)
 	{
-		if (redirect_output(args, cmd->file, prev_fd) != SUCCESS)
+		if (redirect_output(args, cmd, prev_fd) != SUCCESS)
 		{
 			close(fd[1]);
 			exit(args->status_code);
@@ -72,16 +72,10 @@ char	**env_to_list(t_args *args)
 	{
 		env_list[i] = ft_strjoin(args->env[i].key, "=");
 		if (!env_list[i])
-		{
-			errno = ENOMEM;
-			return (NULL);
-		}
+			return (errno = ENOMEM, NULL);
 		env_list[i] = ft_strjoin(env_list[i], args->env[i].value);
 		if (!env_list[i])
-		{
-			errno = ENOMEM;
-			return (NULL);
-		}
+			return (errno = ENOMEM, NULL);
 		i++;
 	}
 	env_list[i] = NULL;
@@ -93,7 +87,7 @@ void	ft_execute(t_cmd *cmd, t_args *args)
 	char	*full_cmd;
 	char	**env_list;
 	char	**cmd1;
-	
+
 	cmd1 = ft_split(cmd->arg, ' ');
 	if (!cmd1 || !*cmd1 || args->paths == NULL)
 		error_exit(errno, cmd->arg);

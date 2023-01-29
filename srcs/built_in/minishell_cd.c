@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/22 15:32:16 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 19:52:56 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ int	chdir_error(char *str, int32_t error)
 	return (1);
 }
 
-int    minishell_cd(char *arg, t_cmd *cmd, t_args *args)
+int	minishell_cd(char *arg, t_cmd *cmd, t_args *args)
 {
-    if (!arg || (arg[0] == '\0'))
-        return (ERROR);
-    args->home_path = get_all_paths("HOME=", args->env);
-    if (!args->home_path)
+	if (!arg || (arg[0] == '\0'))
+		return (ERROR);
+	args->home_path = get_all_paths("HOME=", args->env);
+	if (!args->home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
 	if (!cmd->exec->args[1])
 	{
@@ -53,5 +53,5 @@ int    minishell_cd(char *arg, t_cmd *cmd, t_args *args)
 		if (chdir(cmd->exec->args[1]) == ERROR)
 			chdir_error(arg, errno);
 	}
-    return (SUCCESS);
+	return (SUCCESS);
 }

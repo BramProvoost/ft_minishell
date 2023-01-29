@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 21:22:53 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/25 16:43:50 by edawood          ###   ########.fr       */
+/*   Updated: 2023/01/29 19:53:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,8 +34,6 @@ int	minishell_echo(char *arg, t_cmd *cmd)
 				j++;
 			}
 		}
-		else
-			fprintf(stderr, "%s", cmd->exec->args[i]);
 		if (n_flag == false)
 			ft_putendl_fd("", 1);
 		i++;
