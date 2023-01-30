@@ -1,23 +1,39 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minishell_unset.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 11:11:18 by bramjr            #+#    #+#             */
-/*   Updated: 2023/01/26 12:19:45 by edawood          ###   ########.fr       */
+/*   Created: 2023/01/25 14:31:00 by edawood           #+#    #+#             */
+/*   Updated: 2023/01/29 11:01:49 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../executor.h"
 
-size_t	ft_strlen(const char *str)
+int	minishell_unset(t_cmd *cmd, t_args *args)
 {
-	size_t	counter;
+	int		i;
+	int		j;
+	char	*tmp;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	i = 0;
+	while (cmd->exec->args[i])
+	{
+		j = 0;
+		while (args->env->next)
+		{
+			tmp = ft_strjoin(cmd->exec->args[i], "=");
+			if (!ft_strncmp(args->env->key, tmp, ft_strlen(tmp)))
+			{
+				free(args->env->key);
+				args->env->key = ft_strdup("");
+			}
+			free(tmp);
+			j++;
+		}
+		i++;
+	}
+	return (SUCCESS);
 }

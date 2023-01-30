@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minishell_pwd.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 11:11:18 by bramjr            #+#    #+#             */
-/*   Updated: 2023/01/26 12:19:45 by edawood          ###   ########.fr       */
+/*   Created: 2023/01/22 16:08:41 by edawood           #+#    #+#             */
+/*   Updated: 2023/01/29 19:51:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../executor.h"
 
-size_t	ft_strlen(const char *str)
+int	minishell_pwd(void)
 {
-	size_t	counter;
+	char	*pwd;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	pwd = getcwd(NULL, 0);
+	if (!pwd)
+		return (ERROR);
+	ft_putendl_fd(pwd, 1);
+	free(pwd);
+	return (SUCCESS);
 }

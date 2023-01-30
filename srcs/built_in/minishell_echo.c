@@ -1,23 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   minishell_echo.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/29 11:11:18 by bramjr            #+#    #+#             */
-/*   Updated: 2023/01/26 12:19:45 by edawood          ###   ########.fr       */
+/*   Created: 2023/01/19 21:22:53 by edawood           #+#    #+#             */
+/*   Updated: 2023/01/29 19:53:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "../../executor.h"
 
-size_t	ft_strlen(const char *str)
+int	minishell_echo(char *arg, t_cmd *cmd)
 {
-	size_t	counter;
+	int		i;
+	int		j;
+	bool	n_flag;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	i = 1;
+	n_flag = false;
+	if (!arg)
+		return (ERROR);
+	while (cmd->exec->args[i])
+	{
+		j = 0;
+		if (cmd->exec->args[i][j] == '-')
+		{
+			j++;
+			while (cmd->exec->args[i][j] == 'n')
+			{
+				n_flag = true;
+				j++;
+			}
+		}
+		if (n_flag == false)
+			ft_putendl_fd("", 1);
+		i++;
+	}
+	return (SUCCESS);
 }
