@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/27 09:49:34 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/27 12:34:29 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/01 17:45:44 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	print_grammer_error(int type)
 	else
 		ft_putstr_fd("newline", STDERR_FILENO);
 	ft_putendl_fd("\'", STDERR_FILENO);
-	// last pid 258
+	g_last_pid = 258;
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/27 12:22:40 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/01 17:51:57 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,8 @@ int	shell(char *line, char **envp)
 
 	tokens = tokenizer(line);
 	print_tokens(tokens);	// temp using for visualizing
-	if (gramer_is_valid(tokens))
-	{
-		printf("grammer is valid\n");	// temp for testing
-	}
-	else
-	{
-		printf("grammer is not valid\n");	// temp for testing
-	}
+	if (!gramer_is_valid(tokens))
+		return (EXIT_FAILURE);
 	(void)line;		// temp until using line
 	(void)envp;		// temp until using envp
 	delete_tokens(tokens);
@@ -54,6 +48,8 @@ int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
 
+	g_last_pid = 0;
+	init_signals();
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");

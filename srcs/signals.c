@@ -1,37 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   read_line.c                                        :+:    :+:            */
+/*   signals.c                                          :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2023/01/26 16:04:08 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:52:05 by bprovoos      ########   odam.nl         */
+/*   Created: 2023/02/01 14:12:42 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/02/01 18:55:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	make_sure_line_is_empty(char **line)
+static void	sigint_handler(int signum)
 {
-	if (*line)
-	{
-		free (*line);
-		*line = (char *) NULL;
-	}
+	(void)signum;
+	rl_replace_line("", 0);
+	ft_putchar_fd('\n', 2);
+	rl_on_new_line();
+	rl_redisplay();
+	g_last_pid = 1;
 }
 
-void	add_line_in_history(char **line)
+void	init_signals(void)
 {
-	if (*line && **line)
-		add_history(*line);
-}
-
-void	line_reader(char **line, const char *display_name)
-{
-	make_sure_line_is_empty(line);
-	*line = readline(display_name);
-	if (!line)
-		exit(EXIT_SUCCESS);
-	add_line_in_history(line);
+	signal(SIGINT, sigint_handler);
+	signal(SIGQUIT, SIG_IGN);
 }

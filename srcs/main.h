@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/27 12:01:13 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/01 17:46:26 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,9 +20,13 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../old_minishell/libs/libft/libft.h"
+
+/* Global variable declaration */
+int	g_last_pid;
 
 typedef enum e_type {
 	WORD,
@@ -78,6 +82,9 @@ void	word_case(t_token **token, t_line *line);
 
 /* check_grammer.c */
 int	gramer_is_valid(t_token *tokens);
+
+/* signals.c */
+void	init_signals(void);
 
 #endif
 

@@ -9,7 +9,7 @@ HEADERS	:= $(addprefix -I , \
 			  )
 
 LIBS		:= $(LIBFT)/libft.a
-READLINE_LIB = -lreadline
+LDFLAGS 	= -lreadline
 SRCS		:= $(shell find ./srcs -iname "*.c")
 OBJS		:= ${SRCS:.c=.o}
 
@@ -26,7 +26,7 @@ libft:
 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
 $(NAME): $(FUNCTIONS_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) $(READLINE_LIB)
+	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) $(LDFLAGS)
 
 clean:
 	@rm -rf $(OBJS)
