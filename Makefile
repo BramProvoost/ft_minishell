@@ -1,60 +1,39 @@
-NAME		:= minishell
-CFLAGS		:= -Wextra -Wall -Werror
-CFLAGS		+= $(if $(FSAN) , -fsanitize=address -g)
-CFLAGS		+= $(if $(DEBUG) , -g)
-CFLAGS		+= $(if $(TEST) , -lcriterion)
-LIBFT		:= old_minishell/libs/libft
-HEADERS	:= $(addprefix -I , \
-			  libft \
-			  )
+# Variables
+NAME			:= minishell
+CC 				:= gcc
+CFLAGS			:= -Wall -Wextra -Werror
+SOURCES			:= $(shell find ./srcs -iname "*.c")
+OBJECTS			:= $(SOURCES:.c=.o)
 
-LIBS		:= $(LIBFT)/libft.a
-LDFLAGS 	= -lreadline
-SRCS		:= $(shell find ./srcs -iname "*.c")
-OBJS		:= ${SRCS:.c=.o}
+LIBFT			:= old_minishell/libs/libft
+LIBS			:= $(LIBFT)/libft.a
+RL_LIB	:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
+RL_INC	:= -I/Users/$(USER)/homebrew/opt/readline/include
 
-FUNCTIONS_OBJ=$(OBJS:.c=.o)
+# Default target
+all: $(NAME)
 
-all: libft $(NAME)
+# Link object files to create NAME
+$(NAME): libft $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(RL_LIB) -o $@
+
+# Compile source files to object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< $(RL_INC) -o $@
 
 libft:
-	@echo ======== LIBFT ========
-	@$(MAKE) bonus -C $(LIBFT)
+	$(MAKE) bonus -C $(LIBFT)
 
-
-%.o: %.c
-	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
-
-$(NAME): $(FUNCTIONS_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME) $(LDFLAGS)
-
+# Clean up object files and NAME
 clean:
-	@rm -rf $(OBJS)
+	rm -f $(OBJECTS)
 	@$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
-	@rm -rf $(NAME)
-	@$(MAKE) fclean -C $(LIBFT) 
+	@rm -f $(NAME)
 
-fsan:
-	$(MAKE) FSAN=1
+# Rule for creating dependencies
+depend: $(SOURCES)
+	$(CC) $(CFLAGS) -MM $^ > dependencies.d
 
-resan: fclean
-	$(MAKE) fsan
-
-debug:
-	$(MAKE) DEBUG=1
-
-rebug: fclean
-	$(MAKE) debug
-
-test:
-	$(MAKE) TEST=1
-
-retest: fclean
-	$(MAKE) test
-
-
-re: clean all
-
-.PHONY: all, clean, fclean, re, libmlx
+-include dependencies.d
