@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 15:21:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/05 08:32:42 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/03 10:17:38 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ typedef struct s_list
 	struct s_list	*next;
 }					t_list;
 
-long	ft_atoi(const char *str);
+int		ft_atoi(const char *str);
 void	ft_bzero(char *s, int n);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_isalnum(int c);
