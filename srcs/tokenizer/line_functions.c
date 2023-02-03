@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:51:25 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/26 16:51:49 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/03 10:58:23 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,13 @@ char	get_current_char(t_line line)
 {
 	if (line.position < line.len)
 		return (line.text[line.position]);
+	return ('\0');
+}
+
+char	get_prev_char(t_line line)
+{
+	if (line.position > 0)
+		return (line.text[line.position - 1]);
 	return ('\0');
 }
 
