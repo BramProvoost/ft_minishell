@@ -72,6 +72,7 @@ void	add_token_back(t_token **lst, t_token *new);
 void	next_char(t_line *line);
 char	get_next_char(t_line line);
 char	get_current_char(t_line line);
+char	get_prev_char(t_line line);
 void	move_position(t_token *token_lst, t_line *line);
 
 /* case_handler.c */

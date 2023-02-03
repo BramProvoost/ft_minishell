@@ -1,14 +1,15 @@
 # Variables
 NAME			:= minishell
-CC 				:= gcc
 CFLAGS			:= -Wall -Wextra -Werror
+CFLAGS			:= $(CFLAGS)$(if $(FSAN) , -fsanitize=address -g)
+CFLAGS			:= $(CFLAGS)$(if $(DEBUG) , -g)
 SOURCES			:= $(shell find ./srcs -iname "*.c")
 OBJECTS			:= $(SOURCES:.c=.o)
 
 LIBFT			:= old_minishell/libs/libft
 LIBS			:= $(LIBFT)/libft.a
-RL_LIB	:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
-RL_INC	:= -I/Users/$(USER)/homebrew/opt/readline/include
+RL_LIB			:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
+RL_INC			:= -I/Users/$(USER)/homebrew/opt/readline/include
 
 # Default target
 all: $(NAME)
@@ -22,7 +23,7 @@ $(NAME): libft $(OBJECTS)
 	$(CC) $(CFLAGS) -c $< $(RL_INC) -o $@
 
 libft:
-	$(MAKE) bonus -C $(LIBFT)
+	@$(MAKE) bonus -C $(LIBFT)
 
 # Clean up object files and NAME
 clean:
@@ -32,8 +33,13 @@ clean:
 fclean: clean
 	@rm -f $(NAME)
 
-# Rule for creating dependencies
-depend: $(SOURCES)
-	$(CC) $(CFLAGS) -MM $^ > dependencies.d
+re: clean all
 
--include dependencies.d
+fsan:
+	@$(MAKE) FSAN=1
+
+resan: fclean
+	@$(MAKE) fsan
+
+debug:
+	@$(MAKE) DEBUG=1

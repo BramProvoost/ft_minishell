@@ -6,7 +6,7 @@
 #    By: bprovoos <bprovoos@student.codam.nl>         +#+                      #
 #                                                    +#+                       #
 #    Created: 2022/01/19 08:27:15 by bprovoos      #+#    #+#                  #
-#    Updated: 2023/02/03 10:15:48 by bprovoos      ########   odam.nl          #
+#    Updated: 2023/02/03 14:53:44 by bprovoos      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -90,7 +90,7 @@ $(NAME): $(OBJ)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 bonus:
-	$(MAKE) BONUS=1
+	@$(MAKE) BONUS=1
 
 clean:
 	${RM} $(SRCOBJ) $(BONUSOBJ)

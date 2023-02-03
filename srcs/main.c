@@ -6,16 +6,33 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:51:57 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/03 15:32:26 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
+int	is_exit(t_token *tokens)
+{
+	if (tokens && tokens->value)
+		if (ft_strncmp(tokens->value, "exit", 5) == 0)
+			return (1);
+	return (0);
+}
+
 int	shell(char *line, char **envp)
 {
 	t_token	*tokens;
 
+	if (!line)
+		return (EXIT_FAILURE);
+	tokens = tokenizer(line);
+	if (is_exit(tokens))
+		exit(ft_putendl_fd("exit", 1));
+
+	// tokens = tokenizer("''");	// fix empty quotes
+	// tokens = tokenizer(" a");	// fix spaces before first word
+	
 	// tokens = tokenizer("");
 	// tokens = tokenizer("ls -la");
 	// tokens = tokenizer("ls -la");
@@ -33,8 +50,6 @@ int	shell(char *line, char **envp)
 	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
-
-	tokens = tokenizer(line);
 	print_tokens(tokens);	// temp using for visualizing
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:04:08 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:52:05 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/03 12:00:48 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,9 @@ void	line_reader(char **line, const char *display_name)
 {
 	make_sure_line_is_empty(line);
 	*line = readline(display_name);
-	if (!line)
-		exit(EXIT_SUCCESS);
-	add_line_in_history(line);
+	if (line)
+	{
+		add_line_in_history(line);
+		return ;
+	}
 }
