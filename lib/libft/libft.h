@@ -1,22 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-<<<<<<< HEAD:old_minishell/libs/libft/libft.h
 /*                                                        ::::::::            */
 /*   libft.h                                            :+:    :+:            */
 /*                                                     +:+                    */
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2020/10/27 15:21:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/03 10:17:38 by bprovoos      ########   odam.nl         */
-=======
-/*                                                        :::      ::::::::   */
-/*   libft.h                                            :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2020/10/27 15:21:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2022/12/11 15:12:59 by edawood          ###   ########.fr       */
->>>>>>> 64e5b1d189bb16d5bff7e45afc0450f4fa0c8d56:lib/libft/libft.h
+/*   Updated: 2023/02/08 16:53:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
