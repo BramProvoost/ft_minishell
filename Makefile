@@ -6,7 +6,7 @@ CFLAGS			:= $(CFLAGS)$(if $(DEBUG) , -g)
 SOURCES			:= $(shell find ./srcs -iname "*.c")
 OBJECTS			:= $(SOURCES:.c=.o)
 
-LIBFT			:= old_minishell/libs/libft
+LIBFT			:= lib/libft
 LIBS			:= $(LIBFT)/libft.a
 RL_LIB			:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
 RL_INC			:= -I/Users/$(USER)/homebrew/opt/readline/include

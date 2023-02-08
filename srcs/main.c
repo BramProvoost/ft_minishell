@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/03 15:32:26 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/08 15:19:32 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	shell(char *line, char **envp)
 	// tokens = tokenizer(" a");	// fix spaces before first word
 	
 	// tokens = tokenizer("");
-	// tokens = tokenizer("ls -la");
+	// tokens = tokenizer("ls-la");
 	// tokens = tokenizer("ls -la");
 	// tokens = tokenizer("echo      hello  world>outfile");
 	// tokens = tokenizer("echo hello > world > outfile");
