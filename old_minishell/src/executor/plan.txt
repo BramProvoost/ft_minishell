@@ -1,0 +1,53 @@
+EXECUTE_FI	=	executor.c \
+				file.c \
+				paths.c \
+				exit.c \
+				errors.c
+
+Program flow
+1. lexer
+1.1. check syntax
+1.2. puts the characters together into words called tokens
+2. parser
+2.1. read the tokens
+2.2. build the command table
+-------(index, command, flags, envp)
+-------(in, out, err)
+3. expander
+4. executor
+4.1. read command table
+4.x. creating pipes
+4.x. creating processes
+
+To do:
+[X] Header dependency in makefile
+[X] Creata a flag option for giving command through argv
+[ ] Make unit testers
+
+
+bash flow
+http://www.aosabook.org/en/bash.html
+tutorial
+https://www.cs.purdue.edu/homes/grr/SystemsProgrammingBook/Book/Chapter5-WritingYourOwnShell.pdf
+explanation shell:
+https://cs61.seas.harvard.edu/site/2019/Section7/
+Shell Command Language:
+https://pubs.opengroup.org/onlinepubs/009604499/utilities/xcu_chap02.html
+BNF:
+https://en.wikipedia.org/wiki/Backus%E2%80%93Naur_form
+bash manual:
+https://www.gnu.org/software/bash/manual/
+
+bash parser"
+https://mywiki.wooledge.org/BashParser
+tokenizer:
+https://ix-56h.github.io/how-to-make-a-tokenizer/
+ridirections:
+https://www.gnu.org/software/bash/manual/html_node/Redirections.html
+
+Unit tester:
+https://github.com/Snaipe/Criterion
+
+git:
+https://uoftcoders.github.io/studyGroup/lessons/git/collaboration/lesson/
+https://medium.com/@jonathanmines/the-ultimate-github-collaboration-guide-df816e98fb67

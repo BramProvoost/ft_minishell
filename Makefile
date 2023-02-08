@@ -17,8 +17,9 @@ libft:
 	@echo ======== LIBFT ========
 	@$(MAKE) -C $(LIBFT)
 
-# %.o: %.c
-# 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
 
 $(NAME): $(FUNCTIONS_OBJ)
 	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
@@ -42,6 +43,7 @@ debug:
 
 rebug: fclean
 	$(MAKE) debug
+
 
 re: clean all
 

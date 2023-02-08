@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlen.c                                        :+:    :+:            */
+/*   expander.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bramjr <bramjr@student.codam.nl>             +#+                     */
+/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/10/29 11:11:18 by bramjr        #+#    #+#                 */
-/*   Updated: 2022/01/19 08:23:31 by bprovoos      ########   odam.nl         */
+/*   Created: 2022/11/23 10:50:05 by bprovoos      #+#    #+#                 */
+/*   Updated: 2022/11/23 11:41:20 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "expander.h"
 
-size_t	ft_strlen(const char *str)
+char	*get_expantion(char * str)
 {
-	size_t	counter;
+	char 	*var;
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+	var = ft_strjoin(CCYELLOW, str);	// temp for testing
+	var = ft_strjoin(var, CCEND);		// temp for testing
+	return (var);
 }

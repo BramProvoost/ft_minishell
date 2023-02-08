@@ -1,23 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlen.c                                        :+:    :+:            */
+/*   exit.c                                             :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bramjr <bramjr@student.codam.nl>             +#+                     */
+/*   By: dyeboa <dyeboa@student.codam.nl>             +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/10/29 11:11:18 by bramjr        #+#    #+#                 */
-/*   Updated: 2022/01/19 08:23:31 by bprovoos      ########   odam.nl         */
+/*   Created: 2022/10/28 11:37:15 by dyeboa        #+#    #+#                 */
+/*   Updated: 2022/10/28 12:14:13 by dyeboa        ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#include "executor.h"
 
-size_t	ft_strlen(const char *str)
+void	message_exit(char *message, int errornumber)
 {
-	size_t	counter;
+	ft_putstr_fd(message, 2);
+	ft_putstr_fd("\n", 2);
+	exit(errornumber);
+}
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
+void	message(char *msg)
+{
+	ft_putstr_fd(msg, 2);
 }

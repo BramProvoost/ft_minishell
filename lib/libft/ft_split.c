@@ -1,110 +1,95 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_split.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/02/03 14:35:23 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/19 12:44:59 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   ft_split.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bramjr <bramjr@student.codam.nl>             +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2020/12/03 16:11:48 by bramjr        #+#    #+#                 */
+/*   Updated: 2022/12/02 11:48:11 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static char	**clear_arr(char **arr)
+void	free_split(char **splits)
 {
-	while (arr && *arr)
+	int	i;
+
+	i = 0;
+	while (splits[i])
 	{
-		free(*arr);
-		arr++;
+		free(splits[i]);
+		i++;
 	}
-	free(arr);
-	return (0);
+	free(splits);
 }
 
-static void	*ft_arrlcpy(void *dst_arr, void *src_arr, size_t arr_len)
+int	count_splits(char const *s, char c)
 {
-	long	*temp_dst_arr;
-	long	*temp_src_arr;
+	int		i;
+	int		amount;
 
-	temp_dst_arr = dst_arr;
-	temp_src_arr = src_arr;
-	while (arr_len > 0)
+	i = 0;
+	amount = 0;
+	while (s[i])
 	{
-		arr_len--;
-		*temp_dst_arr = *temp_src_arr;
-		temp_dst_arr++;
-		temp_src_arr++;
+		while (s[i] && s[i] == c)
+			i++;
+		while (s[i] && s[i] != c)
+			i++;
+		if (s[i - 1] != c)
+			amount++;
 	}
-	return (dst_arr);
+	return (amount);
 }
 
-static int	len(char **arr, char const *s, char c)
+int	start_stop(char const *s, char c, int *i, int mode)
 {
-	char		**temp_arr;
-	const char	*temp_char;
-
-	if (arr != 0)
-	{
-		temp_arr = arr;
-		while (*temp_arr)
-			temp_arr++;
-		return ((int)(temp_arr - arr));
-	}
-	else
-	{
-		temp_char = s;
-		while (*temp_char && *temp_char != c)
-			temp_char++;
-		return ((int)(temp_char - s));
-	}
+	while (s[*i] && s[*i] == c && mode == 1)
+		(*i)++;
+	while (s[*i] && s[*i] != c && mode == 2)
+		(*i)++;
+	return (*i);
 }
 
-static char	**add_arr(char **arr, char *s)
+char	**splitting(char const *s, char c, char **splits, int amount)
 {
-	char	**new_arr;
-	int		arr_len;
+	int		i;
+	int		j;
+	int		start;
+	int		stop;
 
-	arr_len = 0;
-	if (arr == 0)
-		new_arr = ft_calloc(2, sizeof(char *));
-	else
+	i = 0;
+	j = 0;
+	while (j < amount)
 	{
-		arr_len = len(arr, 0, 0);
-		new_arr = ft_calloc(arr_len + 2, sizeof(char *));
-		if (new_arr == 0)
-			return (clear_arr(arr));
-		ft_arrlcpy(new_arr, arr, arr_len);
-		free(arr);
+		start = start_stop(s, c, &i, 1);
+		stop = start_stop(s, c, &i, 2);
+		if (s[i - 1] != c)
+			splits[j] = ft_substr(s, start, stop - start);
+		if (!splits[j])
+		{
+			free_split(splits);
+			return (0);
+		}
+		j++;
 	}
-	*(new_arr + arr_len) = s;
-	return (new_arr);
+	splits[j] = NULL;
+	return (splits);
 }
 
 char	**ft_split(char const *s, char c)
 {
-	char	**arr;
-	char	*temp;
+	int		amount;
+	char	**splits;
 
-	arr = 0;
 	if (!s)
 		return (NULL);
-	while (*s)
-	{
-		while (*s == c)
-			s++;
-		if (*s == 0)
-			break ;
-		temp = ft_calloc((len(0, s, c) + 1), sizeof(char));
-		if (!temp)
-			return (NULL);
-		ft_memcpy(temp, (void *)s, len(0, s, c));
-		arr = add_arr(arr, temp);
-		while (*s && (*s != c))
-			s++;
-	}
-	if (arr == 0)
-		return (ft_calloc(1, sizeof(char *)));
-	return (arr);
+	amount = (count_splits(s, c));
+	splits = (char **)malloc(sizeof(char *) * (amount + 1));
+	if (!splits)
+		return (NULL);
+	splits = splitting(s, c, splits, amount);
+	return (splits);
 }

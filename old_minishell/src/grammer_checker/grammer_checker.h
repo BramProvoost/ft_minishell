@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        ::::::::            */
-/*   ft_strlen.c                                        :+:    :+:            */
+/*   grammer_checker.h                                  :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bramjr <bramjr@student.codam.nl>             +#+                     */
+/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
-/*   Created: 2020/10/29 11:11:18 by bramjr        #+#    #+#                 */
-/*   Updated: 2022/01/19 08:23:31 by bprovoos      ########   odam.nl         */
+/*   Created: 2022/11/09 11:25:38 by bprovoos      #+#    #+#                 */
+/*   Updated: 2022/11/24 16:23:46 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stddef.h>
+#ifndef GRAMMER_CHEKER_H
+# define GRAMMER_CHEKER_H
 
-size_t	ft_strlen(const char *str)
-{
-	size_t	counter;
+# include "../parser/parser.h"
 
-	counter = 0;
-	while (str[counter])
-		counter++;
-	return (counter);
-}
+// int	is_valid_grammer(t_line_lst *head);
+
+#endif
