@@ -32,6 +32,7 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	@$(MAKE) fclean -C $(LIBFT)
 
 re: clean all
 
