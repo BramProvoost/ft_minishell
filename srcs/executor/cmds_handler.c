@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cmds_handler.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 19:49:43 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cmds_handler.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/09 11:38:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../main.h"
 
 char	*get_full_cmd(char *cmd, char **paths)
 {
@@ -40,14 +40,14 @@ char	*get_full_cmd(char *cmd, char **paths)
 
 void	child_process(t_cmd *cmd, t_args *args, int fd[2], int prev_fd)
 {
-	if (redirect_input(args, cmd, prev_fd) != SUCCESS)
+	if (redirect_input(cmd, args, prev_fd) != SUCCESS)
 	{
 		close(fd[0]);
 		exit(args->status_code);
 	}
 	if (cmd->next)
 	{
-		if (redirect_output(args, cmd, prev_fd) != SUCCESS)
+		if (redirect_output(cmd, args, prev_fd) != SUCCESS)
 		{
 			close(fd[1]);
 			exit(args->status_code);
