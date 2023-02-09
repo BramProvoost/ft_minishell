@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 11:41:32 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 12:02:38 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int	test_shell(char *line, char **envp)
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
 	temp_print_tokens(tokens);	// temp using for visualizing
+	if (is_exit(tokens))
+		exit(ft_putendl_fd("exit", 1));
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	(void)line;		// temp until using line
@@ -81,7 +83,7 @@ int	main(int argc, char *argv[], char **envp)
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");
-		shell(line, envp);
+		test_shell(line, envp);
 	}
 	(void)argc;
 	(void)argv;
