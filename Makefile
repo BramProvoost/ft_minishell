@@ -1,48 +1,46 @@
-NAME		:= minishell
-CFLAGS		:= -Wextra -Wall -Werror
-CFLAGS		+= $(if $(FSAN) , -fsanitize=address -g)
-CFLAGS		+= $(if $(DEBUG) , -g)
-LIBFT		:= ./lib/libft
-HEADERS	:= $(addprefix -I , \
-			  libft)
-LIBS	:= $(LIBFT)/libft.a
-SRCS	:= $(shell find ./srcs -iname "*.c")
-OBJS	:= ${SRCS:.c=.o}
+# Variables
+NAME			:= minishell
+CFLAGS			:= -Wall -Wextra -Werror
+CFLAGS			:= $(CFLAGS)$(if $(FSAN) , -fsanitize=address -g)
+CFLAGS			:= $(CFLAGS)$(if $(DEBUG) , -g)
+SOURCES			:= $(shell find ./srcs -iname "*.c")
+OBJECTS			:= $(SOURCES:.c=.o)
 
-FUNCTIONS_OBJ=$(OBJS:.c=.o)
+LIBFT			:= lib/libft
+LIBS			:= $(LIBFT)/libft.a
+RL_LIB			:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
+RL_INC			:= -I/Users/$(USER)/homebrew/opt/readline/include
 
-all: libft $(NAME)
+# Default target
+all: $(NAME)
+
+# Link object files to create NAME
+$(NAME): libft $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(RL_LIB) -o $@
+
+# Compile source files to object files
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< $(RL_INC) -o $@
 
 libft:
-	@echo ======== LIBFT ========
-	@$(MAKE) -C $(LIBFT)
+	@$(MAKE) bonus -C $(LIBFT)
 
-# %.o: %.c
-# 	$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
-
-$(NAME): $(FUNCTIONS_OBJ)
-	$(CC) $(CFLAGS) $(OBJS) $(LIBS) $(HEADERS) -o $(NAME)
-
+# Clean up object files and NAME
 clean:
-	@rm -f $(OBJS)
-	@$(MAKE) -C $(LIBFT) clean
+	rm -f $(OBJECTS)
+	@$(MAKE) clean -C $(LIBFT)
 
 fclean: clean
 	@rm -f $(NAME)
-	@rm -f ./lib/libft/libft.a
-
-fsan:
-	$(MAKE) FSAN=1
-
-resan: fclean
-	$(MAKE) fsan
-
-debug:
-	$(MAKE) DEBUG=1
-
-rebug: fclean
-	$(MAKE) debug
+	@$(MAKE) fclean -C $(LIBFT)
 
 re: clean all
 
-.PHONY: all, clean, fclean, re, libmlx
+fsan:
+	@$(MAKE) FSAN=1
+
+resan: fclean
+	@$(MAKE) fsan
+
+debug:
+	@$(MAKE) DEBUG=1

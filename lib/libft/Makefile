@@ -1,12 +1,12 @@
 # **************************************************************************** #
 #                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: edawood <edawood@student.42.fr>            +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2022/01/19 08:27:15 by bprovoos          #+#    #+#              #
-#    Updated: 2022/12/11 15:11:43 by edawood          ###   ########.fr        #
+#                                                         ::::::::             #
+#    Makefile                                           :+:    :+:             #
+#                                                      +:+                     #
+#    By: bprovoos <bprovoos@student.codam.nl>         +#+                      #
+#                                                    +#+                       #
+#    Created: 2022/01/19 08:27:15 by bprovoos      #+#    #+#                  #
+#    Updated: 2023/02/08 16:45:45 by bprovoos      ########   odam.nl          #
 #                                                                              #
 # **************************************************************************** #
 
@@ -92,7 +92,7 @@ $(NAME): $(OBJ)
 	$(CC) -c $(CFLAGS) -o $@ $<
 
 bonus:
-	$(MAKE) BONUS=1
+	@$(MAKE) BONUS=1
 
 clean:
 	${RM} $(SRCOBJ) $(BONUSOBJ)
