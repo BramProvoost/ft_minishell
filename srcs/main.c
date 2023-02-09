@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 12:02:38 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 12:04:49 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	main(int argc, char *argv[], char **envp)
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");
-		test_shell(line, envp);
+		shell(line, envp);
 	}
 	(void)argc;
 	(void)argv;
