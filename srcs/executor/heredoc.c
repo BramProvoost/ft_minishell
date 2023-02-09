@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 19:42:58 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/09 11:40:50 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../main.h"
 
 int	create_heredoc_file(char *delimiter, char *file_name)
 {
@@ -25,7 +25,7 @@ int	create_heredoc_file(char *delimiter, char *file_name)
 		line = readline("heredoc> ");
 		if (!line)
 			return (ERROR);
-		if (ft_strcmp(line, delimiter) == 0)
+		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
 			break ;

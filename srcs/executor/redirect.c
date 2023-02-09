@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   redirect.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 19:41:47 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   redirect.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/15 10:48:18 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/09 11:31:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../main.h"
 
 int	duplicate(t_args *args, int fd, int fileno)
 {

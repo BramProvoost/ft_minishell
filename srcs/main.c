@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 11:04:05 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 11:41:32 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ int	shell(char *line, char **envp)
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	delete_tokens(tokens);
+	(void)envp;		// temp until using envp
 	return (EXIT_SUCCESS);
 }
 

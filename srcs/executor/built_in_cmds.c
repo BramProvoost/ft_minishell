@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in_cmds.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 19:50:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/01/29 19:50:24 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   built_in_cmds.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/29 19:50:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/09 11:30:40 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../executor.h"
+#include "../main.h"
 
 int	is_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args)
 {
