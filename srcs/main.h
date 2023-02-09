@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 10:55:34 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 11:04:05 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	line_reader(char **line, const char *display_name);
 t_token	*tokenizer(char *raw_line);
 void	delete_tokens(t_token *lst);
 void	data_to_token(t_token **token, t_line *line);
-void	print_tokens(t_token *token);
+void	temp_print_tokens(t_token *token);
 
 /* hande_token.c */
 void	delete_tokens(t_token *head);

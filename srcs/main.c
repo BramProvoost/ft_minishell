@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 10:53:50 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 11:04:05 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int	test_shell(char *line, char **envp)
 	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
-	print_tokens(tokens);	// temp using for visualizing
+	temp_print_tokens(tokens);	// temp using for visualizing
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	(void)line;		// temp until using line
