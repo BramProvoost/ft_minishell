@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/08 15:19:32 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 10:53:50 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,16 +20,13 @@ int	is_exit(t_token *tokens)
 	return (0);
 }
 
-int	shell(char *line, char **envp)
+int	test_shell(char *line, char **envp)
 {
 	t_token	*tokens;
 
 	if (!line)
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
-	if (is_exit(tokens))
-		exit(ft_putendl_fd("exit", 1));
-
 	// tokens = tokenizer("''");	// fix empty quotes
 	// tokens = tokenizer(" a");	// fix spaces before first word
 	
@@ -55,6 +52,21 @@ int	shell(char *line, char **envp)
 		return (EXIT_FAILURE);
 	(void)line;		// temp until using line
 	(void)envp;		// temp until using envp
+	delete_tokens(tokens);
+	return (EXIT_SUCCESS);
+}
+
+int	shell(char *line, char **envp)
+{
+	t_token	*tokens;
+
+	if (!line)
+		return (EXIT_FAILURE);
+	tokens = tokenizer(line);
+	if (is_exit(tokens))
+		exit(ft_putendl_fd("exit", 1));
+	if (!gramer_is_valid(tokens))
+		return (EXIT_FAILURE);
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
