@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 11:04:05 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/09 11:13:48 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@
 # include <signal.h>
 # include <readline/readline.h>
 # include <readline/history.h>
-# include "../old_minishell/libs/libft/libft.h"
+# include "../lib/libft/libft.h"
 
 /* Global variable declaration */
 int	g_last_pid;
