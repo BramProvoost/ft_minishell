@@ -6,14 +6,13 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/01 14:12:42 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/03 14:50:48 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/10 13:43:22 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-// todo: fix layout afther CTR+D
-static void	sigint_handler(int signum)
+static void	sigint_ctr_c_handler(int signum)
 {
 	(void)signum;
 	rl_replace_line("", 0);
@@ -25,6 +24,6 @@ static void	sigint_handler(int signum)
 
 void	init_signals(void)
 {
-	signal(SIGINT, sigint_handler);
+	signal(SIGINT, sigint_ctr_c_handler);
 	signal(SIGQUIT, SIG_IGN);
 }
