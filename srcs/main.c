@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/15 20:12:45 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/16 10:13:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	test_shell(char *line, char **env)
 	temp_print_tokens(tokens);	// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
+	// executor(cmd, tokens);
 	(void)line;		// temp until using line
 	(void)env;		// temp until using envp
 	delete_tokens(tokens);
@@ -102,7 +103,7 @@ int	shell(char *line, char **env)
 	cmd = get_cmd_from_token(tokens, env);
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	executor(cmd, tokens);
+	// executor(cmd, tokens);
 	delete_tokens(tokens);
 	(void)env;		// temp until using envp
 	return (EXIT_SUCCESS);
