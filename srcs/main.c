@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/16 10:17:19 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/02/16 14:34:09 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int	test_shell(char *line, char **env)
 	return (EXIT_SUCCESS);
 }
 
-int	shell(char *line, char **env)
+int	shell(char *line, t_env *env, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -100,26 +100,30 @@ int	shell(char *line, char **env)
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
-	cmd = get_cmd_from_token(tokens, env);
+	cmd = get_cmd_from_token(tokens, envp);
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);
+	temp_print_tokens(tokens);	// temp using for visualizing
+	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	(void)env;		// temp until using envp
 	return (EXIT_SUCCESS);
 }
 
-int	main(int argc, char *argv[], char **env)
+int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
+	t_env *env;
 
 	g_last_pid = 0;
+	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");
-		test_shell(line, env);
+		shell(line, env, envp);
 	}
+	free_env_list(&env);
 	(void)argc;
 	(void)argv;
 	return (EXIT_SUCCESS);
