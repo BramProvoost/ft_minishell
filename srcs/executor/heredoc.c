@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:40:50 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
+/*   Updated: 2023/02/16 14:16:17 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,23 +38,23 @@ int	create_heredoc_file(char *delimiter, char *file_name)
 	return (SUCCESS);
 }
 
-int	run_heredoc(t_cmd *cmd, t_args *args, char *delimiter)
+int	run_heredoc(t_cmd *cmd, t_env *env, char *delimiter)
 {
 	int	fd;
 
 	fd = open(cmd->file->file_name, O_RDONLY);
 	if (fd == ERROR)
 		return (file_error(cmd->file->file_name));
-	if (duplicate(args, fd, STDIN_FILENO) == ERROR)
+	if (duplicate(fd, STDIN_FILENO) == ERROR)
 		return (ERROR);
-	ft_execute(cmd, args);
+	ft_execute(cmd, env);
 	if (unlink(cmd->file->file_name) == ERROR)
 		return (file_error(cmd->file->file_name));
 	free(delimiter);
 	return (SUCCESS);
 }
 
-int	heredoc(t_cmd *cmd, t_args *args)
+int	heredoc(t_cmd *cmd, t_env *env)
 {
 	char	*delimiter;
 
@@ -70,7 +70,7 @@ int	heredoc(t_cmd *cmd, t_args *args)
 				free(delimiter);
 				return (ERROR);
 			}
-			if (run_heredoc(cmd, args, delimiter) == ERROR)
+			if (run_heredoc(cmd, env, delimiter) == ERROR)
 			{
 				free(delimiter);
 				return (ERROR);
