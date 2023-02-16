@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/02/16 14:19:23 by edawood          ###   ########.fr       */
+/*   Updated: 2023/02/16 14:37:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,15 @@ typedef struct s_cmd
 	struct s_file	*file;
 }	t_cmd;
 
-typedef struct s_args
-{
-	char	**paths;
-	t_env	*env;
-	int		env_len;
-	int		status_code;
-	bool	has_pipes;
-	char	*home_path;
-}	t_args;
+// typedef struct s_args
+// {
+// 	char	**paths;
+// 	t_env	*env;
+// 	int		env_len;
+// 	int		status_code;
+// 	bool	has_pipes;
+// 	char	*home_path;
+// }	t_args;
 
 typedef enum s_file_type {
 	INPUT_SINGLE,
