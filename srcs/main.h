@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/09 11:26:14 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/17 14:46:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 
 # define METACHARACTER " \t\n|&;()<>"
 # define NC "\033[0m"
+# define RED "\033[38;5;1m"
 # define GREEN "\033[38;5;2m"
+# define YELLOW "\033[38;5;3m"
+# define BLUE "\033[38;5;4m"
+# define MAGENTA "\033[38;5;5m"
+# define CYAN "\033[38;5;6m"
+# define WHITE "\033[38;5;7m"
+# define GRAY "\033[38;5;8m"
 
-#define CHILD 0
-#define READ 0
-#define WRITE 1
-#define STDIN 0
-#define STDOUT 1
-#define STDERR 2
-#define ERROR -1
-#define SUCCESS 0
+# define CHILD 0
+# define READ 0
+# define WRITE 1
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
+# define ERROR -1
+# define SUCCESS 0
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -67,11 +74,14 @@ typedef struct s_line {
 	char	*text;
 }	t_line;
 
+
+/// @param exec path and command
+/// @param args command and arguments
 typedef struct s_exec
 {
 	char	*exec;
 	char	**args;
-	int	len;
+	int		len;
 }	t_exec;
 
 typedef struct s_env
@@ -90,10 +100,10 @@ typedef struct s_child_pids
 
 typedef struct s_cmd
 {
-	t_exec			*exec;
 	char			*arg;
-	struct s_cmd	*next;
+	t_exec			*exec;
 	struct s_file	*file;
+	struct s_cmd	*next;
 }	t_cmd;
 
 typedef struct s_args
@@ -120,6 +130,9 @@ typedef struct s_file {
 	int				heredoc;
 	struct s_file	*next;
 }	t_file;
+
+/* main.c */
+char	**get_paths(char **env);
 
 /* line_reader.c */
 void	line_reader(char **line, const char *display_name);
@@ -155,6 +168,16 @@ int		gramer_is_valid(t_token *tokens);
 /* signals.c */
 void	init_signals(void);
 
+/* cmds_handler.c */
+char	*get_full_cmd(char *cmd, char **paths);
+
+/* add_cmd.c */
+t_cmd	*new_t_cmd(void);
+void	path_and_cmd_to_t_cmd(t_cmd *cmd, char *cmd_and_args, char **env);
+void	file_to_t_cmd(t_cmd *cmd, char *file);
+void	free_t_cmd(t_cmd *cmd);
+void	temp_t_cmd_printer(t_cmd *cmd);
+
 //Executor functions
 void	executor(t_cmd *cmd, t_args *args);
 void	ft_execute(t_cmd *cmd, t_args *args);
@@ -183,7 +206,8 @@ int		run_heredoc(t_cmd *cmd, t_args *args, char *delimiter);
 int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
-int		is_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args);
+int		is_buld_in_cmd(char *cmd);
+int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args);
 int		minishell_cd(char *arg, t_cmd *cmd, t_args *args);
 int		minishell_echo(char *arg, t_cmd *cmd);
 int		minishell_pwd();

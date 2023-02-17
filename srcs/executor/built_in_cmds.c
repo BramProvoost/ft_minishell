@@ -6,13 +6,34 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:50:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:30:40 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/16 15:16:08 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-int	is_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args)
+int	is_buld_in_cmd(char *cmd)
+{
+	if (!cmd)
+		return (0);
+	else if (!ft_strncmp(cmd, "echo", 5))
+		return (1);
+	else if (!ft_strncmp(cmd, "cd", 3))
+		return (1);
+	else if (!ft_strncmp(cmd, "pwd", 4))
+		return (1);
+	else if (!ft_strncmp(cmd, "export", 7))
+		return (1);
+	else if (!ft_strncmp(cmd, "unset", 6))
+		return (1);
+	else if (!ft_strncmp(cmd, "env", 4))
+		return (1);
+	else if (!ft_strncmp(cmd, "exit", 5))
+		return (1);
+	return (0);
+}
+
+int	execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args)
 {
 	if (!cmd)
 		return (ERROR);
