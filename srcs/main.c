@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/17 14:57:43 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 17:12:20 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,37 +54,39 @@ void	replace_first_word_with_cmd(t_token *tokens)
 				tokens->type = CMD;
 			first_word = false;
 		}
-		else if (tokens->type == PIPE)
+		else
 			first_word = true;
 		tokens = tokens->next;
 	}
 }
 
-
+/* todo
+	How do I detect of a token (CMD?)is a file?
+*/
 t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 {
 	t_cmd	*cmd;
+	char	*cmd_and_args;
 
-	cmd = new_t_cmd();
-	path_and_cmd_to_t_cmd(cmd, "ls -la", env);
+	cmd = NULL;
 	while (tokens)
 	{
 		if (tokens->type == CMD)
 		{
-			// stuff
-			printf("cmd to t_cmd: '%s'\n", tokens->value);
+			cmd_and_args = ft_strdup(tokens->value);
 			tokens = tokens->next;
 			while (tokens && tokens->type == WORD)
 			{
-				// stuff
-				printf("add word to t_cmd: '%s'\n", tokens->value);
+				cmd_and_args = ft_strjoin(cmd_and_args, " ");
+				cmd_and_args = ft_strjoin(cmd_and_args, tokens->value);
 				tokens = tokens->next;
 			}
+			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
+			free(cmd_and_args);
 		}
 		else
 			tokens = tokens->next;
 	}
-	(void)env;
 	return (cmd);
 }
 
