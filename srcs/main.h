@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 17:26:50 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 19:56:59 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,7 +173,7 @@ char	*get_full_cmd(char *cmd, char **paths);
 
 /* add_cmd.c */
 t_cmd	*new_t_cmd(void);
-void	add_t_cmd_back(t_cmd **cmd);
+void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env);
 void	file_to_t_cmd(t_cmd *cmd, char *file);
 void	free_t_cmd(t_cmd *cmd);

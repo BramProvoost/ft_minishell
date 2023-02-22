@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 17:27:19 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 19:54:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,17 +25,17 @@ t_cmd	*new_t_cmd(void)
 	return (cmd);
 }
 
-void	add_t_cmd_back(t_cmd **cmd)
+void	add_t_cmd_back(t_cmd *cmd)
 {
-	if (!*cmd)
+	if (!cmd)
 	{
-		*cmd = new_t_cmd();
+		cmd = new_t_cmd();
 	}
 	else
 	{
-		while ((*cmd)->next)
-			*cmd = (*cmd)->next;
-		(*cmd)->next = new_t_cmd();	
+		while ((cmd)->next)
+			cmd = (cmd)->next;
+		(cmd)->next = new_t_cmd();	
 	}
 }
 
@@ -54,23 +54,25 @@ t_exec	*new_t_exec(void)
 
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env)
 {
+	t_cmd	*tmp;
 	char	*path_and_cmd;
 	char	**split_cmd_and_args;
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	else
-		add_t_cmd_back(cmd);
-	while ((*cmd)->next)
-		*cmd = (*cmd)->next;
+		add_t_cmd_back(*cmd);
+	tmp = *cmd;
+	while (tmp->next)
+		tmp = tmp->next;
 	split_cmd_and_args = ft_split(cmd_and_args, ' ');
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
 		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
-	(*cmd)->exec = new_t_exec();
-	(*cmd)->exec->exec = path_and_cmd;
-	(*cmd)->exec->args = split_cmd_and_args;
+	tmp->exec = new_t_exec();
+	tmp->exec->exec = path_and_cmd;
+	tmp->exec->args = split_cmd_and_args;
 }
 
 /*	Questions:
@@ -105,17 +107,16 @@ void	temp_t_cmd_printer(t_cmd *cmd)
 {
 	int	i;
 
-	ft_putendl_fd("---", 1);
 	while (cmd)
 	{
 		i = 0;
 		if (cmd->exec && cmd->exec->exec)
-			printf("cmd->exec->exec = '%s'\n", cmd->exec->exec);
+			printf(GRAY"cmd->exec->exec = '"GREEN"%s"GRAY"'\n"NC, cmd->exec->exec);
 		if (cmd->exec && cmd->exec->args)
 		{
 			while (cmd->exec->args[i])
 			{
-				printf("cmd->exec->args[%d] = '%s'\n", i, cmd->exec->args[i]);
+				printf(GRAY"cmd->exec->args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->args[i]);
 				i++;
 			}
 		}

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 17:12:20 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 19:54:20 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,7 +171,7 @@ int	test_shell(char *line, char **env)
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
 	temp_print_tokens(tokens);	// temp using for visualizing
-	temp_t_cmd_printer(cmd);
+	temp_t_cmd_printer(cmd);	// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
 	// executor(cmd, tokens);
