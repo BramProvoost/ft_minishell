@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 19:54:03 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 20:04:47 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,8 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env)
 	else
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
 	tmp->exec = new_t_exec();
-	tmp->exec->exec = path_and_cmd;
-	tmp->exec->args = split_cmd_and_args;
+	tmp->exec->cmd_path = path_and_cmd;
+	tmp->exec->cmd_args = split_cmd_and_args;
 }
 
 /*	Questions:
@@ -95,10 +95,10 @@ void	free_t_cmd(t_cmd *cmd)
 	{
 		temp = cmd;
 		cmd = cmd->next;
-		if (temp->exec->exec)
-			free(temp->exec->exec);
-		if (temp->exec->args)
-			free_2d(temp->exec->args);
+		if (temp->exec->cmd_path)
+			free(temp->exec->cmd_path);
+		if (temp->exec->cmd_args)
+			free_2d(temp->exec->cmd_args);
 	}
 }
 
@@ -110,13 +110,13 @@ void	temp_t_cmd_printer(t_cmd *cmd)
 	while (cmd)
 	{
 		i = 0;
-		if (cmd->exec && cmd->exec->exec)
-			printf(GRAY"cmd->exec->exec = '"GREEN"%s"GRAY"'\n"NC, cmd->exec->exec);
-		if (cmd->exec && cmd->exec->args)
+		if (cmd->exec && cmd->exec->cmd_path)
+			printf(GRAY"cmd->exec->cmd_path = '"GREEN"%s"GRAY"'\n"NC, cmd->exec->cmd_path);
+		if (cmd->exec && cmd->exec->cmd_args)
 		{
-			while (cmd->exec->args[i])
+			while (cmd->exec->cmd_args[i])
 			{
-				printf(GRAY"cmd->exec->args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->args[i]);
+				printf(GRAY"cmd->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->cmd_args[i]);
 				i++;
 			}
 		}

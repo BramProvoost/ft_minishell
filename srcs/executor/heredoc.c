@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:40:50 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	heredoc(t_cmd *cmd, t_args *args)
 	{
 		if (cmd->file->type == HEREDOC)
 		{
-			delimiter = ft_strdup(cmd->exec->args[0]);
+			delimiter = ft_strdup(cmd->exec->cmd_args[0]);
 			if (!delimiter)
 				return (ERROR);
 			if (create_heredoc_file(delimiter, cmd->file->file_name) == ERROR)

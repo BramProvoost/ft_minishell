@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/25 14:31:00 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:27:48 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,12 @@ int	minishell_unset(t_cmd *cmd, t_args *args)
 	char	*tmp;
 
 	i = 0;
-	while (cmd->exec->args[i])
+	while (cmd->exec->cmd_args[i])
 	{
 		j = 0;
 		while (args->env->next)
 		{
-			tmp = ft_strjoin(cmd->exec->args[i], "=");
+			tmp = ft_strjoin(cmd->exec->cmd_args[i], "=");
 			if (!ft_strncmp(args->env->key, tmp, ft_strlen(tmp)))
 			{
 				free(args->env->key);
