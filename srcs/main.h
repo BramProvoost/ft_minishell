@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/23 20:22:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,11 @@ typedef enum e_type {
 	WORD,
 	CMD,
 	PIPE,
-	INPUT_S,
-	INPUT_D,
-	OUTPUT_S,
-	OUTPUT_D
+	FILE_T,
+	INPUT_SINGLE,
+	HEREDOC,
+	OUTPUT_SINGLE,
+	OUTPUT_APPEND,
 }	t_type;
 
 typedef struct s_token {
@@ -116,19 +117,10 @@ typedef struct s_args
 	char	*home_path;
 }	t_args;
 
-typedef enum s_file_type {
-	INPUT_SINGLE,
-	INPUT_DOUBLE,
-	HEREDOC,
-	OUTPUT_SINGLE,
-	OUTPUT_APPEND,
-}	t_file_type;
-
+// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
-	t_file_type		type;
-	char			*file_name;
-	int				heredoc;
-	struct s_file	*next;
+	t_type	type;
+	char	*file_name;
 }	t_file;
 
 /* main.c */
@@ -175,9 +167,12 @@ char	*get_full_cmd(char *cmd, char **paths);
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env);
-void	file_to_t_cmd(t_cmd *cmd, char *file);
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd);
+
+/* temp_token_printer.c */
+char	*temp_type_to_string(t_type type);
 
 //Executor functions
 void	executor(t_cmd *cmd, t_args *args);

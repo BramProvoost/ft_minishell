@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 20:13:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/23 20:22:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,30 @@ void	replace_first_word_with_cmd(t_token *tokens)
 	}
 }
 
-/* todo
-	How do I detect of a token (CMD?)is a file?
-*/
+
+void	replace_word_with_file(t_token *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->prev)
+			if (tokens->prev->type != PIPE && tokens->prev->type != WORD)
+				tokens->type = FILE_T;
+		tokens = tokens->next;
+	}
+}
+
+// void	add_to_2d(char **old, char *new_str)
+// {
+// 	int	i;
+
+// 	if (!old)
+// 		old = ft_calloc(2, sizeof(char));
+// 	if (!old)
+// 		return;
+// 	i = 0;
+	
+// }
+
 t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 {
 	t_cmd	*cmd;
@@ -83,9 +104,11 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 			}
 			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
 			free(cmd_and_args);
+			continue;
 		}
-		else
-			tokens = tokens->next;
+		else if (tokens->type == FILE_T)
+			file_to_t_cmd(&cmd, tokens->type, tokens->value);
+		tokens = tokens->next;
 	}
 	return (cmd);
 }
@@ -120,6 +143,7 @@ int	test_shell(char *line, char **env)
 	// tokens = tokenizer("z'ab'cd'ef'g");
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
+	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
 	temp_print_tokens(tokens);				// temp using for visualizing

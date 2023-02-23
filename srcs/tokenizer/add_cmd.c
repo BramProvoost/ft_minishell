@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:47 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/23 20:23:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,19 @@ t_exec	*new_t_exec(void)
 	return (exec);
 }
 
+t_file	*new_t_file(void)
+{
+	t_file	*type;
+
+	type = ft_calloc(1, sizeof(t_file));
+	if (!type)
+	{
+		ft_putendl_fd("malloc fail", 1);
+		exit(1);
+	}
+	return (type);
+}
+
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env)
 {
 	t_cmd	*tmp;
@@ -75,17 +88,20 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env)
 	tmp->exec->cmd_args = split_cmd_and_args;
 }
 
-/*	Questions:
-	how to use s_file?
-	- why int heredoc if we have t_file_type?
-	- use next?
-*/
-// void	file_to_t_cmd(t_cmd *cmd, char *file)
-// {
-// 	if (!cmd)
-// 		cmd = new_t_cmd();
-// 	cmd->file = file;
-// }
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
+{
+	t_cmd	*tmp;
+	if (!*cmd)
+		*cmd = new_t_cmd();
+	else
+		add_t_cmd_back(*cmd);
+	tmp = *cmd;
+	while (tmp->next)
+		tmp = tmp->next;
+	tmp->file = new_t_file();
+	tmp->file->type = type;
+	tmp->file->file_name = file;
+}
 
 void	free_t_cmd(t_cmd *cmd)
 {
@@ -119,6 +135,11 @@ void	temp_t_cmd_printer(t_cmd *cmd)
 				printf(GRAY"cmd->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->cmd_args[i]);
 				i++;
 			}
+		}
+		if (cmd->file)
+		{
+			printf(GRAY"cmd->file->type = '"GREEN"%s"GRAY"'\n"NC, temp_type_to_string(cmd->file->type));
+			printf(GRAY"cmd->file->file_name = '"GREEN"%s"GRAY"'\n"NC, cmd->file->file_name);
 		}
 		cmd = cmd->next;
 	}
