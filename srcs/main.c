@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/22 19:54:20 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 20:13:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,54 +90,6 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 	return (cmd);
 }
 
-/* Todo:
-[X] get paths form env
-[X] if cmd is buldin. then add to cmd 
-[X] else add cmd to path and check if executeble then add to cmd
-[X] if cmd is NULL then give error (return anyway for now)
-*/
-// function is to long
-// t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
-// {
-// 	int		i;
-// 	t_cmd	*cmd;
-// 	char	**paths;
-// 	char	*paths_and_cmd;
-
-// 	i = 0;
-// 	paths = get_paths(env);
-// 	paths_and_cmd = NULL;
-// 	while (tokens)
-// 	{
-// 		if (tokens->type == CMD)
-// 		{
-// 			if (is_buld_in_cmd(tokens->value))
-// 				paths_and_cmd = ft_strdup(tokens->value);
-// 			else
-// 				paths_and_cmd = get_full_cmd(tokens->value, paths);
-// 			if (!paths_and_cmd)
-// 			{
-// 				printf("cmd not found: '"RED"%s"NC"'\n", tokens->value);
-// 				paths_and_cmd = ft_strdup(tokens->value);
-// 			}
-// 		}
-// 		else if (tokens->type == WORD && tokens->prev && (tokens->prev->type == CMD || tokens->prev->type == WORD ))
-// 		{
-// 			paths_and_cmd = ft_strjoin(paths_and_cmd, " ");
-// 			paths_and_cmd = ft_strjoin(paths_and_cmd, tokens->value);
-// 		}
-// 		if (paths_and_cmd && ((tokens->type != CMD && tokens->type != WORD) || !tokens->next))
-// 		{
-// 			printf("add to t_cmd: '%s'\n", paths_and_cmd);
-// 			free(paths_and_cmd);
-// 			paths_and_cmd = NULL;
-// 		}
-// 		tokens = tokens->next;
-// 	}
-// 	cmd = NULL;
-// 	return (cmd);
-// }
-
 int	test_shell(char *line, char **env)
 {
 	t_token	*tokens;
@@ -170,12 +122,12 @@ int	test_shell(char *line, char **env)
 		return (EXIT_FAILURE);
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
-	temp_print_tokens(tokens);	// temp using for visualizing
-	temp_t_cmd_printer(cmd);	// temp using for visualizing
+	temp_print_tokens(tokens);				// temp using for visualizing
+	temp_t_cmd_printer(cmd);				// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);
-	(void)line;		// temp until using line
+	// executor(cmd, tokens);				// not using until 
+	(void)line;								// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
