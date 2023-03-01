@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 20:22:30 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/01 18:31:37 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 			continue;
 		}
 		else if (tokens->type == FILE_T)
-			file_to_t_cmd(&cmd, tokens->type, tokens->value);
+			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
 		tokens = tokens->next;
 	}
 	return (cmd);
