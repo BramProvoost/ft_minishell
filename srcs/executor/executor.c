@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 14:17:31 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executor.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,10 +43,10 @@ void	simple_command(t_cmd *cmd, t_env *env)
 		g_last_pid = ERROR;
 		exit(g_last_pid);
 	}
-	if (is_built_in_cmd(cmd, cmd->exec->args[0], env) == SUCCESS)
+	if (execute_built_in_cmd(cmd, cmd->exec->cmd_args[0], args) == SUCCESS)
 	{
-		free(cmd->exec->args);
-		exit(g_last_pid);
+		free(cmd->exec->cmd_args);
+		exit(args->status_code);
 	}
 	else
 	{
@@ -102,7 +102,7 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env *env)
 // 	cmd.file->next->type = OUTPUT_SINGLE;
 // 	cmd.next->next = NULL;
 // 	cmd.file->next->next = NULL;
-// 	create_env_list(&args.env, env);
+	// create_env_list(&args.env, env);
 // 	while (temp)
 // 	{
 // 		executor(temp, &args);

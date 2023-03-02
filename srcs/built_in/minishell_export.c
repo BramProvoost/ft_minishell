@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_export.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 13:50:23 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_export.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 16:13:54 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,15 +71,15 @@ int	minishell_export(char *arg, t_cmd *cmd, t_env *env)
 	i = 1;
 	if (!arg)
 		return (ERROR);
-	while (cmd->exec->args[i])
+	while (cmd->exec->cmd_args[i])
 	{
 		j = 0;
-		while (cmd->exec->args[i][j] && cmd->exec->args[i][j] != '=')
+		while (cmd->exec->cmd_args[i][j] && cmd->exec->cmd_args[i][j] != '=')
 			j++;
-		key = ft_substr(cmd->exec->args[i], 0, j);
-		if (cmd->exec->args[i][j] == '=')
-			value = ft_substr(cmd->exec->args[i], j + 1, \
-					ft_strlen(cmd->exec->args[i]) - j);
+		key = ft_substr(cmd->exec->cmd_args[i], 0, j);
+		if (cmd->exec->cmd_args[i][j] == '=')
+			value = ft_substr(cmd->exec->cmd_args[i], j + 1, \
+					ft_strlen(cmd->exec->cmd_args[i]) - j);
 		else
 			value = NULL;
 		export_util(key, value, env);

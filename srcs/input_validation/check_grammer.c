@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/27 09:49:34 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/01 17:45:44 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,13 @@ int	print_grammer_error(int type)
 	ft_putstr_fd("syntax error near unexpected token \'", STDERR_FILENO);
 	if (type == PIPE)
 		ft_putstr_fd("|", STDERR_FILENO);
-	else if (type == OUTPUT_S)
+	else if (type == OUTPUT_SINGLE)
 		ft_putstr_fd(">", STDERR_FILENO);
-	else if (type == OUTPUT_D)
+	else if (type == OUTPUT_APPEND)
 		ft_putstr_fd(">>", STDERR_FILENO);
-	else if (type == INPUT_S)
+	else if (type == INPUT_SINGLE)
 		ft_putstr_fd("<", STDERR_FILENO);
-	else if (type == INPUT_D)
+	else if (type == HEREDOC)
 		ft_putstr_fd("<<", STDERR_FILENO);
 	else
 		ft_putstr_fd("newline", STDERR_FILENO);

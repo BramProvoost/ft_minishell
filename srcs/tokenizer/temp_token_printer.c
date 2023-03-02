@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/16 10:50:21 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,16 @@ char	*temp_type_to_string(t_type type)
 		return ("WORD");
 	if (type == PIPE)
 		return ("PIPE");
-	if (type == INPUT_S)
+	if (type == INPUT_SINGLE)
 		return ("INPUT_S");
-	if (type == INPUT_D)
+	if (type == HEREDOC)
 		return ("INPUT_D");
-	if (type == OUTPUT_S)
+	if (type == OUTPUT_SINGLE)
 		return ("OUTPUT_S");
-	if (type == OUTPUT_D)
+	if (type == OUTPUT_APPEND)
 		return ("OUTPUT_D");
+	if (type == FILE_T)
+		return ("FILE");
 	return ("No tokens found");
 }
 
@@ -37,7 +39,7 @@ void	temp_print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf("type: %s\tlen: %li\tvalue: \""GREEN"%s"NC"\"\n", temp_type_to_string(tokens->type), tokens->len, tokens->value);
+		printf(GRAY"type: %s\tlen: %li\tvalue: \""GREEN"%s"GRAY"\"\n"NC, temp_type_to_string(tokens->type), tokens->len, tokens->value);
 		tokens = tokens->next;
 	}
 }

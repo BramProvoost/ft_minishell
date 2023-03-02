@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/02/16 14:37:03 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/02/23 20:22:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,23 @@
 
 # define METACHARACTER " \t\n|&;()<>"
 # define NC "\033[0m"
+# define RED "\033[38;5;1m"
 # define GREEN "\033[38;5;2m"
+# define YELLOW "\033[38;5;3m"
+# define BLUE "\033[38;5;4m"
+# define MAGENTA "\033[38;5;5m"
+# define CYAN "\033[38;5;6m"
+# define WHITE "\033[38;5;7m"
+# define GRAY "\033[38;5;8m"
 
-#define CHILD 0
-#define READ 0
-#define WRITE 1
-#define STDIN 0
-#define STDOUT 1
-#define STDERR 2
-#define ERROR -1
-#define SUCCESS 0
+# define CHILD 0
+# define READ 0
+# define WRITE 1
+# define STDIN 0
+# define STDOUT 1
+# define STDERR 2
+# define ERROR -1
+# define SUCCESS 0
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -46,10 +53,11 @@ typedef enum e_type {
 	WORD,
 	CMD,
 	PIPE,
-	INPUT_S,
-	INPUT_D,
-	OUTPUT_S,
-	OUTPUT_D
+	FILE_T,
+	INPUT_SINGLE,
+	HEREDOC,
+	OUTPUT_SINGLE,
+	OUTPUT_APPEND,
 }	t_type;
 
 typedef struct s_token {
@@ -68,11 +76,14 @@ typedef struct s_line {
 	char	*text;
 }	t_line;
 
+
+/// @param exec path and command
+/// @param args command and arguments
 typedef struct s_exec
 {
-	char	*exec;
-	char	**args;
-	int	len;
+	char	*cmd_path;
+	char	**cmd_args;
+	int		len;
 }	t_exec;
 
 typedef struct s_env
@@ -91,11 +102,10 @@ typedef struct s_child_pids
 
 typedef struct s_cmd
 {
-	t_exec			*exec;
 	char			*arg;
-	char			**paths;
-	struct s_cmd	*next;
+	t_exec			*exec;
 	struct s_file	*file;
+	struct s_cmd	*next;
 }	t_cmd;
 
 // typedef struct s_args
@@ -108,20 +118,14 @@ typedef struct s_cmd
 // 	char	*home_path;
 // }	t_args;
 
-typedef enum s_file_type {
-	INPUT_SINGLE,
-	INPUT_DOUBLE,
-	HEREDOC,
-	OUTPUT_SINGLE,
-	OUTPUT_APPEND,
-}	t_file_type;
-
+// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
-	t_file_type		type;
-	char			*file_name;
-	int				heredoc;
-	struct s_file	*next;
+	t_type	type;
+	char	*file_name;
 }	t_file;
+
+/* main.c */
+char	**get_paths(char **env);
 
 /* line_reader.c */
 void	line_reader(char **line, const char *display_name);
@@ -157,6 +161,20 @@ int		gramer_is_valid(t_token *tokens);
 /* signals.c */
 void	init_signals(void);
 
+/* cmds_handler.c */
+char	*get_full_cmd(char *cmd, char **paths);
+
+/* add_cmd.c */
+t_cmd	*new_t_cmd(void);
+void	add_t_cmd_back(t_cmd *cmd);
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env);
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
+void	free_t_cmd(t_cmd *cmd);
+void	temp_t_cmd_printer(t_cmd *cmd);
+
+/* temp_token_printer.c */
+char	*temp_type_to_string(t_type type);
+
 //Executor functions
 void	executor(t_cmd *cmd, t_token *tokens, t_env *env);
 void	ft_execute(t_cmd *cmd, t_env *env);
@@ -185,8 +203,9 @@ int		run_heredoc(t_cmd *cmd, t_env *env, char *delimiter);
 int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
-int		is_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
-int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
+int		is_buld_in_cmd(char *cmd);
+int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args);
+int		minishell_cd(char *arg, t_cmd *cmd, t_args *args);
 int		minishell_echo(char *arg, t_cmd *cmd);
 int		minishell_pwd();
 int		minishell_export(char *arg, t_cmd *cmd, t_env *env);

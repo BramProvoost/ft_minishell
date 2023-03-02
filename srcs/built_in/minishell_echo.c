@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/19 21:22:53 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:27:30 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,13 +22,13 @@ int	minishell_echo(char *arg, t_cmd *cmd)
 	n_flag = false;
 	if (!arg)
 		return (ERROR);
-	while (cmd->exec->args[i])
+	while (cmd->exec->cmd_args[i])
 	{
 		j = 0;
-		if (cmd->exec->args[i][j] == '-')
+		if (cmd->exec->cmd_args[i][j] == '-')
 		{
 			j++;
-			while (cmd->exec->args[i][j] == 'n')
+			while (cmd->exec->cmd_args[i][j] == 'n')
 			{
 				n_flag = true;
 				j++;

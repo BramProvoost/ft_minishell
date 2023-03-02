@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_cd.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 13:44:45 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_cd.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/12 14:46:00 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	minishell_cd(char *arg, t_cmd *cmd, t_env *env)
 	home_path = get_all_paths("HOME=", env);
 	if (!home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
-	if (!cmd->exec->args[1])
+	if (!cmd->exec->cmd_args[1])
 	{
 		if (chdir(home_path) == ERROR)
 			chdir_error(home_path, errno);
 	}
 	else
 	{
-		if (chdir(cmd->exec->args[1]) == ERROR)
+		if (chdir(cmd->exec->cmd_args[1]) == ERROR)
 			chdir_error(arg, errno);
 	}
 	return (SUCCESS);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_exit.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 13:51:34 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_exit.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 18:21:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,16 +14,16 @@
 
 int	minishell_exit(char *arg, t_cmd *cmd)
 {
-	if (cmd->exec->args[1] && cmd->exec->args[2])
+	if (cmd->exec->cmd_args[1] && cmd->exec->cmd_args[2])
 	{
 		ft_putstr_fd("exit\n", STDERR);
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR);
 		return (ERROR);
 	}
-	if (cmd->exec->args[1])
+	if (cmd->exec->cmd_args[1])
 	{
-		if (ft_isdigit(cmd->exec->args[1][0]))
-			g_last_pid = ft_atoi(cmd->exec->args[1]);
+		if (ft_isdigit(cmd->exec->cmd_args[1][0]))
+			args->status_code = ft_atoi(cmd->exec->cmd_args[1]);
 		else
 		{
 			ft_putstr_fd("exit\n", STDERR);

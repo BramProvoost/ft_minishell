@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/02/16 14:34:09 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/02/23 20:22:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,32 @@ int	is_exit(t_token *tokens)
 	return (0);
 }
 
-t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
+char	**get_paths(char **env)
 {
-	t_cmd	*cmd;
-	t_args	args;
-	int		first_word;
-	// todo
-	// check type if executeble or buldin
-	// if type cmd -> malloc and add to cmd list
+	int	i;
+	char	*path;
+	char	**paths;
 
-	cmd = NULL;
+	i = 0;
+	while (env[i] && ft_strncmp("PATH=", env[i], 5))
+		i++;
+	path = ft_strdup(&env[i][5]);
+	paths = ft_split(path, ':');
+	i = 0;
+	while (paths[i])
+	{
+		paths[i] = ft_strjoin(paths[i], "/");
+		i++;
+	}
+	free(path);
+	return (paths);
+}
+
+void	replace_first_word_with_cmd(t_token *tokens)
+{
+	int		first_word;
+
 	first_word = true;
-	create_env_list(&args.env, env);
-	init_paths(&args);
 	while (tokens)
 	{
 		if (tokens->type == WORD)
@@ -45,7 +58,58 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 			first_word = true;
 		tokens = tokens->next;
 	}
-	(void)tokens;
+}
+
+
+void	replace_word_with_file(t_token *tokens)
+{
+	while (tokens)
+	{
+		if (tokens->prev)
+			if (tokens->prev->type != PIPE && tokens->prev->type != WORD)
+				tokens->type = FILE_T;
+		tokens = tokens->next;
+	}
+}
+
+// void	add_to_2d(char **old, char *new_str)
+// {
+// 	int	i;
+
+// 	if (!old)
+// 		old = ft_calloc(2, sizeof(char));
+// 	if (!old)
+// 		return;
+// 	i = 0;
+	
+// }
+
+t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
+{
+	t_cmd	*cmd;
+	char	*cmd_and_args;
+
+	cmd = NULL;
+	while (tokens)
+	{
+		if (tokens->type == CMD)
+		{
+			cmd_and_args = ft_strdup(tokens->value);
+			tokens = tokens->next;
+			while (tokens && tokens->type == WORD)
+			{
+				cmd_and_args = ft_strjoin(cmd_and_args, " ");
+				cmd_and_args = ft_strjoin(cmd_and_args, tokens->value);
+				tokens = tokens->next;
+			}
+			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
+			free(cmd_and_args);
+			continue;
+		}
+		else if (tokens->type == FILE_T)
+			file_to_t_cmd(&cmd, tokens->type, tokens->value);
+		tokens = tokens->next;
+	}
 	return (cmd);
 }
 
@@ -79,13 +143,15 @@ int	test_shell(char *line, char **env)
 	// tokens = tokenizer("z'ab'cd'ef'g");
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
+	replace_word_with_file(tokens);
+	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
-	temp_print_tokens(tokens);	// temp using for visualizing
+	temp_print_tokens(tokens);				// temp using for visualizing
+	temp_t_cmd_printer(cmd);				// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);
-	(void)line;		// temp until using line
-	(void)env;		// temp until using envp
+	// executor(cmd, tokens);				// not using until 
+	(void)line;								// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
@@ -100,13 +166,13 @@ int	shell(char *line, t_env *env, char **envp)
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
-	cmd = get_cmd_from_token(tokens, envp);
+	replace_first_word_with_cmd(tokens);
+	cmd = get_cmd_from_token(tokens, env);
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
 	temp_print_tokens(tokens);	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
-	(void)env;		// temp until using envp
 	return (EXIT_SUCCESS);
 }
 
@@ -121,7 +187,8 @@ int	main(int argc, char *argv[], char **envp)
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");
-		shell(line, env, envp);
+		test_shell(line, env);	// temp for printing tokens
+		// shell(line, env); // use before eval
 	}
 	free_env_list(&env);
 	(void)argc;
