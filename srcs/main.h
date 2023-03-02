@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 20:22:10 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/01 20:02:28 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,8 +76,8 @@ typedef struct s_line {
 }	t_line;
 
 
-/// @param exec path and command
-/// @param args command and arguments
+/// @param cmd_path path and command
+/// @param cmd_args command and arguments
 typedef struct s_exec
 {
 	char	*cmd_path;
