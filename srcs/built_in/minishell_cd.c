@@ -36,17 +36,18 @@ int	chdir_error(char *str, int32_t error)
 	return (1);
 }
 
-int	minishell_cd(char *arg, t_cmd *cmd, t_args *args)
+int	minishell_cd(char *arg, t_cmd *cmd, t_env *env)
 {
+	char	*home_path;
 	if (!arg || (arg[0] == '\0'))
 		return (ERROR);
-	args->home_path = get_all_paths("HOME=", args->env);
-	if (!args->home_path)
+	home_path = get_all_paths("HOME=", env);
+	if (!home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
 	if (!cmd->exec->cmd_args[1])
 	{
-		if (chdir(args->home_path) == ERROR)
-			chdir_error(args->home_path, errno);
+		if (chdir(home_path) == ERROR)
+			chdir_error(home_path, errno);
 	}
 	else
 	{

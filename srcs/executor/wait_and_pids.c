@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   wait_and_pids.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/15 14:27:56 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:31:20 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   wait_and_pids.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/15 14:27:56 by edawood           #+#    #+#             */
+/*   Updated: 2023/02/16 14:14:30 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	reset_pid(void)
 	tmp->next = NULL;
 }
 
-void	wait_for_pids(t_args *args)
+void	wait_for_pids(void)
 {
 	t_child_pids	*node;
 	t_child_pids	*last_child;
@@ -79,9 +79,9 @@ void	wait_for_pids(t_args *args)
 	}
 	reset_pid();
 	if (!WIFSIGNALED (return_wait))
-		args->status_code = WEXITSTATUS (return_wait);
-	else if (WIFSIGNALED (return_wait) && args->status_code == 131)
+		g_last_pid = WEXITSTATUS (return_wait);
+	else if (WIFSIGNALED (return_wait) && g_last_pid == 131)
 		write(STDERR, "Quit: 3\n", 9);
-	else if (WIFSIGNALED (return_wait) && args->status_code == 130)
+	else if (WIFSIGNALED (return_wait) && g_last_pid == 130)
 		write(1, "\n", 1);
 }

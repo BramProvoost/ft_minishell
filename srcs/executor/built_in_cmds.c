@@ -40,16 +40,16 @@ int	execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args)
 	if (!ft_strncmp(cmd, "echo", 5))
 		return (minishell_echo(cmd_list->arg, cmd_list));
 	if (!ft_strncmp(cmd, "cd", 3))
-		return (minishell_cd(cmd_list->arg, cmd_list, args));
+		return (minishell_cd(cmd_list->arg, cmd_list, env));
 	else if (!ft_strncmp(cmd, "pwd", 4))
 		return (minishell_pwd());
 	else if (!ft_strncmp(cmd, "export", 7))
-		return (minishell_export(cmd_list->arg, cmd_list, args));
+		return (minishell_export(cmd_list->arg, cmd_list, env));
 	else if (!ft_strncmp(cmd, "unset", 6))
-		return (minishell_unset(cmd_list, args));
+		return (minishell_unset(cmd_list, env));
 	else if (!ft_strncmp(cmd, "env", 4))
-		return (minishell_env(args->env));
+		return (minishell_env(env));
 	else if (!ft_strncmp(cmd, "exit", 5))
-		return (minishell_exit(cmd_list->arg, cmd_list, args));
+		return (minishell_exit(cmd_list->arg, cmd_list));
 	return (ERROR);
 }

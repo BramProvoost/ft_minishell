@@ -12,7 +12,7 @@
 
 #include "../main.h"
 
-int	minishell_exit(char *arg, t_cmd *cmd, t_args *args)
+int	minishell_exit(char *arg, t_cmd *cmd)
 {
 	if (cmd->exec->cmd_args[1] && cmd->exec->cmd_args[2])
 	{
@@ -34,5 +34,5 @@ int	minishell_exit(char *arg, t_cmd *cmd, t_args *args)
 		}
 	}
 	ft_putstr_fd("exit\n", STDERR);
-	exit(args->status_code);
+	exit(g_last_pid);
 }

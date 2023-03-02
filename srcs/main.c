@@ -156,7 +156,7 @@ int	test_shell(char *line, char **env)
 	return (EXIT_SUCCESS);
 }
 
-int	shell(char *line, char **env)
+int	shell(char *line, t_env *env, char **envp)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -170,16 +170,19 @@ int	shell(char *line, char **env)
 	cmd = get_cmd_from_token(tokens, env);
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);
+	temp_print_tokens(tokens);	// temp using for visualizing
+	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 
-int	main(int argc, char *argv[], char **env)
+int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
+	t_env *env;
 
 	g_last_pid = 0;
+	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
 	{
@@ -187,6 +190,7 @@ int	main(int argc, char *argv[], char **env)
 		test_shell(line, env);	// temp for printing tokens
 		// shell(line, env); // use before eval
 	}
+	free_env_list(&env);
 	(void)argc;
 	(void)argv;
 	return (EXIT_SUCCESS);

@@ -12,7 +12,7 @@
 
 #include "../main.h"
 
-int	minishell_unset(t_cmd *cmd, t_args *args)
+int	minishell_unset(t_cmd *cmd, t_env *env)
 {
 	int		i;
 	int		j;
@@ -22,13 +22,13 @@ int	minishell_unset(t_cmd *cmd, t_args *args)
 	while (cmd->exec->cmd_args[i])
 	{
 		j = 0;
-		while (args->env->next)
+		while (env->next)
 		{
 			tmp = ft_strjoin(cmd->exec->cmd_args[i], "=");
 			if (!ft_strncmp(args->env->key, tmp, ft_strlen(tmp)))
 			{
-				free(args->env->key);
-				args->env->key = ft_strdup("");
+				free(env->key);
+				env->key = ft_strdup("");
 			}
 			free(tmp);
 			j++;
