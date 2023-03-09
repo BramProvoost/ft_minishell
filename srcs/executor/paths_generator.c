@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   paths_generator.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 16:48:44 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:31:11 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   paths_generator.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 16:48:44 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/09 09:44:14 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,33 +35,4 @@ char	*get_all_paths(char *path, t_env *env)
 		env = env->next;
 	}
 	return (NULL);
-}
-
-char	**init_paths(t_args *args)
-{
-	char	**paths;
-	char	*temp_path;
-	int		i;
-
-	i = 0;
-	temp_path = get_all_paths("PATH", args->env);
-	if (!temp_path)
-		paths = ft_split("", ':');
-	else
-		paths = ft_split(temp_path, ':');
-	if (!paths)
-		return (errno = ENOMEM, NULL);
-	while (paths[i])
-	{
-		temp_path = ft_strjoin(paths[i], "/");
-		if (!temp_path)
-		{
-			errno = ENOMEM;
-			return (NULL);
-		}
-		free(paths[i]);
-		paths[i] = temp_path;
-		i++;
-	}
-	return (paths);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 20:22:10 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/09 09:45:10 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,7 +183,6 @@ void	close_fds_run_with_pipes(int *pipe_fds, int fd_in);
 void	wait_for_pids(void);
 
 //Path generator functions
-char	**init_paths(t_args *args);
 char	*get_all_paths(char *path, t_env *env);
 void	free_2d(char **paths);
 
@@ -204,8 +203,8 @@ int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
-int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_args *args);
-int		minishell_cd(char *arg, t_cmd *cmd, t_args *args);
+int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
+int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
 int		minishell_echo(char *arg, t_cmd *cmd);
 int		minishell_pwd();
 int		minishell_export(char *arg, t_cmd *cmd, t_env *env);
