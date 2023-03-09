@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 09:57:00 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/09 18:25:18 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ typedef struct s_child_pids
 
 typedef struct s_cmd
 {
+	bool			echo_n_flag;
+	bool			echo_print_flag;
 	char			*arg;
 	t_exec			*exec;
 	struct s_file	*file;
@@ -205,7 +207,7 @@ int		create_heredoc_file(char *delimiter, char *file_name);
 int		is_buld_in_cmd(char *cmd);
 int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
 int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
-int		minishell_echo(char *arg, t_cmd *cmd);
+int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd();
 int		minishell_export(char *arg, t_cmd *cmd, t_env *env);
 int		minishell_exit(char *arg, t_cmd *cmd);
