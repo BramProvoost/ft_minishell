@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/01 20:02:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/09 11:08:49 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ typedef struct s_token {
 
 typedef struct s_line {
 	char	quote;
+	bool	quote_start;
+	bool	quote_end;
 	long	position;
 	long	len;
 	char	*text;

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/01 18:31:37 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/03 12:49:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 	cmd = NULL;
 	while (tokens)
 	{
-		if (tokens->type == CMD)
+		if (tokens->type == CMD && tokens->value)
 		{
 			cmd_and_args = ft_strdup(tokens->value);
 			tokens = tokens->next;
-			while (tokens && tokens->type == WORD)
+			while (tokens && tokens->type == WORD && tokens->value)
 			{
 				cmd_and_args = ft_strjoin(cmd_and_args, " ");
 				cmd_and_args = ft_strjoin(cmd_and_args, tokens->value);

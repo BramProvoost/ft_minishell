@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/02 18:12:11 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/09 13:46:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,10 +24,11 @@ void	quote_case(t_token **token, t_line *line)
 
 	c = get_current_char(*line);
 	if (c == line->quote)
-		line->quote = 0;
-	else if (line->quote == 0)
+		line->quote = '0';
+	else if (line->quote == '0')
 	{
 		line->quote = c;
+		line->quote_start = true;
 		add_token_back(token, create_token());
 	}
 }
@@ -39,7 +40,8 @@ void	data_to_token(t_token **token, t_line *line)
 	c = get_current_char(*line);
 	if (c == '\'' || c == '"')
 		quote_case(token, line);
-	if (line->quote == 0)
+	// fprintf(stderr, "%c\n", line->quote);
+	if (line->quote == '0' && line->quote_end == true)
 	{
 		if (c == ' ')
 			space_case(token, line);
@@ -64,7 +66,9 @@ t_token	*tokenizer(char *raw_line)
 	line.text = raw_line;
 	line.len = ft_strlen(raw_line);
 	line.position = 0;
-	line.quote = 0;
+	line.quote = '0';
+	line.quote_start = false;
+	line.quote_end = true;
 	token_lst = NULL;
 	while(line.position < line.len)
 	{
