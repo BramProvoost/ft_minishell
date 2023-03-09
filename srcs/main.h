@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 11:08:49 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/09 13:58:44 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,6 @@ typedef struct s_args
 	char	*home_path;
 }	t_args;
 
-// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
 	t_type	type;
 	char	*file_name;

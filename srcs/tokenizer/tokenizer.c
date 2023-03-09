@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 13:46:01 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/09 13:58:27 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ void	data_to_token(t_token **token, t_line *line)
 	c = get_current_char(*line);
 	if (c == '\'' || c == '"')
 		quote_case(token, line);
-	// fprintf(stderr, "%c\n", line->quote);
 	if (line->quote == '0' && line->quote_end == true)
 	{
 		if (c == ' ')
