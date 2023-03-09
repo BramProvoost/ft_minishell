@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   add_cmd.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 20:23:02 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   add_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/09 09:50:49 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_file	*new_t_file(void)
 	return (type);
 }
 
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env)
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;

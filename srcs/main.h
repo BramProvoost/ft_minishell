@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 09:45:10 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/09 09:57:00 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,8 +77,8 @@ typedef struct s_line {
 }	t_line;
 
 
-/// @param exec path and command
-/// @param args command and arguments
+/// @param cmd_path path and command
+/// @param cmd_args command and arguments
 typedef struct s_exec
 {
 	char	*cmd_path;
@@ -125,7 +125,7 @@ typedef struct s_file {
 }	t_file;
 
 /* main.c */
-char	**get_paths(char **env);
+char	**get_paths(t_env *env);
 
 /* line_reader.c */
 void	line_reader(char **line, const char *display_name);
@@ -167,7 +167,7 @@ char	*get_full_cmd(char *cmd, char **paths);
 /* add_cmd.c */
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, char **env);
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env);
 void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd);

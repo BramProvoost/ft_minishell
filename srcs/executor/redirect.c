@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 14:17:20 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/09 10:08:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,9 @@ int	duplicate(int fd, int fileno)
 
 int	redirect_input(t_cmd *cmd, t_env *env, int fd)
 {
+	// fprintf(stderr, "TYPE\n");
+	if (cmd->file == NULL)
+		return (duplicate(fd, STDIN_FILENO));
 	if (cmd->file->type == INPUT_SINGLE)
 	{
 		fd = open(cmd->file->file_name, O_RDONLY);
@@ -40,6 +43,8 @@ int	redirect_input(t_cmd *cmd, t_env *env, int fd)
 
 int	redirect_output(t_cmd *cmd, t_env *env, int fd)
 {
+	if (cmd->file == NULL)
+		return (duplicate(fd, STDIN_FILENO));
 	if (cmd->file->type == OUTPUT_SINGLE)
 	{
 		fd = open(cmd->file->file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
