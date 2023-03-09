@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 20:22:30 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/09 09:58:19 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,18 +20,19 @@ int	is_exit(t_token *tokens)
 	return (0);
 }
 
-char	**get_paths(char **env)
+char	**get_paths(t_env *env)
 {
 	int	i;
 	char	*path;
 	char	**paths;
 
 	i = 0;
-	while (env[i] && ft_strncmp("PATH=", env[i], 5))
-		i++;
-	path = ft_strdup(&env[i][5]);
+	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
+		env = env->next;	
+	if (env->key == NULL)
+		error_exit(errno, "PATH not found");
+	path = ft_strdup(env->value);
 	paths = ft_split(path, ':');
-	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
@@ -84,7 +85,7 @@ void	replace_word_with_file(t_token *tokens)
 	
 // }
 
-t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
+t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd;
 	char	*cmd_and_args;
@@ -113,7 +114,7 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 	return (cmd);
 }
 
-int	test_shell(char *line, char **env)
+int	test_shell(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -150,13 +151,13 @@ int	test_shell(char *line, char **env)
 	temp_t_cmd_printer(cmd);				// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);				// not using until 
+	executor(cmd, tokens, env);				// not using until 
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 
-int	shell(char *line, t_env *env, char **envp)
+int	shell(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;

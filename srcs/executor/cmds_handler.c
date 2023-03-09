@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cmds_handler.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/17 14:59:15 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cmds_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/09 09:48:50 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,19 +58,9 @@ void	child_process(t_cmd *cmd, t_env *env, int fd[2], int prev_fd)
 
 void	ft_execute(t_cmd *cmd, t_env *env)
 {
-	char	*full_cmd;
 	char	**env_list;
-	char	**cmd1;
 
-	cmd1 = ft_split(cmd->arg, ' ');
-	// if (!cmd1 || !*cmd1 || args->paths == NULL)
-	if (!cmd1 || !*cmd1)
-		error_exit(errno, cmd->arg);
-	// full_cmd = get_full_cmd(cmd1[0], args->paths);
-	full_cmd = get_full_cmd(cmd1[0], cmd->paths);
 	env_list = env_to_list(env);
-	if (!full_cmd)
-		error_cmd_not_found(cmd->arg);
-	if (execve(full_cmd, cmd1, env_list) == ERROR)
-		error_exit(errno, cmd1[0]);
+	if (execve(cmd->exec->cmd_path, cmd->exec->cmd_args, env_list) == ERROR)
+		error_exit(errno, cmd->exec->cmd_args[0]);
 }
