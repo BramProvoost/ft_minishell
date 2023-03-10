@@ -6,23 +6,23 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 16:48:44 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:31:11 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/10 14:09:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-void	free_2d(char **paths)
+void	free_2d(char **array)
 {
 	int	i;
 
 	i = 0;
-	while (paths[i])
+	while (array[i])
 	{
-		free(paths[i]);
+		free(array[i]);
 		i++;
 	}
-	free(paths);
+	free(array);
 	return ;
 }
 

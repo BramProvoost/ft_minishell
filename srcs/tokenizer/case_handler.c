@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 13:57:27 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/09 16:39:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,8 +66,6 @@ void	output_case(t_token **token, t_line line)
 		last->len = 1;
 	}
 }
-
-// a "b "
 
 void	word_case(t_token **token, t_line *line)
 {
