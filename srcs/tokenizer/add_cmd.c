@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   add_cmd.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 17:09:32 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   add_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/09 09:50:49 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;
-	// char	**split_cmd_and_args;
+	char	**split_cmd_and_args;
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
@@ -78,7 +78,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
 	tmp = *cmd;
 	while (tmp->next)
 		tmp = tmp->next;
-	// split_cmd_and_args = ft_split(cmd_and_args, ' ');
+	split_cmd_and_args = ft_split(cmd_and_args, ' ');
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
 		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
