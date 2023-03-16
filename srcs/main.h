@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 17:21:10 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/09 18:25:18 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ typedef struct s_token {
 
 typedef struct s_line {
 	char	quote;
-	bool	quote_start;
-	bool	quote_end;
 	long	position;
 	long	len;
 	char	*text;
@@ -122,6 +120,7 @@ typedef struct s_cmd
 // 	char	*home_path;
 // }	t_args;
 
+// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
 	t_type	type;
 	char	*file_name;
