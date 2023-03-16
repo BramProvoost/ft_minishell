@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/09 18:25:02 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executor.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
+/*   Updated: 2023/03/16 12:51:43 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	simple_command(t_cmd *cmd, t_env *env)
 		g_last_pid = ERROR;
 		exit(g_last_pid);
 	}
-	if (execute_built_in_cmd(cmd, cmd->exec->cmd_args[0], env))
+	if (execute_built_in_cmd(cmd, cmd->exec->cmd_args[0], env) == SUCCESS)
 		return ;
 	else
 	{
