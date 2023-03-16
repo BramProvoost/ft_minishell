@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 17:49:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,17 @@ void	word_case(t_token **token, t_line *line)
 
 	if (!*token)
 		add_token_back(token, create_token());
-	c = get_prev_char(*line);
-	if (line->quote == 0)
-		if (c == '\'' || c == '"')
-			add_token_back(token, create_token());
-	if (last_token(*token)->type != WORD)
-		add_token_back(token, create_token());
-	else if (line->position > 0 && line->text[line->position - 1] == ' ' && line->quote == 0 )
-		add_token_back(token, create_token());
+	c = get_current_char(*line);
 	word_token = last_token(*token);
 	last_char = ft_strlendump(&line->text[line->position], 1);
 	word_token->type = WORD;
 	word_token->value = ft_strjoin(word_token->value, last_char);
 	word_token->len++;
+	if (c == '\'' || c == '"')
+		quote_case(line);
 	next_char(line);
-	data_to_token(token, line);
+	if (line->quote == 0)
+		data_to_token(token, line);
+	else
+		word_case(token, line);
 }

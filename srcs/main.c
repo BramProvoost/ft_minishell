@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/16 13:59:30 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 17:52:20 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,7 +166,7 @@ int	test_shell(char *line, t_env *env)
 	temp_t_cmd_printer(cmd);				// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	executor(cmd, tokens, env);				// not using until 
+	// executor(cmd, tokens, env);				// not using until
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);

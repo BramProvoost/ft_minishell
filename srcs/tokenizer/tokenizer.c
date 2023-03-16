@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 12:42:21 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 17:49:51 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,12 @@
 
 void	space_case(t_token **token, t_line *line)
 {
+	add_token_back(token, create_token());
 	next_char(line);
 	data_to_token(token, line);
 }
 
-void	quote_case(t_token **token, t_line *line)
+void	quote_case(t_line *line)
 {
 	char	c;
 
@@ -26,10 +27,7 @@ void	quote_case(t_token **token, t_line *line)
 	if (c == line->quote)
 		line->quote = 0;
 	else if (line->quote == 0)
-	{
 		line->quote = c;
-		add_token_back(token, create_token());
-	}
 }
 
 void	data_to_token(t_token **token, t_line *line)
@@ -37,8 +35,6 @@ void	data_to_token(t_token **token, t_line *line)
 	char	c;
 
 	c = get_current_char(*line);
-	if (c == '\'' || c == '"')
-		quote_case(token, line);
 	if (line->quote == 0)
 	{
 		if (c == ' ')

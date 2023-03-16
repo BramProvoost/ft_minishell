@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/16 13:42:25 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 17:50:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ t_token	*tokenizer(char *raw_line);
 void	delete_tokens(t_token *lst);
 void	data_to_token(t_token **token, t_line *line);
 void	temp_print_tokens(t_token *token);
+void	quote_case(t_line *line);
 
 /* hande_token.c */
 void	delete_tokens(t_token *head);
