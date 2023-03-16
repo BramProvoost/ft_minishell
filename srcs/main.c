@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/10 15:14:19 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 11:33:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int	test_shell(char *line, char **env)
 	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
+	// tokens = tokenizer("echo Hello" nice "world");
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
