@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/09 17:09:32 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 12:28:33 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, char **env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;
-	// char	**split_cmd_and_args;
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
@@ -78,7 +77,6 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, char **env)
 	tmp = *cmd;
 	while (tmp->next)
 		tmp = tmp->next;
-	// split_cmd_and_args = ft_split(cmd_and_args, ' ');
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
 		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
