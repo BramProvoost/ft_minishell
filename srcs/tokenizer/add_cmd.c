@@ -65,7 +65,7 @@ t_file	*new_t_file(void)
 	return (type);
 }
 
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, char **env)
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;

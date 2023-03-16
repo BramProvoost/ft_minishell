@@ -20,18 +20,19 @@ int	is_exit(t_token *tokens)
 	return (0);
 }
 
-char	**get_paths(char **env)
+char	**get_paths(t_env *env)
 {
 	int	i;
 	char	*path;
 	char	**paths;
 
 	i = 0;
-	while (env[i] && ft_strncmp("PATH=", env[i], 5))
-		i++;
-	path = ft_strdup(&env[i][5]);
+	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
+		env = env->next;	
+	if (env->key == NULL)
+		error_exit(errno, "PATH not found");
+	path = ft_strdup(env->value);
 	paths = ft_split(path, ':');
-	i = 0;
 	while (paths[i])
 	{
 		paths[i] = ft_strjoin(paths[i], "/");
@@ -116,7 +117,7 @@ char	**add_to_2d(char **old_arr, char *new_str)
 	return (new_arr);
 }
 
-t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
+t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd;
 	char	**split_cmd_and_args;
@@ -144,7 +145,7 @@ t_cmd	*get_cmd_from_token(t_token *tokens, char **env)
 	return (cmd);
 }
 
-int	test_shell(char *line, char **env)
+int	test_shell(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -182,13 +183,13 @@ int	test_shell(char *line, char **env)
 	temp_t_cmd_printer(cmd);				// temp using for visualizing
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);				// not using until 
+	executor(cmd, tokens, env);				// not using until 
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 
-int	shell(char *line, char **env)
+int	shell(char *line, t_env *env)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -202,16 +203,19 @@ int	shell(char *line, char **env)
 	cmd = get_cmd_from_token(tokens, env);
 	if (is_exit(tokens))
 		exit(ft_putendl_fd("exit", 1));
-	// executor(cmd, tokens);
+	temp_print_tokens(tokens);	// temp using for visualizing
+	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
 
-int	main(int argc, char *argv[], char **env)
+int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
+	t_env *env;
 
 	g_last_pid = 0;
+	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
 	{
@@ -219,6 +223,7 @@ int	main(int argc, char *argv[], char **env)
 		test_shell(line, env);	// temp for printing tokens
 		// shell(line, env); // use before eval
 	}
+	free_env_list(&env);
 	(void)argc;
 	(void)argv;
 	return (EXIT_SUCCESS);

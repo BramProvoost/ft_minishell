@@ -36,32 +36,3 @@ char	*get_all_paths(char *path, t_env *env)
 	}
 	return (NULL);
 }
-
-char	**init_paths(t_args *args)
-{
-	char	**paths;
-	char	*temp_path;
-	int		i;
-
-	i = 0;
-	temp_path = get_all_paths("PATH", args->env);
-	if (!temp_path)
-		paths = ft_split("", ':');
-	else
-		paths = ft_split(temp_path, ':');
-	if (!paths)
-		return (errno = ENOMEM, NULL);
-	while (paths[i])
-	{
-		temp_path = ft_strjoin(paths[i], "/");
-		if (!temp_path)
-		{
-			errno = ENOMEM;
-			return (NULL);
-		}
-		free(paths[i]);
-		paths[i] = temp_path;
-		i++;
-	}
-	return (paths);
-}
