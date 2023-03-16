@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 18:25:08 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/03/16 11:33:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	replace_first_word_with_cmd(t_token *tokens)
 	}
 }
 
-
 void	replace_word_with_file(t_token *tokens)
 {
 	while (tokens)
@@ -73,42 +72,74 @@ void	replace_word_with_file(t_token *tokens)
 	}
 }
 
-// void	add_to_2d(char **old, char *new_str)
+// void	add_to_2d(char ***old, char *new_str)
 // {
 // 	int	i;
 
-// 	if (!old)
-// 		old = ft_calloc(2, sizeof(char));
-// 	if (!old)
+// 	if (!*old)
+// 	{
+// 		*old = ft_calloc(50, sizeof(char **));
+// 		*old[0] = ft_strdup(new_str);
+// 	}
+// 	if (!*old)
 // 		return;
 // 	i = 0;
-	
+// 	while (*old[i])
+// 		i++;
+// 	*old[i] = ft_strdup(new_str);
 // }
+
+char	**add_to_2d(char **old_arr, char *new_str)
+{
+	int		i;
+	char	**new_arr;
+
+	i = 0;
+	if (!old_arr)
+	{
+		new_arr = (char**)malloc(2 * sizeof(char*));
+		new_arr[0] = ft_strdup(new_str);
+		new_arr[1] = NULL;
+		return (new_arr);
+	}
+	while (old_arr[i])
+		i++;
+	new_arr = (char**)malloc((i + 2) * sizeof(char*));
+	i = 0;
+	while (old_arr[i])
+	{
+		new_arr[i] = ft_strdup(old_arr[i]);
+		i++;
+	}
+	new_arr[i] = ft_strdup(new_str);
+	new_arr[i + 1] = NULL;
+	free_2d(old_arr);
+	return (new_arr);
+}
 
 t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd;
-	char	*cmd_and_args;
+	char	**split_cmd_and_args;
 
 	cmd = NULL;
+	split_cmd_and_args = NULL;
 	while (tokens)
 	{
-		if (tokens->type == CMD)
+		if (tokens->type == CMD && tokens->value)
 		{
-			cmd_and_args = ft_strdup(tokens->value);
+			split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
 			tokens = tokens->next;
-			while (tokens && tokens->type == WORD)
+			while (tokens && tokens->type == WORD && tokens->value)
 			{
-				cmd_and_args = ft_strjoin(cmd_and_args, " ");
-				cmd_and_args = ft_strjoin(cmd_and_args, tokens->value);
+				split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
 				tokens = tokens->next;
 			}
-			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
-			free(cmd_and_args);
+			path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
 			continue;
 		}
 		else if (tokens->type == FILE_T)
-			file_to_t_cmd(&cmd, tokens->type, tokens->value);
+			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
 		tokens = tokens->next;
 	}
 	return (cmd);
@@ -142,6 +173,7 @@ int	test_shell(char *line, t_env *env)
 	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
+	// tokens = tokenizer("echo Hello" nice "world");
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
