@@ -1,42 +1,57 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell_echo.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/19 21:22:53 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell_echo.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/19 21:22:53 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/09 18:24:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-int	minishell_echo(char *arg, t_cmd *cmd)
+static bool	check_n_flag(t_cmd *cmd, int i)
+{
+	int	j;
+
+	j = 0;
+	if (cmd->exec->cmd_args[i][j] == '-')
+	{
+		j++;
+		while (cmd->exec->cmd_args[i][j] == 'n')
+			j++;
+		return (true);
+	}
+	return (false);
+}
+
+int	minishell_echo(t_cmd *cmd)
 {
 	int		i;
-	int		j;
-	bool	n_flag;
 
 	i = 1;
-	n_flag = false;
-	if (!arg)
-		return (ERROR);
+	cmd->echo_n_flag = false;
+	cmd->echo_print_flag = false;
 	while (cmd->exec->cmd_args[i])
 	{
-		j = 0;
-		if (cmd->exec->cmd_args[i][j] == '-')
+		if (check_n_flag(cmd, i) == true)
 		{
-			j++;
-			while (cmd->exec->cmd_args[i][j] == 'n')
-			{
-				n_flag = true;
-				j++;
-			}
+			cmd->echo_n_flag = true;
+			cmd->echo_print_flag = true;
 		}
-		if (n_flag == false)
-			ft_putendl_fd("", 1);
+		if (cmd->echo_print_flag == true)
+		{
+			cmd->echo_print_flag = false;
+			i++;
+		}
+		ft_putstr_fd(cmd->exec->cmd_args[i], 1);
+		if (cmd->exec->cmd_args[i + 1])
+			ft_putstr_fd(" ", 1);
 		i++;
 	}
+	if (cmd->echo_n_flag == false)
+		ft_putendl_fd("", 1);
 	return (SUCCESS);
 }

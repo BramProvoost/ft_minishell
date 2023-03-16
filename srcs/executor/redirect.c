@@ -1,23 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 10:48:18 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:31:15 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/09 10:08:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-int	duplicate(t_args *args, int fd, int fileno)
+int	duplicate(int fd, int fileno)
 {
 	if (dup2(fd, fileno) == ERROR)
 	{
 		perror(ft_itoa(errno));
-		args->status_code = errno;
+		g_last_pid = errno;
 		return (ERROR);
 	}
 	if (fd == READ && fd == WRITE)
@@ -25,8 +25,11 @@ int	duplicate(t_args *args, int fd, int fileno)
 	return (SUCCESS);
 }
 
-int	redirect_input(t_cmd *cmd, t_args *args, int fd)
+int	redirect_input(t_cmd *cmd, t_env *env, int fd)
 {
+	// fprintf(stderr, "TYPE\n");
+	if (cmd->file == NULL)
+		return (duplicate(fd, STDIN_FILENO));
 	if (cmd->file->type == INPUT_SINGLE)
 	{
 		fd = open(cmd->file->file_name, O_RDONLY);
@@ -34,12 +37,14 @@ int	redirect_input(t_cmd *cmd, t_args *args, int fd)
 			return (file_error(cmd->file->file_name));
 	}
 	else if (cmd->file->type == HEREDOC)
-		heredoc(cmd, args);
-	return (duplicate(args, fd, STDIN_FILENO));
+		heredoc(cmd, env);
+	return (duplicate(fd, STDIN_FILENO));
 }
 
-int	redirect_output(t_cmd *cmd, t_args *args, int fd)
+int	redirect_output(t_cmd *cmd, t_env *env, int fd)
 {
+	if (cmd->file == NULL)
+		return (duplicate(fd, STDIN_FILENO));
 	if (cmd->file->type == OUTPUT_SINGLE)
 	{
 		fd = open(cmd->file->file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
@@ -53,8 +58,8 @@ int	redirect_output(t_cmd *cmd, t_args *args, int fd)
 			return (file_error(cmd->file->file_name));
 	}
 	else if (cmd->file->type == HEREDOC)
-		heredoc(cmd, args);
-	return (duplicate(args, fd, STDOUT_FILENO));
+		heredoc(cmd, env);
+	return (duplicate(fd, STDOUT_FILENO));
 }
 
 void	close_fds_run_with_pipes(int *pipe_fds, int fd_in)

@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/16 12:28:33 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/16 13:44:18 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_file	*new_t_file(void)
 	return (type);
 }
 
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, char **env)
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;
@@ -116,7 +116,6 @@ void	free_t_cmd(t_cmd *cmd)
 	}
 }
 
-// todo: add file stuff
 void	temp_t_cmd_printer(t_cmd *cmd)
 {
 	int	i;

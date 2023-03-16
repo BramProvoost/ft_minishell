@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   env_functions.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/26 18:57:18 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:30:51 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   env_functions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
+/*   Updated: 2023/02/16 14:06:14 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,40 @@ bool	create_env_list(t_env **head, char **envp)
 		i++;
 	}
 	return (true);
+}
+
+int	get_env_len(t_env *env)
+{
+	int	i;
+
+	i = 0;
+	while (env[i].key && env[i].value)
+		i++;
+	return (i);
+}
+
+char	**env_to_list(t_env *env)
+{
+	char	**env_list;
+	int		i;
+	int		env_len;
+
+	i = 0;
+	env_len = get_env_len(env);
+	env_list = (char **)malloc(sizeof(char *) * (env_len + 1));
+	if (!env_list)
+	{
+		errno = ENOMEM;
+		return (NULL);
+	}
+	while (i < env_len)
+	{
+		if (!env[i].key || !env[i].value)
+			return (errno = EINVAL, NULL);
+		env_list[i] = ft_strjoin(env[i].key, "=");
+		env_list[i] = ft_strjoin(env_list[i], env[i].value);
+		i++;
+	}
+	env_list[i] = NULL;
+	return (env_list);
 }

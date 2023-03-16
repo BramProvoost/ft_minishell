@@ -8,7 +8,7 @@ OBJECTS			:= $(SOURCES:.c=.o)
 
 LIBFT			:= lib/libft
 LIBS			:= $(LIBFT)/libft.a
-RL_LIB			:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline -lhistory
+RL_LIB			:= -L/Users/$(USER)/homebrew/opt/readline/lib -lreadline #-lhistory
 RL_INC			:= -I/Users/$(USER)/homebrew/opt/readline/include
 
 # Default target

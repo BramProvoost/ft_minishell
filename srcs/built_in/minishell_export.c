@@ -12,28 +12,28 @@
 
 #include "../main.h"
 
-static void	print_export(t_args *args)
+static void	print_export(t_env *env)
 {
-	while (args->env->next)
+	while (env->next)
 	{
 		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(args->env->key, 1);
+		ft_putstr_fd(env->key, 1);
 		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(args->env->value, 1);
+		ft_putstr_fd(env->value, 1);
 		ft_putendl_fd("\"", 1);
-		args->env = args->env->next;
+		env = env->next;
 	}
 }
 
-void	set_env(char *key, char *value, t_args *args)
+void	set_env(char *key, char *value, t_env *env)
 {
 	char	*tmp;
 	int		i;
 
 	i = 0;
-	while (args->env->next)
+	while (env->next)
 	{
-		if (ft_strncmp(args->env->key, key, ft_strlen(key)) == 0)
+		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
 		{
 			tmp = ft_strjoin(key, "=");
 			if (!tmp)
@@ -41,27 +41,27 @@ void	set_env(char *key, char *value, t_args *args)
 			tmp = ft_strjoin(tmp, value);
 			if (!tmp)
 				return ;
-			free(args->env->key);
-			args->env->key = tmp;
+			free(env->key);
+			env->key = tmp;
 		}
 		i++;
 	}
 }
 
-static void	export_util(char *key, char *value, t_args *args)
+static void	export_util(char *key, char *value, t_env *env)
 {
 	if (!key)
 		return ;
 	if (value)
-		set_env(key, value, args);
+		set_env(key, value, env);
 	else
-		set_env(key, "", args);
+		set_env(key, "", env);
 	free(key);
 	if (value)
 		free(value);
 }
 
-int	minishell_export(char *arg, t_cmd *cmd, t_args *args)
+int	minishell_export(char *arg, t_cmd *cmd, t_env *env)
 {
 	int		i;
 	int		j;
@@ -82,10 +82,10 @@ int	minishell_export(char *arg, t_cmd *cmd, t_args *args)
 					ft_strlen(cmd->exec->cmd_args[i]) - j);
 		else
 			value = NULL;
-		export_util(key, value, args);
+		export_util(key, value, env);
 		i++;
 	}
 	if (i == 1)
-		print_export(args);
+		print_export(env);
 	return (SUCCESS);
 }
