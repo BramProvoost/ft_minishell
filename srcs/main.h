@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/19 14:38:25 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 17:46:31 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,7 @@ int		create_heredoc_file(char *delimiter, char *file_name);
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
 int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
-int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
+int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd();
 int		minishell_export(t_cmd *cmd, t_env *env);

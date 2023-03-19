@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 16:48:44 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/09 09:44:14 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 17:00:27 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ char	*get_all_paths(char *path, t_env *env)
 {
 	while (env->next)
 	{
-		if (!ft_strncmp(path, env->key, 5))
+		if (!ft_strncmp(path, env->key, ft_strlen(path)))
 			return (env->value);
 		env = env->next;
 	}
