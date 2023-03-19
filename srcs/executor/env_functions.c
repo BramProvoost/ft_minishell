@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 13:07:21 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 14:46:08 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ t_env	*new_env_node(char *env)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	// new->has_value = false;
 	while (env[i])
 	{
 		if (env[i] == '=')
