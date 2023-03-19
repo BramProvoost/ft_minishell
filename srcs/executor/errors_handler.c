@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   errors_handler.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/14 15:34:00 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:30:57 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   errors_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 15:34:00 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/19 14:37:14 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,14 @@ void	ft_error(void)
 {
 	perror("Minishell");
 	exit(errno);
+}
+
+bool	export_error(char *str)
+{
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(str, 2);
+	ft_putendl_fd("': not a valid identifier", 2);
+	return (false);
 }
 
 void	error_exit(int code, char *cmd)

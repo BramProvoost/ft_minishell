@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell_env.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/25 16:24:14 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/09 11:27:36 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell_env.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/25 16:24:14 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/19 12:03:16 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	minishell_env(t_env *env)
 			ft_putstr_fd(env->key, 1);
 			ft_putstr_fd("=", 1);
 			ft_putendl_fd(env->value, 1);
+			if (!env->next)
+				return (SUCCESS);
 			env = env->next;
 		}
 	}

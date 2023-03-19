@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 18:25:18 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 14:38:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -209,7 +209,14 @@ int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
 int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd();
-int		minishell_export(char *arg, t_cmd *cmd, t_env *env);
+int		minishell_export(t_cmd *cmd, t_env *env);
+void	print_export(t_env *env);
+void	export_util(char *key, char *value, t_env *env);
+bool    export_error(char *str);
+bool	is_not_alpha(char *str);
+bool	is_not_alpha_second_arg(char *str);
+bool	check_if_cmd_is_word(t_cmd *cmd, int i);
+void	set_env(char *key, char *value, t_env *env);
 int		minishell_exit(char *arg, t_cmd *cmd);
 int		minishell_unset(t_cmd *cmd, t_env *env);
 
