@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell_cd.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/12 14:46:00 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell_cd.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/19 17:46:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,22 @@ int	chdir_error(char *str, int32_t error)
 	return (1);
 }
 
-int	minishell_cd(char *arg, t_cmd *cmd, t_env *env)
+char	*get_home_path(t_env *env)
+{
+	while (env->next)
+	{
+		if (!ft_strncmp("HOME", env->key, ft_strlen("HOME")))
+			return (env->value);
+		env = env->next;
+	}
+	return (NULL);
+}
+
+int	minishell_cd(t_cmd *cmd, t_env *env)
 {
 	char	*home_path;
-	if (!arg || (arg[0] == '\0'))
-		return (ERROR);
-	home_path = get_all_paths("HOME=", env);
+
+	home_path = get_home_path(env);
 	if (!home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
 	if (!cmd->exec->cmd_args[1])
@@ -52,7 +62,7 @@ int	minishell_cd(char *arg, t_cmd *cmd, t_env *env)
 	else
 	{
 		if (chdir(cmd->exec->cmd_args[1]) == ERROR)
-			chdir_error(arg, errno);
+			chdir_error(cmd->exec->cmd_args[1], errno);
 	}
 	return (SUCCESS);
 }
