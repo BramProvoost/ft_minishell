@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 14:06:14 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 13:07:21 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,12 +19,14 @@ t_env	*new_env_node(char *env)
 	int		len;
 
 	i = 0;
+	len = ft_strlen(env);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
+	new->next = NULL;
+	// new->has_value = false;
 	while (env[i])
 	{
-		len = ft_strlen(env);
 		if (env[i] == '=')
 		{
 			new->key = ft_substr(env, 0, i);
@@ -36,7 +38,7 @@ t_env	*new_env_node(char *env)
 	if (new->has_value == false)
 	{
 		new->key = ft_substr(env, 0, len);
-		new->value = ft_strdup("");
+		new->value = NULL;
 	}
 	return (new);
 }

@@ -1,67 +1,88 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   minishell_export.c                                 :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/22 16:13:54 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   minishell_export.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/19 14:36:30 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-static void	print_export(t_env *env)
+bool	check_if_env_key_exists(t_env *env, char *key, char *value)
 {
-	while (env->next)
+	if (!(ft_strncmp(env->key, key, ft_strlen(key))))
 	{
-		ft_putstr_fd("declare -x ", 1);
-		ft_putstr_fd(env->key, 1);
-		ft_putstr_fd("=\"", 1);
-		ft_putstr_fd(env->value, 1);
-		ft_putendl_fd("\"", 1);
-		env = env->next;
+		if (value)
+		{
+			free(env->value);
+			env->value = ft_strdup(value);
+		}
+		else
+		{
+			free(env->value);
+			env->value = NULL;
+		}
+		return (true);
 	}
+	return (false);
 }
 
 void	set_env(char *key, char *value, t_env *env)
 {
 	char	*tmp;
-	int		i;
+	char	*tmp2;
 
-	i = 0;
-	while (env->next)
+	if (value)
 	{
-		if (ft_strncmp(env->key, key, ft_strlen(key)) == 0)
+		tmp = ft_strjoin(key, "=");
+		tmp2 = ft_strjoin(tmp, value);
+	}
+	else
+		tmp2 = key;
+	while (env)
+	{
+		if (check_if_env_key_exists(env, key, value))
+			return ;
+		if (!env->next)
 		{
-			tmp = ft_strjoin(key, "=");
-			if (!tmp)
-				return ;
-			tmp = ft_strjoin(tmp, value);
-			if (!tmp)
-				return ;
-			free(env->key);
-			env->key = tmp;
+			env->next = new_env_node(tmp2);
+			return ;
 		}
-		i++;
+		else
+			env = env->next;
 	}
 }
 
-static void	export_util(char *key, char *value, t_env *env)
+char	*get_export_value(t_cmd *cmd, int i, int j)
 {
-	if (!key)
-		return ;
-	if (value)
-		set_env(key, value, env);
+	if (cmd->exec->cmd_args[i][j] == '=')
+	{
+		if (cmd->exec->cmd_args[i][j + 1] == '\0')
+			return (ft_strdup(""));
+		else
+			return (ft_substr(cmd->exec->cmd_args[i], j + 1, \
+					ft_strlen(cmd->exec->cmd_args[i]) - j));
+	}
 	else
-		set_env(key, "", env);
-	free(key);
-	if (value)
-		free(value);
+		return (NULL);
 }
 
-int	minishell_export(char *arg, t_cmd *cmd, t_env *env)
+void	add_second_arg_if_exists(t_cmd *cmd, t_env *env, int i)
+{
+	if (cmd->exec->cmd_args[i + 1] != NULL \
+		&& cmd->exec->cmd_args[i + 1][0] != '=')
+	{
+		while (!(is_not_alpha_second_arg(cmd->exec->cmd_args[i + 1])))
+			i++;
+		export_util(cmd->exec->cmd_args[i + 1], NULL, env);
+	}
+}
+
+int	minishell_export(t_cmd *cmd, t_env *env)
 {
 	int		i;
 	int		j;
@@ -69,23 +90,22 @@ int	minishell_export(char *arg, t_cmd *cmd, t_env *env)
 	char	*value;
 
 	i = 1;
-	if (!arg)
-		return (ERROR);
 	while (cmd->exec->cmd_args[i])
 	{
 		j = 0;
+		if (!check_if_cmd_is_word(cmd, i))
+		{
+			add_second_arg_if_exists(cmd, env, i);
+			return (false);
+		}
 		while (cmd->exec->cmd_args[i][j] && cmd->exec->cmd_args[i][j] != '=')
 			j++;
 		key = ft_substr(cmd->exec->cmd_args[i], 0, j);
-		if (cmd->exec->cmd_args[i][j] == '=')
-			value = ft_substr(cmd->exec->cmd_args[i], j + 1, \
-					ft_strlen(cmd->exec->cmd_args[i]) - j);
-		else
-			value = NULL;
+		value = get_export_value(cmd, i, j);
 		export_util(key, value, env);
 		i++;
 	}
-	if (i == 1)
+	if (cmd->exec->cmd_args[1] == NULL)
 		print_export(env);
 	return (SUCCESS);
 }
