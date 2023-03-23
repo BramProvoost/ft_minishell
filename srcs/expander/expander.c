@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/17 12:51:57 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/23 12:39:57 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,16 @@ t_token	*rm_quotes(t_token *tokens)
 	return (tokens);
 }
 
-expander(t_token **tokens, t_env *env)
+void	expander(t_token **tokens, t_env *env)
 {
-	while (*tokens)
+	t_token	*tmp;
+
+	tmp = *tokens;
+	while (tmp)
 	{
-		if (ft_strstr((*tokens)->value, "$") != NULL)
-			ft_putchar_fd(ft_strstr((*tokens)->value, "$"), 1);
-		*tokens = (*tokens)->next;
+		// if (ft_strstr(tmp->value, "$") == NULL)
+		// 	ft_putendl_fd(tmp->value, 1);
+		tmp = (tmp)->next;
 	}
 	(void)env;
 }
