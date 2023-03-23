@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/16 13:44:18 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/17 12:32:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,10 +116,11 @@ void	free_t_cmd(t_cmd *cmd)
 	}
 }
 
-void	temp_t_cmd_printer(t_cmd *cmd)
+void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 {
 	int	i;
 
+	printf(BLUE"%s\n"NC, header);
 	while (cmd)
 	{
 		i = 0;
