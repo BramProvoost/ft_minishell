@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/23 20:12:18 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,8 @@ void	temp_print_tokens(t_token *tokens)
 {
 	while (tokens)
 	{
-		printf(GRAY"type: %s\tlen: %li\tvalue: \""GREEN"%s"GRAY"\"\n"NC, temp_type_to_string(tokens->type), tokens->len, tokens->value);
+		printf(GRAY"type: %s\tlen: %li\tvalue: \""GREEN"%s"GRAY"\"\n"NC,
+			temp_type_to_string(tokens->type), tokens->len, tokens->value);
 		tokens = tokens->next;
 	}
 }
