@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 18:25:08 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/03/23 10:19:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,9 @@ void	replace_word_with_file(t_token *tokens)
 	while (tokens)
 	{
 		if (tokens->prev)
-			if (tokens->prev->type != PIPE && tokens->prev->type != WORD)
+			if (tokens->prev->type != PIPE
+				&& tokens->prev->type != WORD
+				&& tokens->prev->type != FILE_T)
 				tokens->type = FILE_T;
 		tokens = tokens->next;
 	}
