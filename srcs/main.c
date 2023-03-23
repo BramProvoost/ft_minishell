@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/23 10:19:16 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/23 10:33:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,6 @@ void	replace_first_word_with_cmd(t_token *tokens)
 	}
 }
 
-
 void	replace_word_with_file(t_token *tokens)
 {
 	while (tokens)
@@ -84,7 +83,6 @@ void	replace_word_with_file(t_token *tokens)
 // 	if (!old)
 // 		return;
 // 	i = 0;
-	
 // }
 
 t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
