@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 17:46:03 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/23 14:29:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,11 @@ int	chdir_error(char *str, int32_t error)
 	return (1);
 }
 
-char	*get_home_path(t_env *env)
+char	*get_path(t_env *env, char *path)
 {
 	while (env->next)
 	{
-		if (!ft_strncmp("HOME", env->key, ft_strlen("HOME")))
+		if (!ft_strncmp(path, env->key, ft_strlen(path)))
 			return (env->value);
 		env = env->next;
 	}
@@ -50,10 +50,14 @@ char	*get_home_path(t_env *env)
 int	minishell_cd(t_cmd *cmd, t_env *env)
 {
 	char	*home_path;
+	char	*pwd;
 
-	home_path = get_home_path(env);
+	home_path = get_path(env, "HOME");
 	if (!home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
+	pwd = get_path(env, "PWD");
+	if (!pwd)
+		return (ft_putendl_fd("minishell: cd: PWD not set", 2), SUCCESS);
 	if (!cmd->exec->cmd_args[1])
 	{
 		if (chdir(home_path) == ERROR)
@@ -64,5 +68,7 @@ int	minishell_cd(t_cmd *cmd, t_env *env)
 		if (chdir(cmd->exec->cmd_args[1]) == ERROR)
 			chdir_error(cmd->exec->cmd_args[1], errno);
 	}
+	set_env("OLDPWD", pwd, env);
+	set_env("PWD", getcwd(NULL, 0), env);
 	return (SUCCESS);
 }
