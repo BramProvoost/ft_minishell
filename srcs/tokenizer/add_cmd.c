@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   add_cmd.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 09:50:49 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   add_cmd.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/03/23 19:50:35 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,9 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
 	else
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
-	while (tmp->next)
+	while (tmp->next && tmp->next->next)
+		tmp = tmp->next;
+	if (tmp->next && !tmp->file)
 		tmp = tmp->next;
 	split_cmd_and_args = ft_split(cmd_and_args, ' ');
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
@@ -96,7 +98,7 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
 	else
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
-	while (tmp->next)
+	while (tmp->next && tmp->next->next)
 		tmp = tmp->next;
 	tmp->file = new_t_file();
 	tmp->file->type = type;
@@ -122,25 +124,28 @@ void	free_t_cmd(t_cmd *cmd)
 void	temp_t_cmd_printer(t_cmd *cmd)
 {
 	int	i;
+	int	j;
 
+	i = 0;
 	while (cmd)
 	{
-		i = 0;
+		j = 0;
 		if (cmd->exec && cmd->exec->cmd_path)
-			printf(GRAY"cmd->exec->cmd_path = '"GREEN"%s"GRAY"'\n"NC, cmd->exec->cmd_path);
+			printf(GRAY"cmd[%d]->exec->cmd_path = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->cmd_path);
 		if (cmd->exec && cmd->exec->cmd_args)
 		{
-			while (cmd->exec->cmd_args[i])
+			while (cmd->exec->cmd_args[j])
 			{
-				printf(GRAY"cmd->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->cmd_args[i]);
-				i++;
+				printf(GRAY"cmd[%d]->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, j, cmd->exec->cmd_args[j]);
+				j++;
 			}
 		}
 		if (cmd->file)
 		{
-			printf(GRAY"cmd->file->type = '"GREEN"%s"GRAY"'\n"NC, temp_type_to_string(cmd->file->type));
-			printf(GRAY"cmd->file->file_name = '"GREEN"%s"GRAY"'\n"NC, cmd->file->file_name);
+			printf(GRAY"cmd[%d]->file->type = '"GREEN"%s"GRAY"'\n"NC,i, temp_type_to_string(cmd->file->type));
+			printf(GRAY"cmd[%d]->file->file_name = '"GREEN"%s"GRAY"'\n"NC, i, cmd->file->file_name);
 		}
 		cmd = cmd->next;
+		i++;
 	}
 }
