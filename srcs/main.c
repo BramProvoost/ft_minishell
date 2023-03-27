@@ -6,19 +6,11 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 18:25:08 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:41:39 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-int	is_exit(t_token *tokens)
-{
-	if (tokens && tokens->value)
-		if (ft_strncmp(tokens->value, "exit", 5) == 0)
-			return (1);
-	return (0);
-}
 
 char	**get_paths(t_env *env)
 {
@@ -149,8 +141,6 @@ int	test_shell(char *line, t_env *env)
 	cmd = get_cmd_from_token(tokens, env);
 	temp_print_tokens(tokens);				// temp using for visualizing
 	temp_t_cmd_printer(cmd);				// temp using for visualizing
-	if (is_exit(tokens))
-		exit(ft_putendl_fd("exit", 1));
 	executor(cmd, tokens, env);				// not using until 
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
@@ -169,8 +159,6 @@ int	shell(char *line, t_env *env)
 		return (EXIT_FAILURE);
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
-	if (is_exit(tokens))
-		exit(ft_putendl_fd("exit", 1));
 	temp_print_tokens(tokens);	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
@@ -182,7 +170,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env *env;
 
-	g_last_pid = 0;
+	g_exit_code = 0;
 	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
