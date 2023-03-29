@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/27 21:22:09 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/03/24 14:47:37 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ void	line_reader(char **line, const char *display_name);
 t_token	*tokenizer(char *raw_line);
 void	delete_tokens(t_token *lst);
 void	data_to_token(t_token **token, t_line *line);
-void	temp_print_tokens(t_token *token);
+void	temp_print_tokens(t_token *tokens, char *header);
 
 /* hande_token.c */
 void	delete_tokens(t_token *head);
@@ -171,10 +171,10 @@ char	*get_full_cmd(char *cmd, char **paths);
 /* add_cmd.c */
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env);
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env);
 void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
 void	free_t_cmd(t_cmd *cmd);
-void	temp_t_cmd_printer(t_cmd *cmd);
+void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
 /* temp_token_printer.c */
 char	*temp_type_to_string(t_type type);

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   add_cmd.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/27 20:31:24 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   add_cmd.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/03/24 18:47:39 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ void	add_t_cmd_back(t_cmd *cmd)
 	{
 		while ((cmd)->next)
 			cmd = (cmd)->next;
-		(cmd)->next = new_t_cmd();	
+		(cmd)->next = new_t_cmd();
 	}
 }
 
@@ -65,20 +65,18 @@ t_file	*new_t_file(void)
 	return (type);
 }
 
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char *cmd_and_args, t_env *env)
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
 	char	*path_and_cmd;
-	char	**split_cmd_and_args;
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	else
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
-	while (tmp->next)
+	while (tmp->next && tmp->next->next)
 		tmp = tmp->next;
-	split_cmd_and_args = ft_split(cmd_and_args, ' ');
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
 		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
@@ -94,9 +92,9 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	else
-		add_t_cmd_back(*cmd);
+		add_t_cmd_back(*cmd);	// check before if there is a cmd
 	tmp = *cmd;
-	while (tmp->next)
+	while (tmp->next && tmp->next->next)
 		tmp = tmp->next;
 	tmp->file = new_t_file();
 	tmp->file->type = type;
@@ -122,28 +120,40 @@ void	free_t_cmd(t_cmd *cmd)
 }
 
 // todo: add file stuff
-void	temp_t_cmd_printer(t_cmd *cmd)
+void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 {
 	int	i;
+	int	j;
 
+	i = 0;
+	printf(BLUE"%s\n"NC, header);
 	while (cmd)
 	{
-		i = 0;
-		if (cmd->exec && cmd->exec->cmd_path)
-			printf(GRAY"cmd->exec->cmd_path = '"GREEN"%s"GRAY"'\n"NC, cmd->exec->cmd_path);
-		if (cmd->exec && cmd->exec->cmd_args)
+		j = 0;
+		if (cmd->exec)
 		{
-			while (cmd->exec->cmd_args[i])
+			if (cmd->exec->cmd_path)
+				printf(GRAY"cmd[%d]->exec->cmd_path = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->exec->cmd_path);
+			if (cmd->exec->cmd_args)
 			{
-				printf(GRAY"cmd->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'\n"NC, i, cmd->exec->cmd_args[i]);
-				i++;
+				while (cmd->exec->cmd_args[j])
+				{
+					printf(GRAY"cmd[%d]->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'"NC"\n", i, j, cmd->exec->cmd_args[j]);
+					j++;
+				}
 			}
 		}
+		else
+			printf(RED"cmd->exec == NULL"NC"\n");
 		if (cmd->file)
 		{
-			printf(GRAY"cmd->file->type = '"GREEN"%s"GRAY"'\n"NC, temp_type_to_string(cmd->file->type));
-			printf(GRAY"cmd->file->file_name = '"GREEN"%s"GRAY"'\n"NC, cmd->file->file_name);
+			printf(GRAY"cmd[%d]->file->type = '"GREEN"%s"GRAY"'"NC"\n",i, temp_type_to_string(cmd->file->type));
+			printf(GRAY"cmd[%d]->file->file_name = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->file->file_name);
 		}
+		else
+			printf(RED"cmd->file == NULL"NC"\n");
 		cmd = cmd->next;
+		i++;
 	}
+	printf(RED"cmd == NULL"NC"\n");
 }
