@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 19:09:48 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 19:41:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 	else
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
-	path_and_cmd = NULL;
 	while (tmp->next)
 		tmp = tmp->next;
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
