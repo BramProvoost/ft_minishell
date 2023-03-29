@@ -12,14 +12,6 @@
 
 #include "main.h"
 
-int	is_exit(t_token *tokens)
-{
-	if (tokens && tokens->value)
-		if (ft_strncmp(tokens->value, "exit", 5) == 0)
-			return (1);
-	return (0);
-}
-
 char	**get_paths(t_env *env)
 {
 	int	i;
@@ -198,7 +190,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env *env;
 
-	g_last_pid = 0;
+	g_exit_code = 0;
 	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
