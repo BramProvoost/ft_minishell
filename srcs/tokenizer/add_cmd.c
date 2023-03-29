@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 15:42:15 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 19:09:48 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
 	path_and_cmd = NULL;
-	while (tmp->next && tmp->next->next)
+	while (tmp->next)
 		tmp = tmp->next;
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
 		path_and_cmd = split_cmd_and_args[0];
@@ -158,3 +158,22 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 	}
 	printf(RED"cmd == NULL"NC"\n");
 }
+
+/* lldb minishell
+//			*cmd = new_t_cmd();
+p *cmd
+	(t_cmd *) $1 = 0x0000604000000e50
+p tmp
+	(t_cmd *) $3 = 0x0000604000000e50
+// 			add_t_cmd_back(*cmd);
+p **cmd
+(t_cmd) $6 = {
+  echo_n_flag = false
+  echo_print_flag = false
+  arg = 0x0000000000000000
+  exec = 0x0000603000002bc0
+  file = 0x0000000000000000
+  next = 0x0000604000000f10
+}
+
+ */
