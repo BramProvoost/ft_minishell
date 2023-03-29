@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 16:02:38 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 16:31:37 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,20 +117,15 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 			split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
 		else if (tokens->type == FILE_T)
 			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
-		// else if (tokens->type == PIPE)
-		// {
-		// 	path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-		// 	// free_2d(split_cmd_and_args);
-		// }
+		else if (tokens->type == PIPE)
+		{
+			path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
+			// free_2d(split_cmd_and_args);
+		}
 		tokens = tokens->next;
 	}
 	if (split_cmd_and_args)
-	{
 		path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-		path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-	}
-	printf("cmd[0]->exec->cmd_args[0] = %s\n", cmd->exec->cmd_args[0]);
-	// printf("cmd[1]->exec->cmd_args[0] = %s\n", cmd->next->exec->cmd_args[0]);
 	// free_2d(split_cmd_and_args);
 	return (cmd);
 }
