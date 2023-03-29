@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 18:01:24 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/27 21:23:40 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ t_env	*new_env_node(char *env)
 			new->value = ft_substr(env, i + 1, len - i);
 			new->has_value = true;
 		}
+			// assign_env_value(new, env, i, len);
 		i++;
 	}
 	if (new->has_value == false)

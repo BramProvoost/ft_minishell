@@ -1,32 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wait_and_pids.c                                    :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/15 14:27:56 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/27 14:00:45 by edawood          ###   ########.fr       */
+/*   Created: 2023/03/27 21:20:44 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/27 21:22:36 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-void	wait_for_pids(pid_t pid)
+void	assign_env_value(t_env *new, char *env, int i, int len)
 {
-	int				return_wait;
-
-	if (pid != ERROR)
-		waitpid(pid, &return_wait, 0);
-	while (wait(NULL) != ERROR)
-		;
-	if (pid != ERROR)
-	{
-		if (!WIFSIGNALED (return_wait))
-			g_exit_code = WEXITSTATUS (return_wait);
-		else if (WIFSIGNALED (return_wait) && g_exit_code == 131)
-			write(STDERR, "Quit: 3\n", 9);
-		else if (WIFSIGNALED (return_wait) && g_exit_code == 130)
-			write(1, "\n", 1);
-	}
+	new->key = ft_substr(env, 0, i);
+	new->value = ft_substr(env, i + 1, len - i);
+	new->has_value = true;
 }

@@ -114,6 +114,9 @@ void	free_t_cmd(t_cmd *cmd)
 			free(temp->exec->cmd_path);
 		if (temp->exec->cmd_args)
 			free_2d(temp->exec->cmd_args);
+		free(temp->exec);
+		free(temp->file);
+		free(temp);
 	}
 }
 

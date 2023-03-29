@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/02/22 20:04:02 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
+/*   Updated: 2023/03/27 14:36:48 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	run_heredoc(t_cmd *cmd, t_env *env, char *delimiter)
 		return (file_error(cmd->file->file_name));
 	if (duplicate(fd, STDIN_FILENO) == ERROR)
 		return (ERROR);
-	ft_execute(cmd, env);
+	(void)env;
+	// ft_execute(cmd, env);
 	if (unlink(cmd->file->file_name) == ERROR)
 		return (file_error(cmd->file->file_name));
 	free(delimiter);
