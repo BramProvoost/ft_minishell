@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/03/09 09:50:49 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:31:24 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,9 @@ void	free_t_cmd(t_cmd *cmd)
 			free(temp->exec->cmd_path);
 		if (temp->exec->cmd_args)
 			free_2d(temp->exec->cmd_args);
+		free(temp->exec);
+		free(temp->file);
+		free(temp);
 	}
 }
 
