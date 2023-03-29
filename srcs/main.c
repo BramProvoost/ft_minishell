@@ -6,19 +6,11 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/24 15:42:37 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 15:57:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
-
-int	is_exit(t_token *tokens)
-{
-	if (tokens && tokens->value)
-		if (ft_strncmp(tokens->value, "exit", 5) == 0)
-			return (1);
-	return (0);
-}
 
 char	**get_paths(t_env *env)
 {
@@ -112,21 +104,26 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 	while (tokens)
 	{
 		if (tokens->type == CMD && tokens->value)
-		{
 			split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
-			tokens = tokens->next;
-			while (tokens && tokens->type == WORD && tokens->value)
-			{
-				split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
-				tokens = tokens->next;
-			}
-			path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-			continue;
-		}
+		else if (tokens->type == WORD && tokens->value)
+			split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
 		else if (tokens->type == FILE_T)
 			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
+		// else if (tokens->type == PIPE)
+		// {
+		// 	path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
+		// 	// free_2d(split_cmd_and_args);
+		// }
 		tokens = tokens->next;
 	}
+	if (split_cmd_and_args)
+	{
+		path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
+		path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
+	}
+	printf("cmd[0]->exec->cmd_args[0] = %s\n", cmd->exec->cmd_args[0]);
+	printf("cmd[1]->exec->cmd_args[0] = %s\n", cmd->next->exec->cmd_args[0]);
+	// free_2d(split_cmd_and_args);
 	return (cmd);
 }
 
@@ -165,8 +162,6 @@ int	test_shell(char *line, t_env *env)
 	cmd = get_cmd_from_token(tokens, env);
 	temp_print_tokens(tokens, "tokens");				// temp using for visualizing
 	temp_t_cmd_printer(cmd, "commands");				// temp using for visualizing
-	if (is_exit(tokens))
-		exit(ft_putendl_fd("exit", 1));
 	executor(cmd, tokens, env);				// not using until 
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
@@ -185,8 +180,6 @@ int	shell(char *line, t_env *env)
 		return (EXIT_FAILURE);
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
-	if (is_exit(tokens))
-		exit(ft_putendl_fd("exit", 1));
 	temp_print_tokens(tokens, "tokens");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
