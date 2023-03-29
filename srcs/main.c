@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 19:48:18 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 20:07:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,9 +155,11 @@ int	test_shell(char *line, t_env *env)
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
 	temp_print_tokens(tokens, "tokens");				// temp using for visualizing
+	expander(&tokens, env);
+	temp_print_tokens(tokens, "expand tokens");			// temp using for visualizing
 	temp_t_cmd_printer(cmd, "commands");				// temp using for visualizing
-	executor(cmd, tokens, env);				// not using until 
-	(void)line;								// temp until using line
+	executor(cmd, tokens, env);							// not using until 
+	(void)line;											// temp until using line
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);
 }
