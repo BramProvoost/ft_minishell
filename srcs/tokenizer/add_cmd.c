@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   add_cmd.c                                          :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/17 12:32:14 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 19:50:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,9 @@ void	free_t_cmd(t_cmd *cmd)
 			free(temp->exec->cmd_path);
 		if (temp->exec->cmd_args)
 			free_2d(temp->exec->cmd_args);
+		free(temp->exec);
+		free(temp->file);
+		free(temp);
 	}
 }
 

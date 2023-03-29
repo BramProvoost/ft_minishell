@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:50:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/03/16 12:49:59 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 19:48:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env)
 	if (!ft_strncmp(cmd, "echo", 5))
 		return (minishell_echo(cmd_list));
 	if (!ft_strncmp(cmd, "cd", 3))
-		return (minishell_cd(cmd_list->exec->cmd_args[0], cmd_list, env));
+		return (minishell_cd(cmd_list, env));
 	else if (!ft_strncmp(cmd, "pwd", 4))
 		return (minishell_pwd());
 	else if (!ft_strncmp(cmd, "export", 7))
-		return (minishell_export(cmd_list->exec->cmd_args[0], cmd_list, env));
+		return (minishell_export(cmd_list, env));
 	else if (!ft_strncmp(cmd, "unset", 6))
 		return (minishell_unset(cmd_list, env));
 	else if (!ft_strncmp(cmd, "env", 4))

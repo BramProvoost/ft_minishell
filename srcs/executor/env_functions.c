@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/02/16 14:06:14 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/27 21:23:40 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,26 @@ t_env	*new_env_node(char *env)
 	int		len;
 
 	i = 0;
+	len = ft_strlen(env);
 	new = (t_env *)malloc(sizeof(t_env));
 	if (!new)
 		return (NULL);
+	new->next = NULL;
 	while (env[i])
 	{
-		len = ft_strlen(env);
 		if (env[i] == '=')
 		{
 			new->key = ft_substr(env, 0, i);
 			new->value = ft_substr(env, i + 1, len - i);
 			new->has_value = true;
 		}
+			// assign_env_value(new, env, i, len);
 		i++;
 	}
 	if (new->has_value == false)
 	{
 		new->key = ft_substr(env, 0, len);
-		new->value = ft_strdup("");
+		new->value = NULL;
 	}
 	return (new);
 }
@@ -87,8 +89,11 @@ int	get_env_len(t_env *env)
 	int	i;
 
 	i = 0;
-	while (env[i].key && env[i].value)
+	while (env)
+	{
+		env = env->next;
 		i++;
+	}
 	return (i);
 }
 
@@ -106,12 +111,13 @@ char	**env_to_list(t_env *env)
 		errno = ENOMEM;
 		return (NULL);
 	}
-	while (i < env_len)
+	while (env)
 	{
-		if (!env[i].key || !env[i].value)
+		if (!env->key || !env->value)
 			return (errno = EINVAL, NULL);
-		env_list[i] = ft_strjoin(env[i].key, "=");
-		env_list[i] = ft_strjoin(env_list[i], env[i].value);
+		env_list[i] = ft_strjoin(env->key, "=");
+		env_list[i] = ft_strjoin(env_list[i], env->value);
+		env = env->next;
 		i++;
 	}
 	env_list[i] = NULL;

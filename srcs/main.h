@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/17 12:52:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/29 19:49:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@
 # define STDERR 2
 # define ERROR -1
 # define SUCCESS 0
+# define OUTPUT 1
+# define APPEND 2
+
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -47,7 +50,7 @@
 
 
 /* Global variable declaration */
-int	g_last_pid;
+int	g_exit_code;
 
 typedef enum e_type {
 	WORD,
@@ -110,6 +113,16 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
+typedef struct exec_data
+{
+	t_cmd		*cmd;
+	t_env		*env;
+	t_token		*tokens;
+	bool		is_pipe;
+	int			pipe_fds[2];
+}	t_exec_data;
+
+// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
 	t_type	type;
 	char	*file_name;
@@ -172,10 +185,14 @@ void	expander(t_token **tokens, t_env *env);
 
 //Executor functions
 void	executor(t_cmd *cmd, t_token *tokens, t_env *env);
-void	ft_execute(t_cmd *cmd, t_env *env);
-void	child_process(t_cmd *cmd, t_env *env, int fd[2], int prev_fd);
-void	close_fds_run_with_pipes(int *pipe_fds, int fd_in);
-void	wait_for_pids(void);
+void	ft_execute(t_exec_data *exec_data);
+void	child_process(t_exec_data *exec_data, int prev_fd);
+void	close_fds(int *pipe_fds, int fd_in, bool is_pipe);
+void	wait_for_pids(pid_t pid);
+void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, t_token *tokens, t_env *env);
+void	set_cmd_to_next(t_exec_data *exec_data);
+void	close_pipes(int pipe_fds[2]);
+bool	has_pipe(t_cmd *cmd);
 
 //Path generator functions
 char	*get_all_paths(char *path, t_env *env);
@@ -191,7 +208,8 @@ int		chdir_error(char *str, int32_t error);
 //File handler functions
 int		duplicate(int fd, int fileno);
 int		redirect_input(t_cmd *cmd, t_env *env, int fd);
-int		redirect_output(t_cmd *cmd, t_env *env, int fd);
+int		redirect_output(t_exec_data *exec_data);
+void    redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_cmd *cmd, t_env *env);
 int		run_heredoc(t_cmd *cmd, t_env *env, char *delimiter);
 int		create_heredoc_file(char *delimiter, char *file_name);
@@ -199,10 +217,17 @@ int		create_heredoc_file(char *delimiter, char *file_name);
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
 int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
-int		minishell_cd(char *arg, t_cmd *cmd, t_env *env);
+int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd();
-int		minishell_export(char *arg, t_cmd *cmd, t_env *env);
+int		minishell_export(t_cmd *cmd, t_env *env);
+void	print_export(t_env *env);
+void	export_util(char *key, char *value, t_env *env);
+bool    export_error(char *str);
+bool	is_not_alpha(char *str);
+bool	is_not_alpha_second_arg(char *str);
+bool	check_if_cmd_is_word(t_cmd *cmd, int i);
+void	set_env(char *key, char *value, t_env *env);
 int		minishell_exit(char *arg, t_cmd *cmd);
 int		minishell_unset(t_cmd *cmd, t_env *env);
 
@@ -213,5 +238,6 @@ t_env	*new_env_node(char *env);
 bool	create_env_list(t_env **head, char **envp);
 char	**env_to_list(t_env *env);
 int		get_env_len(t_env *env);
+void    assign_env_value(t_env *new, char *env, int i, int len);
 
 #endif

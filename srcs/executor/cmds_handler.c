@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/09 09:48:50 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/27 20:52:55 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,29 +38,29 @@ char	*get_full_cmd(char *cmd, char **paths)
 	return (NULL);
 }
 
-void	child_process(t_cmd *cmd, t_env *env, int fd[2], int prev_fd)
+void	child_process(t_exec_data *exec_data, int prev_fd)
 {
-	if (redirect_input(cmd, env, prev_fd) != SUCCESS)
+	if (exec_data->is_pipe == true)
+		close (exec_data->pipe_fds[READ]);
+	if (redirect_input(exec_data->cmd, exec_data->env, prev_fd) != SUCCESS)
+		exit(g_exit_code);
+	if (exec_data->cmd)
 	{
-		close(fd[0]);
-		exit(g_last_pid);
+		if (redirect_output(exec_data) != SUCCESS)
+			exit(g_exit_code);
 	}
-	if (cmd->next)
-	{
-		if (redirect_output(cmd, env, prev_fd) != SUCCESS)
-		{
-			close(fd[1]);
-			exit(g_last_pid);
-		}
-	}
-	ft_execute(cmd, env);
+	ft_execute(exec_data);
 }
 
-void	ft_execute(t_cmd *cmd, t_env *env)
+void	ft_execute(t_exec_data *exec_data)
 {
 	char	**env_list;
 
-	env_list = env_to_list(env);
-	if (execve(cmd->exec->cmd_path, cmd->exec->cmd_args, env_list) == ERROR)
-		error_exit(errno, cmd->exec->cmd_args[0]);
+	if (execute_built_in_cmd(exec_data->cmd, exec_data->cmd->exec->cmd_args[0], \
+		exec_data->env) == SUCCESS)
+		exit(g_exit_code);
+	env_list = env_to_list(exec_data->env);
+	execve(exec_data->cmd->exec->cmd_path, \
+			exec_data->cmd->exec->cmd_args, env_list);
+	error_exit(errno, exec_data->cmd->exec->cmd_args[0]);
 }

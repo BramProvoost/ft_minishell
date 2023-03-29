@@ -6,33 +6,49 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:31:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/09 09:46:42 by edawood          ###   ########.fr       */
+/*   Updated: 2023/03/19 16:32:44 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
+void	free_list(t_cmd *cmd, t_env *env, int i)
+{
+	t_env	*current;
+	t_env	*previous;
+
+	previous = NULL;
+	current = env;
+	while (current != NULL)
+	{
+		if (!ft_strncmp(current->key, cmd->exec->cmd_args[i], \
+			ft_strlen(current->key)))
+		{
+			if (previous == NULL)
+				env = current->next;
+			else
+				previous->next = current->next;
+			free(current->key);
+			free(current->value);
+			free(current);
+			return ;
+		}
+		else
+		{
+			previous = current;
+			current = current->next;
+		}
+	}
+}
+
 int	minishell_unset(t_cmd *cmd, t_env *env)
 {
 	int		i;
-	int		j;
-	char	*tmp;
 
-	i = 0;
+	i = 1;
 	while (cmd->exec->cmd_args[i])
 	{
-		j = 0;
-		while (env->next)
-		{
-			tmp = ft_strjoin(cmd->exec->cmd_args[i], "=");
-			if (!ft_strncmp(env->key, tmp, ft_strlen(tmp)))
-			{
-				free(env->key);
-				env->key = ft_strdup("");
-			}
-			free(tmp);
-			j++;
-		}
+		free_list(cmd, env, i);
 		i++;
 	}
 	return (SUCCESS);

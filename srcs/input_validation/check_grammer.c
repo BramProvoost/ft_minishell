@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   check_grammer.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/27 09:49:34 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   check_grammer.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/27 09:49:34 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/03/27 13:43:38 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	print_grammer_error(int type)
 	else
 		ft_putstr_fd("newline", STDERR_FILENO);
 	ft_putendl_fd("\'", STDERR_FILENO);
-	g_last_pid = 258;
+	g_exit_code = 258;
 	return (0);
 }
 
