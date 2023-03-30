@@ -6,15 +6,54 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/23 12:39:57 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/30 16:08:32 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-t_token	*rm_quotes(t_token *tokens)
+char	*rm_quotes(char *str)
 {
-	return (tokens);
+	return (str);
+}
+
+char	*get_value_from_env(char *key, t_env *env)
+{
+	while (env)
+	{
+		if (env->has_value == true)
+		{
+			if (!ft_strncmp(env->key, key, ft_strlen(key)))
+				return (env->value);
+		}
+		env = env->next;
+	}
+	return ("");
+}
+
+char	*expand(char *str, t_env *env)
+{
+	int		i;
+	int		j;
+	char	*newstr;
+
+	i = 0;
+	newstr = NULL;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			j = i + 1;
+			while (str[j] && str[j] != ' ' && str[j] != ',' && str[j] != '.' && str[j] != '\0')
+				j++;
+			newstr = ft_strjoin(newstr, get_value_from_env(ft_substr(str, i + 1, j - i - 1), env));
+			i = j;
+			continue;
+		}
+		newstr = ft_strjoin(newstr, ft_strlendump(&str[i], 1));
+		i++;
+	}
+	return (newstr);
 }
 
 void	expander(t_token **tokens, t_env *env)
@@ -24,8 +63,8 @@ void	expander(t_token **tokens, t_env *env)
 	tmp = *tokens;
 	while (tmp)
 	{
-		// if (ft_strstr(tmp->value, "$") == NULL)
-		// 	ft_putendl_fd(tmp->value, 1);
+		tmp->value = expand(tmp->value, env);
+		tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
 	(void)env;
