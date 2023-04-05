@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/30 15:48:09 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/03/31 13:46:38 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,6 +149,17 @@ int	test_shell(char *line, t_env *env)
 	// tokens = tokenizer("'ab\"cd'ef'gh\"ij'kl");
 	// tokens = tokenizer(" 'ab'cd'ef'g");
 	// tokens = tokenizer("z'ab'cd'ef'g");
+
+	//	echo hel'lo w"or'ld
+	//	echo ha'$USER'
+
+	//	echo $		= $
+	//	echo $$		= 9188
+	//	echo $$$	= 9188$
+	//	echo $$$$	= 91889188
+	//	echo $?		= 0
+	//	echo $?$	= 0$
+	//	echo $?$?	= 00
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
