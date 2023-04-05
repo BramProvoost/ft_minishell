@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cmds_handler.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/27 20:52:55 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cmds_handler.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,11 +43,11 @@ void	child_process(t_exec_data *exec_data, int prev_fd)
 	if (exec_data->is_pipe == true)
 		close (exec_data->pipe_fds[READ]);
 	if (redirect_input(exec_data->cmd, exec_data->env, prev_fd) != SUCCESS)
-		exit(g_exit_code);
+		exit(g_exit_status);
 	if (exec_data->cmd)
 	{
 		if (redirect_output(exec_data) != SUCCESS)
-			exit(g_exit_code);
+			exit(g_exit_status);
 	}
 	ft_execute(exec_data);
 }
@@ -58,7 +58,7 @@ void	ft_execute(t_exec_data *exec_data)
 
 	if (execute_built_in_cmd(exec_data->cmd, exec_data->cmd->exec->cmd_args[0], \
 		exec_data->env) == SUCCESS)
-		exit(g_exit_code);
+		exit(g_exit_status);
 	env_list = env_to_list(exec_data->env);
 	execve(exec_data->cmd->exec->cmd_path, \
 			exec_data->cmd->exec->cmd_args, env_list);

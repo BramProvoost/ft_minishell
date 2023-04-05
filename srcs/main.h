@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 19:49:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@
 
 
 /* Global variable declaration */
-int	g_exit_code;
+int	g_exit_status;
 
 typedef enum e_type {
 	WORD,

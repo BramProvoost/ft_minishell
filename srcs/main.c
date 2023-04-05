@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/31 13:46:38 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -198,7 +198,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env *env;
 
-	g_exit_code = 0;
+	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")

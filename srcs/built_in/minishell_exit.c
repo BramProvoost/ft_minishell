@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_exit.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/27 13:43:38 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_exit.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 18:21:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ int	minishell_exit(char *arg, t_cmd *cmd)
 	if (cmd->exec->cmd_args[1])
 	{
 		if (ft_isdigit(cmd->exec->cmd_args[1][0]))
-			g_exit_code = ft_atoi(cmd->exec->cmd_args[1]);
+			g_exit_status = ft_atoi(cmd->exec->cmd_args[1]);
 		else
 		{
 			ft_putstr_fd("exit\n", STDERR);
@@ -34,5 +34,5 @@ int	minishell_exit(char *arg, t_cmd *cmd)
 		}
 	}
 	ft_putstr_fd("exit\n", STDERR);
-	exit(g_exit_code);
+	exit(g_exit_status);
 }

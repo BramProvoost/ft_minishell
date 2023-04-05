@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor_utils.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/27 20:56:52 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/27 21:07:38 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executor_utils.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/27 20:56:52 by edawood       #+#    #+#                 */
+/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,11 +53,11 @@ void	redirect_in_simple_cmd(t_exec_data *exec_data)
 	if (redirect_input(exec_data->cmd, exec_data->env, STDIN_FILENO) == ERROR)
 	{
 		ft_putendl_fd("Error: input redirection", STDERR_FILENO);
-		g_exit_code = ERROR;
+		g_exit_status = ERROR;
 	}
 	if (redirect_output(exec_data) == ERROR)
 	{
 		ft_putendl_fd("Error: output redirection", STDERR_FILENO);
-		g_exit_code = ERROR;
+		g_exit_status = ERROR;
 	}
 }
