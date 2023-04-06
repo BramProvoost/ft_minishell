@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/24 14:47:37 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 14:10:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,7 @@ bool	has_pipe(t_cmd *cmd);
 //Path generator functions
 char	*get_all_paths(char *path, t_env *env);
 void	free_2d(char **paths);
+char	**ft_strdup2d(char **str);
 
 //Errors functions
 void	error_cmd_not_found(char *cmd);

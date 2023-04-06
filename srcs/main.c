@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 11:08:14 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 14:30:52 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,13 +120,14 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		else if (tokens->type == PIPE)
 		{
 			path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-			// free_2d(split_cmd_and_args);
+			free_2d(split_cmd_and_args);
+			split_cmd_and_args = NULL;
 		}
 		tokens = tokens->next;
 	}
 	if (split_cmd_and_args)
 		path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
-	// free_2d(split_cmd_and_args);
+	free_2d(split_cmd_and_args);
 	return (cmd);
 }
 

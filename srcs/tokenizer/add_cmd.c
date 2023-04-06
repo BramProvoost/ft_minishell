@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 12:11:29 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 14:40:17 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
-	else if ((*cmd)->file == NULL)
+	else if ((*cmd)->file == NULL || (*cmd)->exec)
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
 	while (tmp->next)
@@ -83,7 +83,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
 	tmp->exec = new_t_exec();
 	tmp->exec->cmd_path = ft_strdup(path_and_cmd);
-	tmp->exec->cmd_args = split_cmd_and_args;
+	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
 }
 
 void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)

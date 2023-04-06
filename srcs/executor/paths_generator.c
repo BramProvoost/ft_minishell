@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   paths_generator.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 16:48:44 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 17:00:27 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   paths_generator.c                                  :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 16:48:44 by edawood       #+#    #+#                 */
+/*   Updated: 2023/04/06 14:31:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,27 @@ void	free_2d(char **paths)
 	}
 	free(paths);
 	return ;
+}
+
+char	**ft_strdup2d(char **str)
+{
+	char	**newstr;
+	int		i;
+
+	i = 0;
+	while (str[i])
+		i++;
+	newstr = (char **)malloc(sizeof(char *) * (i + 1));
+	if (!newstr)
+		return (NULL);
+	i = 0;
+	while (str[i])
+	{
+		newstr[i] = ft_strdup(str[i]);
+		i++;
+	}
+	newstr[i] = NULL;
+	return (newstr);
 }
 
 char	*get_all_paths(char *path, t_env *env)
