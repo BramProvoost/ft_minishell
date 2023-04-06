@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 11:55:43 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 12:06:17 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,15 +143,11 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 				}
 			}
 		}
-		else
-			printf(RED"cmd->exec == NULL"NC"\n");
 		if (cmd->file)
 		{
 			printf(GRAY"cmd[%d]->file->type = '"GREEN"%s"GRAY"'"NC"\n",i, temp_type_to_string(cmd->file->type));
 			printf(GRAY"cmd[%d]->file->file_name = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->file->file_name);
 		}
-		else
-			printf(RED"cmd->file == NULL"NC"\n");
 		cmd = cmd->next;
 		i++;
 	}
