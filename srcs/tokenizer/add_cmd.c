@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 12:06:17 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 12:11:29 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	else
-		add_t_cmd_back(*cmd);	// check before if there is a cmd
+		add_t_cmd_back(*cmd);
 	tmp = *cmd;
 	while (tmp->next && tmp->next->next)
 		tmp = tmp->next;
@@ -119,7 +119,6 @@ void	free_t_cmd(t_cmd *cmd)
 	}
 }
 
-// todo: add file stuff
 void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 {
 	int	i;
@@ -152,22 +151,3 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 		i++;
 	}
 }
-
-/* lldb minishell
-//			*cmd = new_t_cmd();
-p *cmd
-	(t_cmd *) $1 = 0x0000604000000e50
-p tmp
-	(t_cmd *) $3 = 0x0000604000000e50
-// 			add_t_cmd_back(*cmd);
-p **cmd
-(t_cmd) $6 = {
-  echo_n_flag = false
-  echo_print_flag = false
-  arg = 0x0000000000000000
-  exec = 0x0000603000002bc0
-  file = 0x0000000000000000
-  next = 0x0000604000000f10
-}
-
- */
