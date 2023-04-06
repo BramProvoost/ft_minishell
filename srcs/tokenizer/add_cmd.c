@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/29 19:41:15 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 11:55:43 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
-	else
+	else if ((*cmd)->file == NULL)
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
 	while (tmp->next)
@@ -155,7 +155,6 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 		cmd = cmd->next;
 		i++;
 	}
-	printf(RED"cmd == NULL"NC"\n");
 }
 
 /* lldb minishell
