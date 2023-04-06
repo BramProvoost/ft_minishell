@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/05 20:59:25 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/06 13:18:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,9 @@ char	*get_value_from_env(char *key, t_env *env)
 	return ("");
 }
 
-//
-char *expand_special_cases(char *str) {
+////////////////////////// NEW CODE //////////////////////////
+
+char *expand_special_cases1(char *str) {
 	if (str[1] == '$') {
 		return "$";
 	} else if (str[1] == '?') {
@@ -59,7 +60,7 @@ char *expand_special_cases(char *str) {
 	return "";
 }
 
-bool in_quotes(char *str, int index) {
+bool in_quotes1(char *str, int index) {
 	int quote_count = 0;
 	for (int i = 0; i < index; i++) {
 		if (str[i] == '\'') {
@@ -69,11 +70,11 @@ bool in_quotes(char *str, int index) {
 	return (quote_count % 2 != 0);
 }
 
-bool is_valid_env_char(char c) {
+bool is_valid_env_char1(char c) {
 	return (ft_isalnum(c) || c == '_');
 }
 
-char *expand_variable(char *str, t_env *env)
+char *expand_variable1(char *str, t_env *env)
 {
 	char *expanded_str = NULL;
 	int i = 0;
@@ -115,7 +116,7 @@ char *expand_variable(char *str, t_env *env)
 // 	return expanded_str;
 // }
 
-bool is_valid_varname_char(char c) {
+bool is_valid_varname_char1(char c) {
 	if (ft_isalpha(c) || c == '_')
 		return true;
 	if (ft_isdigit(c))
@@ -123,7 +124,7 @@ bool is_valid_varname_char(char c) {
 	return false;
 }
 
-char *get_varname(char *str, int *i) {
+char *get_varname1(char *str, int *i) {
 	char *varname = NULL;
 	int len = 0;
 	*i += 1;
@@ -137,21 +138,7 @@ char *get_varname(char *str, int *i) {
 	return varname;
 }
 
-// char *get_varname(char *str, int *i) {
-// 	char *varname = NULL;
-// 	int j = 0;
-// 	(*i)++; // skip the '$' character
-// 	while (str[*i] && is_valid_varname_char(str[*i])) {
-// 		j++;
-// 		(*i)++;
-// 	}
-// 	if (j > 0) {
-// 		varname = ft_strdup(&str[*i - j]);
-// 	}
-// 	return varname;
-// }
-
-char *expand(char *str, t_env *env) {
+char *expand1(char *str, t_env *env) {
 	char *newstr = NULL;
 	int i = 0;
 	while (str[i]) {
@@ -177,6 +164,13 @@ char *expand(char *str, t_env *env) {
 	char *expanded_str = expand_variable(newstr, env);
 	free(newstr);
 	return expanded_str;
+}
+
+char *expand1(char *str, t_env *env)
+{
+	char *newstr;
+
+	newstr = NULL;
 }
 
 void	expander(t_token **tokens, t_env *env)
