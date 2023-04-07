@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 10:12:08 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 11:05:04 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,26 +122,32 @@ void	free_t_cmd(t_cmd *cmd)
 void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 {
 	int	i;
+	int	j;
 
+	i = 0;
 	printf(BLUE"%s\n"NC, header);
 	while (cmd)
 	{
-		i = 0;
-		if (cmd->exec && cmd->exec->cmd_path)
-			printf(GRAY"cmd->exec->cmd_path = \""GREEN"%s"GRAY"\"\n"NC, cmd->exec->cmd_path);
-		if (cmd->exec && cmd->exec->cmd_args)
+		j = 0;
+		if (cmd->exec)
 		{
-			while (cmd->exec->cmd_args[i])
+			if (cmd->exec->cmd_path)
+				printf(GRAY"cmd[%d]->exec->cmd_path = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->exec->cmd_path);
+			if (cmd->exec->cmd_args)
 			{
-				printf(GRAY"cmd->exec->cmd_args[%d] = \""GREEN"%s"GRAY"\"\n"NC, i, cmd->exec->cmd_args[i]);
-				i++;
+				while (cmd->exec->cmd_args[j])
+				{
+					printf(GRAY"cmd[%d]->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'"NC"\n", i, j, cmd->exec->cmd_args[j]);
+					j++;
+				}
 			}
 		}
 		if (cmd->file)
 		{
-			printf(GRAY"cmd->file->type = \""GREEN"%s"GRAY"\"\n"NC, temp_type_to_string(cmd->file->type));
-			printf(GRAY"cmd->file->file_name = \""GREEN"%s"GRAY"\"\n"NC, cmd->file->file_name);
+			printf(GRAY"cmd[%d]->file->type = '"GREEN"%s"GRAY"'"NC"\n",i, temp_type_to_string(cmd->file->type));
+			printf(GRAY"cmd[%d]->file->file_name = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->file->file_name);
 		}
 		cmd = cmd->next;
+		i++;
 	}
 }
