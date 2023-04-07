@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 11:14:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,6 +152,7 @@ int	test_shell(char *line, t_env *env)
 
 	//	echo hel'lo w"or'ld
 	//	echo ha'$USER'
+	//	echo ha"$USER"
 
 	//	echo $		= $
 	//	echo $$		= 9188
