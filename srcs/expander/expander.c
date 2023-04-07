@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 18:35:59 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 09:40:06 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,13 +178,18 @@ int	is_valid_varname_char(char c)
 	return false;
 }
 
-char	*get_varname(char *str, int i)
+char	*get_varname(char *str)
 {
+	int		i;
 	char	*varname;
 
+	i = 0;
 	varname = NULL;
-	i += 1;
-	while (is_valid_varname_char(str[i]))
+	if (str[1] == '\0' || str[1] == ' ')
+		return (ft_strlendump(str, 1));
+	if (str[1] == '?' || str[1] == '$')
+		return (ft_strlendump(str, 2));
+	while (is_valid_varname_char(str[i]) || i == 0)
 	{
 		varname = ft_strjoin(varname, ft_strlendump(&str[i], 1));
 		i += 1;
@@ -194,11 +199,14 @@ char	*get_varname(char *str, int i)
 
 char	*expand_special_cases(char *str)
 {
-	if (str[0] == '$')
-		return ft_strdup("$");
-	else if (str[0] == '?')
+	int	pid;
+
+	pid = 15201;
+	if (str[1] == '$')
+		return ft_itoa(pid);
+	if (str[1] == '?')
 		return ft_itoa(g_exit_status);
-	return ft_strdup("");
+	return ft_strdup("$");
 }
 
 char	*expand_variable(char *varname, t_env *env)
@@ -208,8 +216,11 @@ char	*expand_variable(char *varname, t_env *env)
 
 	i = 0;
 	if (varname[1] && (varname[1] == '?' || varname[1] == '$'))
-		return (expand_special_cases(varname));
-	expanded = get_value_from_env(varname, env);
+		expanded = expand_special_cases(varname);
+	else if (!varname[1] || varname[1] == ' ')
+		expanded = ft_strdup("$");
+	else
+		expanded = get_value_from_env(&varname[1], env);
 	return (expanded);
 }
 
@@ -241,9 +252,9 @@ char *expand(char *str, t_env *env)
 	{
 		if (str[i] == '$' && !in_quotes(str, i))
 		{
-			varname = get_varname(str, i);
+			varname = get_varname(&str[i]);
 			newstr = ft_strjoin(newstr, expand_variable(varname, env));
-			i += ft_strlen(varname);
+			i += ft_strlen(varname) - 1;
 			free(varname);
 		}
 		else
