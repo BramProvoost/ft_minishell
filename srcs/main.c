@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 11:14:14 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 11:23:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,8 @@ int	test_shell(char *line, t_env *env)
 	//	echo $?		= 0
 	//	echo $?$	= 0$
 	//	echo $?$?	= 00
+
+	//	echo ' hello ' ' world '
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
