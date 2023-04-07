@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/16 17:59:49 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 10:58:37 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void	space_case(t_token **token, t_line *line)
 {
-	if (get_prev_char(*line) != ' ')
-		add_token_back(token, create_token());
+	// if (get_prev_char(*line) != ' ')
+	// 	add_token_back(token, create_token());
 	next_char(line);
 	data_to_token(token, line);
 }

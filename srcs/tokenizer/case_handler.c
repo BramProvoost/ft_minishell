@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/30 11:52:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/07 10:59:06 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void	word_case(t_token **token, t_line *line)
 	char	*last_char;
 	char	c;
 
-	if (!*token)
+	if (!*token || get_prev_char(*line) == ' ')
 		add_token_back(token, create_token());
 	c = get_current_char(*line);
 	if (c == '\0')
