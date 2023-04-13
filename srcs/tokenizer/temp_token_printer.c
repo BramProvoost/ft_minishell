@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/03/24 16:57:16 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/13 19:24:00 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,21 +16,21 @@
 char	*temp_type_to_string(t_type type)
 {
 	if (type == CMD)
-		return ("CMD");
+		return ("CMD\t");
 	if (type == WORD)
-		return ("WORD");
+		return ("WORD\t");
 	if (type == PIPE)
-		return ("PIPE");
+		return ("PIPE\t");
 	if (type == INPUT_SINGLE)
-		return ("INPUT_S");
+		return ("INPUT_SINGLE");
 	if (type == HEREDOC)
-		return ("INPUT_D");
+		return ("HEREDOC");
 	if (type == OUTPUT_SINGLE)
-		return ("OUTPUT_S");
+		return ("OUTPUT_SINGLE");
 	if (type == OUTPUT_APPEND)
-		return ("OUTPUT_D");
+		return ("OUTPUT_APPEND");
 	if (type == FILE_T)
-		return ("FILE");
+		return ("FILE\t");
 	return ("No tokens found");
 }
 
