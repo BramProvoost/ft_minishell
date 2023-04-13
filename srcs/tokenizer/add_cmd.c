@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 14:40:17 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/13 19:43:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,8 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
 	else
 		add_t_cmd_back(*cmd);
 	tmp = *cmd;
-	while (tmp->next && tmp->next->next)
+	// while (tmp->next && tmp->next->next)
+	while (tmp->next) // solving: < test_file.txt grep NAME | wc > out > out2 > out3
 		tmp = tmp->next;
 	tmp->file = new_t_file();
 	tmp->file->type = type;
