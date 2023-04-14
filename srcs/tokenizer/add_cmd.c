@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/13 19:43:16 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 17:41:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 	int	j;
 
 	i = 0;
-	printf(BLUE"%s\n"NC, header);
+	printf(BLUE"%s"NC"\n", header);
 	while (cmd)
 	{
 		j = 0;
@@ -151,4 +151,5 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 		cmd = cmd->next;
 		i++;
 	}
+	printf(BLUE"End %s"NC"\n", header);
 }

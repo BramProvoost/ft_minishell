@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/13 19:24:00 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 15:06:08 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,4 +44,5 @@ void	temp_print_tokens(t_token *tokens, char *header)
 			temp_type_to_string(tokens->type), tokens->len, tokens->value);
 		tokens = tokens->next;
 	}
+	printf(BLUE"End %s"NC"\n", header);
 }
