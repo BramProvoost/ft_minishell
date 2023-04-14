@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 16:48:44 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/06 14:31:03 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 15:13:48 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,12 @@ void	free_2d(char **paths)
 	int	i;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		free(paths[i]);
 		i++;
 	}
 	free(paths);
-	return ;
 }
 
 char	**ft_strdup2d(char **str)
