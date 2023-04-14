@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/06 14:30:52 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 15:13:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 			split_cmd_and_args = add_to_2d(split_cmd_and_args, tokens->value);
 		else if (tokens->type == FILE_T)
 			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
-		else if (tokens->type == PIPE)
+		else if (tokens->type == PIPE && split_cmd_and_args)
 		{
 			path_and_cmd_to_t_cmd(&cmd, split_cmd_and_args, env);
 			free_2d(split_cmd_and_args);
@@ -163,9 +163,9 @@ int	test_shell(char *line, t_env *env)
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
+	temp_print_tokens(tokens, "Tokens");				// temp using for visualizing
 	cmd = get_cmd_from_token(tokens, env);
-	temp_print_tokens(tokens, "tokens");				// temp using for visualizing
-	temp_t_cmd_printer(cmd, "commands");				// temp using for visualizing
+	temp_t_cmd_printer(cmd, "Commands");				// temp using for visualizing
 	executor(cmd, tokens, env);				// not using until 
 	(void)line;								// temp until using line
 	delete_tokens(tokens);
