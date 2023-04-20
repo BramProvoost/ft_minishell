@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   ft_strdup.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2020/11/10 21:38:05 by bprovoos      #+#    #+#                 */
-/*   Updated: 2021/09/30 11:37:41 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2020/11/10 21:38:05 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/04/20 18:28:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ char	*ft_strdup(const char *str)
 	unsigned long	len;
 	unsigned long	i;
 
+	if (!str)
+		return (NULL);
 	len = ft_strlen(str);
 	temp = (char *)malloc(len + 1);
 	if (!temp)
