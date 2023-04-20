@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/14 17:38:09 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 18:03:04 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,9 @@ typedef struct exec_data
 
 // verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
-	t_type	type;
-	char	*file_name;
+	t_type			type;
+	char			*file_name;
+	struct s_file	*next;
 }	t_file;
 
 /* main.c */
