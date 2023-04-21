@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/21 17:32:57 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,8 +124,9 @@ typedef struct exec_data
 
 // verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
-	t_type	type;
-	char	*file_name;
+	t_type			type;
+	char			*file_name;
+	struct s_file	*next;
 }	t_file;
 
 /* main.c */
@@ -138,7 +139,7 @@ void	line_reader(char **line, const char *display_name);
 t_token	*tokenizer(char *raw_line);
 void	delete_tokens(t_token *lst);
 void	data_to_token(t_token **token, t_line *line);
-void	quote_case(t_line *line);
+void	temp_print_tokens(t_token *tokens, char *header);
 
 /* hande_token.c */
 void	delete_tokens(t_token *head);
@@ -197,6 +198,7 @@ bool	has_pipe(t_cmd *cmd);
 //Path generator functions
 char	*get_all_paths(char *path, t_env *env);
 void	free_2d(char **paths);
+char	**ft_strdup2d(char **str);
 
 //Errors functions
 void	error_cmd_not_found(char *cmd);
