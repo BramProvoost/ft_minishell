@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 11:09:51 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/20 18:53:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ char	*expand_special_cases(char *str)
 {
 	int	pid;
 
-	pid = 15201;
+	pid = 15201;	// todo: get pid
 	if (str[1] == '$')
 		return ft_itoa(pid);
 	if (str[1] == '?')
