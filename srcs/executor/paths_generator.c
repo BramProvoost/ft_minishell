@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   paths_generator.c                                  :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 16:48:44 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/14 15:13:48 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   paths_generator.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 16:48:44 by edawood           #+#    #+#             */
+/*   Updated: 2023/04/21 14:53:10 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ char	**ft_strdup2d(char **str)
 	int		i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 		i++;
 	newstr = (char **)malloc(sizeof(char *) * (i + 1));
