@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 11:05:04 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/21 10:51:29 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -150,4 +150,5 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 		cmd = cmd->next;
 		i++;
 	}
+	printf(BLUE"End %s"NC"\n", header);
 }
