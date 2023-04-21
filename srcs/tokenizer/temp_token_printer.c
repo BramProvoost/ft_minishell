@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 14:11:57 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/23 19:42:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/14 15:06:08 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,33 @@
 char	*temp_type_to_string(t_type type)
 {
 	if (type == CMD)
-		return ("CMD");
+		return ("CMD\t");
 	if (type == WORD)
-		return ("WORD");
+		return ("WORD\t");
 	if (type == PIPE)
-		return ("PIPE");
+		return ("PIPE\t");
 	if (type == INPUT_SINGLE)
-		return ("INPUT_S");
+		return ("INPUT_SINGLE");
 	if (type == HEREDOC)
-		return ("INPUT_D");
+		return ("HEREDOC");
 	if (type == OUTPUT_SINGLE)
-		return ("OUTPUT_S");
+		return ("OUTPUT_SINGLE");
 	if (type == OUTPUT_APPEND)
-		return ("OUTPUT_D");
+		return ("OUTPUT_APPEND");
 	if (type == FILE_T)
-		return ("FILE");
+		return ("FILE\t");
 	return ("No tokens found");
 }
 
 /* temporary function for visualising */
-void	temp_print_tokens(t_token *tokens)
+void	temp_print_tokens(t_token *tokens, char *header)
 {
+	printf(BLUE"%s"NC"\n", header);
 	while (tokens)
 	{
-		printf(GRAY"type: %s\tlen: %li\tvalue: \""GREEN"%s"GRAY"\"\n"NC, temp_type_to_string(tokens->type), tokens->len, tokens->value);
+		printf(GRAY"type: %s\tlen: %li\tvalue: \""GREEN"%s"GRAY"\""NC"\n", 
+			temp_type_to_string(tokens->type), tokens->len, tokens->value);
 		tokens = tokens->next;
 	}
+	printf(BLUE"End %s"NC"\n", header);
 }
