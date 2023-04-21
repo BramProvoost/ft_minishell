@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/20 16:59:57 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/21 17:54:43 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,8 @@ int	test_shell(char *line, t_env *env)
 	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
 	temp_print_tokens(tokens, "Tokens");	// temp using for visualizing
+	expander(&tokens, env);
+	temp_print_tokens(tokens, "Expand Tokens");	// temp using for visualizing
 	cmd = get_cmd_from_token(tokens, env);
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
@@ -187,7 +189,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env		*env;
 
-	g_exit_code = 0;
+	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")
