@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/21 17:51:09 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/26 19:31:39 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_cmd
 {
 	bool			echo_n_flag;
 	bool			echo_print_flag;
-	char			*arg;
+	// char			*arg;
 	t_exec			*exec;
 	struct s_file	*file;
 	struct s_cmd	*next;
@@ -126,6 +126,7 @@ typedef struct exec_data
 typedef struct s_file {
 	t_type			type;
 	char			*file_name;
+	char			*delimiter;
 	struct s_file	*next;
 }	t_file;
 
@@ -174,7 +175,7 @@ char	*get_full_cmd(char *cmd, char **paths);
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env);
-void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
