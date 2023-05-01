@@ -1,30 +1,42 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/27 20:00:19 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/01 19:51:08 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+// char	name_heredoc_file(char *delimiter)
+// {
+// 	// save the delimiter address as a string with the delimiter as a name
+// 	// return the string
+	
+	
+	
+// }
 
 int	create_heredoc_file(char *delimiter, char *file_name)
 {
 	int		fd;
 	char	*line;
 
-	fd = open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
-	if (fd == ERROR || access(file_name, 0) != 0)
-		return (file_error(file_name));
+	if (file_name != NULL)
+	{
+		fd = open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
+		if (fd == ERROR || access(file_name, 0) != 0)
+			return (file_error(file_name));
+	}
 	while (1)
 	{
-		line = readline("heredoc> ");
+		line = readline("> ");
 		if (!line)
-			return (ERROR);
+			break ;
 		if (ft_strncmp(line, delimiter, ft_strlen(line)) == 0)
 		{
 			free(line);
@@ -38,44 +50,32 @@ int	create_heredoc_file(char *delimiter, char *file_name)
 	return (SUCCESS);
 }
 
-int	run_heredoc(t_cmd *cmd, t_env *env, char *delimiter)
+int	run_heredoc(t_file *file)
 {
 	int	fd;
 
-	fd = open(cmd->file->next->file_name, O_RDONLY);
-	if (fd == ERROR)
-		return (file_error(cmd->file->next->file_name));
-	if (duplicate(fd, STDIN_FILENO) == ERROR)
-		return (ERROR);
-	(void)env;
-	// ft_execute(cmd, env);
-	if (unlink(cmd->file->next->file_name) == ERROR)
-		return (file_error(cmd->file->next->file_name));
-	free(delimiter);
-	return (SUCCESS);
+	fd = open(file->file_name, O_RDONLY);
+	unlink(file->file_name);
+	return (fd);
 }
 
-int	heredoc(t_cmd *cmd, t_env *env)
+int	heredoc(t_exec_data *exec_data)
 {
-	char	*delimiter;
-
+	t_file	*file;
+	t_cmd	*cmd;
+	file = exec_data->cmd->file;
+	cmd = exec_data->cmd;
 	while (cmd)
 	{
-		if (cmd->file->type == HEREDOC)
+		while (file)
 		{
-			delimiter = ft_strdup(cmd->file->delimiter);
-			if (!delimiter)
-				return (ERROR);
-			if (create_heredoc_file(delimiter, cmd->file->next->file_name) == ERROR)
+			if (file->type == HEREDOC)
 			{
-				free(delimiter);
-				return (ERROR);
+				file->file_name = file->delimiter;
+				if (create_heredoc_file(file->delimiter, file->file_name) == ERROR)
+					return (ERROR);
 			}
-			if (run_heredoc(cmd, env, delimiter) == ERROR)
-			{
-				free(delimiter);
-				return (ERROR);
-			}
+			file = file->next;
 		}
 		cmd = cmd->next;
 	}
