@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cmds_handler.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cmds_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/01 11:33:53 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	child_process(t_exec_data *exec_data, int prev_fd)
 {
 	if (exec_data->is_pipe == true)
 		close (exec_data->pipe_fds[READ]);
-	if (redirect_input(exec_data->cmd, exec_data->env, prev_fd) != SUCCESS)
+	if (redirect_input(exec_data, prev_fd) != SUCCESS)
 		exit(g_exit_status);
 	if (exec_data->cmd)
 	{

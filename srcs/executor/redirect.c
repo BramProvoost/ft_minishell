@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   redirect.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 10:48:18 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/05 17:54:10 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   redirect.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/01 19:47:01 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	duplicate(int fd, int fileno)
 {
 	if (fd == fileno)
 		return (SUCCESS);
+	fprintf(stderr, "fd = %d, fileno = %d\n", fd, fileno);
 	if (dup2(fd, fileno) == ERROR)
 	{
 		perror(ft_itoa(errno));
@@ -38,43 +39,48 @@ static int	open_file(char *file_name, int type)
 	return (fd);
 }
 
-int	redirect_input(t_cmd *cmd, t_env *env, int fd)
+int	redirect_input(t_exec_data *exec_data, int fd)
 {
-	if (cmd->file == NULL)
-		return (duplicate(fd, STDIN_FILENO));
-	if (cmd->file->type == INPUT_SINGLE)
+	t_file	*tmp;
+
+	tmp = exec_data->cmd->file;
+	while (tmp)
 	{
-		fd = open(cmd->file->file_name, O_RDONLY);
-		if (fd == ERROR)
-			return (file_error(cmd->file->file_name));
+		if (fd != STDIN_FILENO && (tmp->type == HEREDOC || tmp->type == INPUT_SINGLE))
+			close(fd);
+		if (tmp->type == INPUT_SINGLE)
+		{
+			fd = open(tmp->file_name, O_RDONLY);
+			if (fd == ERROR)
+				return (file_error(tmp->file_name));
+		}
+		if (tmp->type == HEREDOC)
+			fd = run_heredoc(tmp);
+		tmp = tmp->next;
 	}
-	else if (cmd->file->type == HEREDOC)
-		heredoc(cmd, env);
 	return (duplicate(fd, STDIN_FILENO));
 }
 
 int	redirect_output(t_exec_data *exec_data)
 {
 	int	fd;
+	t_file	*tmp;
 
-	fd = 0;
+	tmp = exec_data->cmd->file;
+	fd = STDOUT_FILENO;
 	if (exec_data->is_pipe == true)
-		return (duplicate(exec_data->pipe_fds[WRITE], STDOUT_FILENO));
-	if (exec_data->cmd->file == NULL)
-		return (SUCCESS);
-	if (exec_data->cmd->file->type == OUTPUT_SINGLE)
+		fd = exec_data->pipe_fds[WRITE];
+	while (tmp)
 	{
-		fd = open_file(exec_data->cmd->file->file_name, OUTPUT);
-		return (duplicate(fd, STDOUT_FILENO));
+		if (fd != STDOUT_FILENO && (tmp->type == OUTPUT_SINGLE || tmp->type == OUTPUT_APPEND))
+			close(fd);
+		if (tmp->type == OUTPUT_SINGLE)
+			fd = open_file(tmp->file_name, OUTPUT);
+		else if (tmp->type == OUTPUT_APPEND)
+			fd = open_file(tmp->file_name, APPEND);
+		tmp = tmp->next;
 	}
-	else if (exec_data->cmd->file->type == OUTPUT_APPEND)
-	{
-		fd = open_file(exec_data->cmd->file->file_name, APPEND);
-		return (duplicate(fd, STDOUT_FILENO));
-	}
-	else if (exec_data->cmd->file->type == HEREDOC)
-		heredoc(exec_data->cmd, exec_data->env);
-	return (SUCCESS);
+	return (duplicate(fd, STDOUT_FILENO));
 }
 
 void	close_fds(int *pipe_fds, int fd_in, bool is_pipe)

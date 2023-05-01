@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/21 17:48:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/04/26 19:37:08 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
 }
 
-void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value)
 {
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
@@ -110,7 +110,10 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file)
 		tmp_file = tmp_file->next;
 	}
 	tmp_file->type = type;
-	tmp_file->file_name = file;
+	if (type == HEREDOC)
+		tmp_file->delimiter = value;
+	else
+		tmp_file->file_name = value;
 }
 
 void	free_t_cmd(t_cmd *cmd)
@@ -168,6 +171,7 @@ void	temp_t_cmd_printer(t_cmd *cmd, char *header)
 		{
 			printf(GRAY"cmd[%d]->file[%d]->type = '"GREEN"%s"GRAY"'"NC"\n",i, j, temp_type_to_string(tmp_file->type));
 			printf(GRAY"cmd[%d]->file[%d]->file_name = '"GREEN"%s"GRAY"'"NC"\n", i, j, tmp_file->file_name);
+			printf(GRAY"cmd[%d]->file[%d]->delimiter = '"GREEN"%s"GRAY"'"NC"\n", i, j, tmp_file->delimiter);
 			tmp_file = tmp_file->next;
 			j++;
 		}

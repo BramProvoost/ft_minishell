@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/21 17:51:09 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/01 19:51:41 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ typedef struct s_cmd
 {
 	bool			echo_n_flag;
 	bool			echo_print_flag;
-	char			*arg;
+	// char			*arg;
 	t_exec			*exec;
 	struct s_file	*file;
 	struct s_cmd	*next;
@@ -126,8 +126,15 @@ typedef struct exec_data
 typedef struct s_file {
 	t_type			type;
 	char			*file_name;
+	char			*delimiter;
 	struct s_file	*next;
 }	t_file;
+
+typedef struct s_heredoc
+{
+	char				*delimiter;
+	struct s_heredoc	*next;
+}	t_heredoc;
 
 /* main.c */
 char	**get_paths(t_env *env);
@@ -174,7 +181,7 @@ char	*get_full_cmd(char *cmd, char **paths);
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env);
-void	file_to_t_cmd(t_cmd **cmd, t_type type, char *file);
+void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
@@ -210,11 +217,11 @@ int		chdir_error(char *str, int32_t error);
 
 //File handler functions
 int		duplicate(int fd, int fileno);
-int		redirect_input(t_cmd *cmd, t_env *env, int fd);
+int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
 void    redirect_in_simple_cmd(t_exec_data *exec_data);
-int		heredoc(t_cmd *cmd, t_env *env);
-int		run_heredoc(t_cmd *cmd, t_env *env, char *delimiter);
+int		heredoc(t_exec_data *exec_data);
+int		run_heredoc(t_file *file);
 int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
