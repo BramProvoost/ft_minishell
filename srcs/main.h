@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/01 19:51:41 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/03 11:36:40 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ typedef struct s_cmd
 {
 	bool			echo_n_flag;
 	bool			echo_print_flag;
+	bool			echo_arg;
 	// char			*arg;
 	t_exec			*exec;
 	struct s_file	*file;
