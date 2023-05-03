@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/03 18:02:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/03 20:25:51 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,7 +147,7 @@ void	expander(t_token **tokens, t_env *env)
 	while (tmp)
 	{
 		tmp->value = expand(tmp->value, env);
-		if (!tmp->prev || (tmp->prev && tmp->prev->type != HEREDOC))
+		if (tmp->type != WORD)
 			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
