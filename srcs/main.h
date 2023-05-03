@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/26 19:31:39 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/01 19:51:41 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,12 @@ typedef struct s_file {
 	struct s_file	*next;
 }	t_file;
 
+typedef struct s_heredoc
+{
+	char				*delimiter;
+	struct s_heredoc	*next;
+}	t_heredoc;
+
 /* main.c */
 char	**get_paths(t_env *env);
 
@@ -211,11 +217,11 @@ int		chdir_error(char *str, int32_t error);
 
 //File handler functions
 int		duplicate(int fd, int fileno);
-int		redirect_input(t_cmd *cmd, t_env *env, int fd);
+int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
 void    redirect_in_simple_cmd(t_exec_data *exec_data);
-int		heredoc(t_cmd *cmd, t_env *env);
-int		run_heredoc(t_cmd *cmd, t_env *env, char *delimiter);
+int		heredoc(t_exec_data *exec_data);
+int		run_heredoc(t_file *file);
 int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions

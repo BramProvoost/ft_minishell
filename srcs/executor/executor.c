@@ -6,11 +6,71 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/03 09:29:20 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/03 09:31:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+// int	get_heredoc_len(t_token *tokens)
+// {
+// 	int		heredoc_len;
+// 	t_token	*tmp;
+
+// 	heredoc_len = 0;
+// 	tmp = tokens;
+// 	while (tmp)
+// 	{
+// 		if (tmp->type == HEREDOC)
+// 			heredoc_len++;
+// 		tmp = tmp->next;
+// 	}
+// 	return (heredoc_len);
+// }
+
+// t_heredoc	*new_heredoc_node(char *value)
+// {
+// 	t_heredoc	*new;
+
+// 	new = (t_heredoc *)malloc(sizeof(t_heredoc));
+// 	if (!new)
+// 		return (NULL);
+// 	new->delimiter = ft_strdup(value);
+// 	new->next = NULL;
+// 	return (new);
+// }
+
+// void	init_heredoc(t_heredoc **heredoc, t_token *tokens)
+// {
+// 	int 	heredoc_len;
+// 	t_heredoc	*tmp;
+// 	t_heredoc	*new;
+// 	int		i;
+
+// 	i = 0;
+// 	heredoc_len = get_heredoc_len(tokens);
+// 	while (tokens)
+// 	{
+// 		if (tokens->type == HEREDOC)
+// 		{
+// 			new = new_heredoc_node(tokens->value);
+// 			i++;
+// 			if (i == 0)
+// 			{
+// 				tmp = new;
+// 				*heredoc = tmp;
+// 				i++;
+// 				continue ;
+// 			}
+// 			else
+// 				tmp->next = new;
+// 			tmp = tmp->next;
+// 			i++;
+// 		}
+// 		if (tokens->next)
+// 			tokens = tokens->next;
+// 	}
+// }
 
 int	prepare_to_pipe_and_fork(t_exec_data *exec_data, int fd)
 {
@@ -60,15 +120,30 @@ static pid_t	simple_command(t_exec_data *exec_data)
 void	executor(t_cmd *cmd, t_token *tokens, t_env *env)
 {
 	pid_t		last_pid;
+	// t_heredoc	*here_doc;
 	t_exec_data	exec_data;
+	int	fd_in;
+	int fd_out;
 
 	last_pid = 0;
+	// init_heredoc(&here_doc, tokens);
+	// while (here_doc)
+	// {
+	// 	fprintf(stderr, "TESTING heredoc %s\n", here_doc->delimiter);
+	// 	here_doc = here_doc->next;
+	// }
 	exec_data_init(&exec_data, cmd, tokens, env);
+	fd_in = dup(STDIN_FILENO);
+	fd_out = dup(STDOUT_FILENO);
+	if (heredoc(&exec_data) == ERROR)
+		return ;
 	if (!cmd)
 		return ;
 	if (exec_data.is_pipe == true)
 		last_pid = prepare_to_pipe_and_fork(&exec_data, STDIN_FILENO);
 	else
 		last_pid = simple_command(&exec_data);
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 	wait_for_pids(last_pid);
 }
