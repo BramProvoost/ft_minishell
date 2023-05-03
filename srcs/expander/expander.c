@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/03 20:25:51 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/03 20:59:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,10 @@ char	*rm_quotes(char *str)
 			else if (quote == '0')
 				quote = str[i];
 			if (quote == '0' || quote == str[i])
+			{
 				ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i]));
+				i--;
+			}
 		}
 		i++;
 	}
