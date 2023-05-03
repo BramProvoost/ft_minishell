@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/20 18:53:53 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/03 18:02:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,11 +79,6 @@ char	*get_varname(char *str)
 
 char	*expand_special_cases(char *str)
 {
-	int	pid;
-
-	pid = 15201;	// todo: get pid
-	if (str[1] == '$')
-		return ft_itoa(pid);
 	if (str[1] == '?')
 		return ft_itoa(g_exit_status);
 	return ft_strdup("$");
@@ -95,7 +90,7 @@ char	*expand_variable(char *varname, t_env *env)
 	char	*expanded;
 
 	i = 0;
-	if (varname[1] && (varname[1] == '?' || varname[1] == '$'))
+	if (varname[1] && (varname[1] == '?'))
 		expanded = expand_special_cases(varname);
 	else if (!varname[1] || varname[1] == ' ')
 		expanded = ft_strdup("$");
