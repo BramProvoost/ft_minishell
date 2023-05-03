@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:34:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 14:37:14 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/03 21:05:27 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ int	file_error(char *filename)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
 		ft_putendl_fd("ambiguous redirect", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
 		return (1);
 	}
 	ft_putstr_fd("minishell: ", STDERR_FILENO);
@@ -47,8 +48,9 @@ int	file_error(char *filename)
 	{
 		ft_putstr_fd(filename, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd("Permission denied", STDERR_FILENO);
+		g_exit_status = 126;
 	}
-	ft_putendl_fd("No such file or directory", STDERR_FILENO);
 	return (1);
 }
 
@@ -59,7 +61,7 @@ void	error_cmd_not_found(char *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": no such file or directory", 2);
-		exit(2);
+		exit(127);
 	}
 	else
 	{
