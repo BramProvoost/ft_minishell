@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/03 20:21:22 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 10:12:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,6 +191,7 @@ char	*temp_type_to_string(t_type type);
 /* expander.c */
 void	temp_print_tokens(t_token *tokens, char *header);
 char	*rm_quotes(char *str);
+char	*expand(char *str, t_env *env);
 void	expander(t_token **tokens, t_env *env);
 
 //Executor functions
@@ -220,10 +221,10 @@ int		chdir_error(char *str, int32_t error);
 int		duplicate(int fd, int fileno);
 int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
-void    redirect_in_simple_cmd(t_exec_data *exec_data);
+void	redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_exec_data *exec_data);
 int		run_heredoc(t_file *file);
-int		create_heredoc_file(char *delimiter, char *file_name);
+int		create_heredoc_file(char *delimiter, char *file_name, t_env *env);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
@@ -249,6 +250,6 @@ t_env	*new_env_node(char *env);
 bool	create_env_list(t_env **head, char **envp);
 char	**env_to_list(t_env *env);
 int		get_env_len(t_env *env);
-void    assign_env_value(t_env *new, char *env, int i, int len);
+void	assign_env_value(t_env *new, char *env, int i, int len);
 
 #endif

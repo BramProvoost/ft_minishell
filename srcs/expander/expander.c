@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/03 20:59:01 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 08:48:23 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ char	*expand_variable(char *varname, t_env *env)
 	return (expanded);
 }
 
-int	in_quotes(char *str, int index)
+int	in_single_quotes(char *str, int index)
 {
 	int	i;
 	int	is_in_quotes;
@@ -118,7 +118,7 @@ int	in_quotes(char *str, int index)
 	return (is_in_quotes);
 }
 
-char *expand(char *str, t_env *env)
+char	*expand(char *str, t_env *env)
 {
 	char 	*newstr;
 	char	*varname;
@@ -128,7 +128,7 @@ char *expand(char *str, t_env *env)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && !in_quotes(str, i))
+		if (str[i] == '$' && !in_single_quotes(str, i))
 		{
 			varname = get_varname(&str[i]);
 			newstr = ft_strjoin(newstr, expand_variable(varname, env));
@@ -150,7 +150,7 @@ void	expander(t_token **tokens, t_env *env)
 	while (tmp)
 	{
 		tmp->value = expand(tmp->value, env);
-		if (tmp->type != WORD)
+		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
 			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
