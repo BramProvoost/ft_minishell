@@ -6,23 +6,25 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/04 10:12:21 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 15:14:40 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MAIN_H
 # define MAIN_H
 
-# define METACHARACTER " \t\n|&;()<>"
-# define NC "\033[0m"
-# define RED "\033[38;5;1m"
-# define GREEN "\033[38;5;2m"
-# define YELLOW "\033[38;5;3m"
-# define BLUE "\033[38;5;4m"
-# define MAGENTA "\033[38;5;5m"
-# define CYAN "\033[38;5;6m"
-# define WHITE "\033[38;5;7m"
-# define GRAY "\033[38;5;8m"
+# define NC			"\033[0m"
+# define RED		"\033[38;5;1m"
+# define GREEN		"\033[38;5;2m"
+# define YELLOW		"\033[38;5;3m"
+# define BLUE		"\033[38;5;4m"
+# define MAGENTA	"\033[38;5;5m"
+# define CYAN		"\033[38;5;6m"
+# define WHITE		"\033[38;5;7m"
+# define GRAY		"\033[38;5;8m"
+# define CC_CLEAR	"\x1b[H\x1b[0J"
+# define CC_1UP		"\033[F\x1b[0J"
+# define CC_LINE	"\r\x1b[0J"
 
 # define CHILD 0
 # define READ 0
@@ -35,6 +37,7 @@
 # define OUTPUT 1
 # define APPEND 2
 
+#include <termios.h>
 
 # include <unistd.h>
 # include <stdlib.h>
