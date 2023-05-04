@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/01 19:47:01 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/01 21:22:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int	duplicate(int fd, int fileno)
 {
 	if (fd == fileno)
 		return (SUCCESS);
-	fprintf(stderr, "fd = %d, fileno = %d\n", fd, fileno);
 	if (dup2(fd, fileno) == ERROR)
 	{
 		perror(ft_itoa(errno));
