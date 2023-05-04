@@ -6,55 +6,11 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/04 10:15:55 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 11:00:26 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
-
-// char	name_heredoc_file(char *delimiter)
-// {
-// 	// save the delimiter address as a string with the delimiter as a name
-// 	// return the string
-	
-	
-	
-// }
-
-// int	str_has_quotes(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\'' || str[i] == '"')
-// 			return (1);
-// 		i++;
-// 	}
-// 	return (0);
-// }
-
-// int	str_in_quotes(char *str)
-// {
-// 	int	i;
-// 	int	in_quotes;
-
-// 	i = 0;
-// 	in_quotes = 0;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\'' || str[i] == '"')
-// 		{
-// 			if (in_quotes == 0)
-// 				in_quotes = str[i];
-// 			else if (in_quotes == str[i])
-// 				in_quotes = 0;
-// 		}
-// 		i++;
-// 	}
-// 	return (in_quotes);
-// }
 
 int	str_start_stop_with_quotes(char *str)
 {
