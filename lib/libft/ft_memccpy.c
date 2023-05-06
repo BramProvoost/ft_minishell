@@ -24,11 +24,9 @@ void	*ft_memccpy(void *s1, const void *s2, int c, size_t n)
 {
 	unsigned char	*pdes;
 	unsigned char	*psrc;
-	size_t			i;
 
 	pdes = (unsigned char *)s1;
 	psrc = (unsigned char *)s2;
-	i = 0;
 	while (n > 0)
 	{
 		*pdes = *psrc;
