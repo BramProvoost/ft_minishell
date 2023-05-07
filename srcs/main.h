@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/03 11:36:40 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 20:15:47 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,7 +229,7 @@ int		create_heredoc_file(char *delimiter, char *file_name);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
-int		execute_built_in_cmd(t_cmd *cmd_list, char *cmd, t_env *env);
+int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd);
 int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd();
@@ -241,7 +241,7 @@ bool	is_not_alpha(char *str);
 bool	is_not_alpha_second_arg(char *str);
 bool	check_if_cmd_is_word(t_cmd *cmd, int i);
 void	set_env(char *key, char *value, t_env *env);
-int		minishell_exit(char *arg, t_cmd *cmd);
+int		minishell_exit(char *arg, t_exec_data *exec_data);
 int		minishell_unset(t_cmd *cmd, t_env *env);
 
 //env functions
