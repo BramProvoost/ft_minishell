@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/07 23:30:02 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/08 00:26:31 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,7 +221,7 @@ int		chdir_error(char *str, int32_t error);
 int		duplicate(int fd, int fileno);
 int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
-void	redirect_in_simple_cmd(t_exec_data *exec_data);
+int		redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_exec_data *exec_data);
 int		run_heredoc(t_file *file);
 int		create_heredoc_file(char *delimiter, char *file_name);

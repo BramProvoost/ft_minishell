@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 20:56:52 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/01 11:29:55 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/08 00:31:35 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,11 @@ void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, \
 	exec_data->is_pipe = has_pipe(cmd);
 }
 
-void	redirect_in_simple_cmd(t_exec_data *exec_data)
+int	redirect_in_simple_cmd(t_exec_data *exec_data)
 {
 	if (redirect_input(exec_data, STDIN_FILENO) == ERROR)
-	{
-		ft_putendl_fd("Error: input redirection", STDERR_FILENO);
-		g_exit_status = ERROR;
-	}
+		return (ERROR);
 	if (redirect_output(exec_data) == ERROR)
-	{
-		ft_putendl_fd("Error: output redirection", STDERR_FILENO);
-		g_exit_status = ERROR;
-	}
+		return (ERROR);
+	return (SUCCESS);
 }
