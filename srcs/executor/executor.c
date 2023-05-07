@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 20:11:42 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 21:14:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ static pid_t	simple_command(t_exec_data *exec_data)
 	redirect_in_simple_cmd(exec_data);
 	if (exec_data->cmd->exec == NULL)
 		return (fork_pid);
-	if (execute_built_in_cmd(exec_data, exec_data->cmd->exec->cmd_args[0]) == SUCCESS)
+	if (execute_built_in_cmd(exec_data, exec_data->cmd->exec->cmd_args[0], true) == SUCCESS)
 		return (fork_pid);
 	else
 	{

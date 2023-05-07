@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 19:50:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 20:15:03 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 21:22:59 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	is_buld_in_cmd(char *cmd)
 	return (0);
 }
 
-int	execute_built_in_cmd(t_exec_data *exec_data, char *cmd)
+int	execute_built_in_cmd(t_exec_data *exec_data, char *cmd, bool exit_flag)
 {
 	if (!cmd)
 		return (ERROR);
@@ -50,6 +50,6 @@ int	execute_built_in_cmd(t_exec_data *exec_data, char *cmd)
 	else if (!ft_strncmp(cmd, "env", 4))
 		return (minishell_env(exec_data->env));
 	else if (!ft_strncmp(cmd, "exit", 5))
-		return (minishell_exit(exec_data->cmd->exec->cmd_args[0], exec_data));
+		return (minishell_exit(exit_flag, exec_data));
 	return (ERROR);
 }
