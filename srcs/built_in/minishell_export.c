@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 14:36:30 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 23:31:05 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,11 +20,13 @@ bool	check_if_env_key_exists(t_env *env, char *key, char *value)
 		{
 			free(env->value);
 			env->value = ft_strdup(value);
+			env->has_value = true;
 		}
 		else
 		{
 			free(env->value);
 			env->value = NULL;
+			env->has_value = false;
 		}
 		return (true);
 	}
@@ -40,6 +42,7 @@ void	set_env(char *key, char *value, t_env *env)
 	{
 		tmp = ft_strjoin(key, "=");
 		tmp2 = ft_strjoin(tmp, value);
+		free(tmp);
 	}
 	else
 		tmp2 = key;
@@ -71,17 +74,6 @@ char	*get_export_value(t_cmd *cmd, int i, int j)
 		return (NULL);
 }
 
-void	add_second_arg_if_exists(t_cmd *cmd, t_env *env, int i)
-{
-	if (cmd->exec->cmd_args[i + 1] != NULL \
-		&& cmd->exec->cmd_args[i + 1][0] != '=')
-	{
-		while (!(is_not_alpha_second_arg(cmd->exec->cmd_args[i + 1])))
-			i++;
-		export_util(cmd->exec->cmd_args[i + 1], NULL, env);
-	}
-}
-
 int	minishell_export(t_cmd *cmd, t_env *env)
 {
 	int		i;
@@ -95,8 +87,8 @@ int	minishell_export(t_cmd *cmd, t_env *env)
 		j = 0;
 		if (!check_if_cmd_is_word(cmd, i))
 		{
-			add_second_arg_if_exists(cmd, env, i);
-			return (false);
+			i++;
+			continue ;
 		}
 		while (cmd->exec->cmd_args[i][j] && cmd->exec->cmd_args[i][j] != '=')
 			j++;

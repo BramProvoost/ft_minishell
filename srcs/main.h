@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/07 21:22:50 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 23:30:02 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@
 # define OUTPUT 1
 # define APPEND 2
 
-
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -49,7 +48,6 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include "../lib/libft/libft.h"
-
 
 /* Global variable declaration */
 int	g_exit_status;
@@ -81,7 +79,6 @@ typedef struct s_line {
 	char	*text;
 }	t_line;
 
-
 /// @param cmd_path path and command
 /// @param cmd_args command and arguments
 typedef struct s_exec
@@ -93,9 +90,9 @@ typedef struct s_exec
 
 typedef struct s_env
 {
-	char	*key;
-	char	*value;
-	bool	has_value;
+	char			*key;
+	char			*value;
+	bool			has_value;
 	struct s_env	*next;
 }	t_env;
 
@@ -110,7 +107,6 @@ typedef struct s_cmd
 	bool			echo_n_flag;
 	bool			echo_print_flag;
 	bool			echo_arg;
-	// char			*arg;
 	t_exec			*exec;
 	struct s_file	*file;
 	struct s_cmd	*next;
@@ -154,7 +150,7 @@ void	quote_case(t_line *line);
 
 /* hande_token.c */
 void	delete_tokens(t_token *head);
-t_token *create_token(void);
+t_token	*create_token(void);
 t_token	*last_token(t_token *lst);
 void	add_token_back(t_token **lst, t_token *new);
 
@@ -183,8 +179,10 @@ char	*get_full_cmd(char *cmd, char **paths);
 /* add_cmd.c */
 t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
-void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env);
-void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value);
+void	path_and_cmd_to_t_cmd(t_cmd **cmd, \
+		char **split_cmd_and_args, t_env *env);
+void	file_to_t_cmd(t_cmd **cmd, t_type type, \
+		char *value);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
@@ -201,7 +199,8 @@ void	ft_execute(t_exec_data *exec_data);
 void	child_process(t_exec_data *exec_data, int prev_fd);
 void	close_fds(int *pipe_fds, int fd_in, bool is_pipe);
 void	wait_for_pids(pid_t pid);
-void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, t_token *tokens, t_env *env);
+void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, \
+		t_token *tokens, t_env *env);
 void	set_cmd_to_next(t_exec_data *exec_data);
 void	close_pipes(int pipe_fds[2]);
 bool	has_pipe(t_cmd *cmd);
@@ -222,7 +221,7 @@ int		chdir_error(char *str, int32_t error);
 int		duplicate(int fd, int fileno);
 int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
-void    redirect_in_simple_cmd(t_exec_data *exec_data);
+void	redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_exec_data *exec_data);
 int		run_heredoc(t_file *file);
 int		create_heredoc_file(char *delimiter, char *file_name);
@@ -232,11 +231,11 @@ int		is_buld_in_cmd(char *cmd);
 int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd, bool exit_flag);
 int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
-int		minishell_pwd();
+int		minishell_pwd(void);
 int		minishell_export(t_cmd *cmd, t_env *env);
 void	print_export(t_env *env);
 void	export_util(char *key, char *value, t_env *env);
-bool    export_error(char *str);
+bool	export_error(char *str);
 bool	is_not_alpha(char *str);
 bool	is_not_alpha_second_arg(char *str);
 bool	check_if_cmd_is_word(t_cmd *cmd, int i);
@@ -251,6 +250,6 @@ t_env	*new_env_node(char *env);
 bool	create_env_list(t_env **head, char **envp);
 char	**env_to_list(t_env *env);
 int		get_env_len(t_env *env);
-void    assign_env_value(t_env *new, char *env, int i, int len);
+void	assign_env_value(t_env *new, char *env, int i, int len);
 
 #endif

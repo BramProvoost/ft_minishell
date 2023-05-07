@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 14:40:30 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/07 23:32:17 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,14 @@ bool	is_not_alpha_second_arg(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isalpha(str[i]) == 0 && str[i] != '_' \
-			&& str[i] != '?')
+		if (i == 0)
+		{
+			if (ft_isalpha(str[i]) == 0 && str[i] != '_' \
+				&& str[i] != '?' && str[i] != '=')
+				return (export_error(str));
+		}
+		if ((ft_isalnum(str[i]) == 0) && str[i] != '_' \
+			&& str[i] != '?' && str[i] != '=')
 			return (export_error(str));
 		i++;
 	}
@@ -67,7 +73,13 @@ bool	is_not_alpha(char *str)
 	i = 0;
 	while (str[i])
 	{
-		if (ft_isalpha(str[i]) == 0 && str[i] != '_' \
+		if (i == 0)
+		{
+			if (ft_isalpha(str[i]) == 0 && str[i] != '_' \
+				&& str[i] != '?' && str[i] != '=')
+				return (export_error(str));
+		}
+		if ((ft_isalnum(str[i]) == 0) && str[i] != '_' \
 			&& str[i] != '?' && str[i] != '=')
 			return (export_error(str));
 		i++;
