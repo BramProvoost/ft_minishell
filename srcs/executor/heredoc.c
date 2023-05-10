@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/10 14:29:19 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 16:12:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,7 @@ int	create_heredoc_file(char *delimiter, char *file_name, t_env *env)
 		fd = open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
 		if (fd == ERROR || access(file_name, 0) != 0)
 			return (file_error(file_name));
-	}
-	while (1)
-	{
-		line = readline("> ");
-		if (!line)
-			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+		while (1)
 		{
 			line = readline("> ");
 			if (write_line_to_file(line, delimiter, do_expand, fd, env) == 0)
@@ -95,7 +89,6 @@ int	heredoc(t_exec_data *exec_data)
 {
 	t_file	*file;
 	t_cmd	*cmd;
-
 	file = exec_data->cmd->file;
 	cmd = exec_data->cmd;
 	while (cmd)
