@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/04 15:14:40 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 15:59:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ int		gramer_is_valid(t_token *tokens);
 
 /* signals.c */
 void	init_signals(void);
+void	sigquit_handler(int signum);
 
 /* cmds_handler.c */
 char	*get_full_cmd(char *cmd, char **paths);

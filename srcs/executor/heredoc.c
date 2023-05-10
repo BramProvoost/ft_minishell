@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/04 11:00:26 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/04 19:37:18 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,6 +89,7 @@ int	heredoc(t_exec_data *exec_data)
 {
 	t_file	*file;
 	t_cmd	*cmd;
+
 	file = exec_data->cmd->file;
 	cmd = exec_data->cmd;
 	while (cmd)
