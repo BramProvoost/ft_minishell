@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/14 15:34:00 by edawood       #+#    #+#                 */
-/*   Updated: 2023/04/27 19:44:40 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 14:27:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,31 @@ void	error_exit(int code, char *cmd)
 
 int	file_error(char *filename)
 {
-	if (!filename)
+	if (errno == 2)
 	{
 		ft_putstr_fd("minishell: ", STDERR_FILENO);
-		ft_putendl_fd("ambiguous redirect", STDERR_FILENO);
-		return (1);
-	}
-	ft_putstr_fd("minishell: ", STDERR_FILENO);
-	if (filename)
-	{
 		ft_putstr_fd(filename, STDERR_FILENO);
 		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		g_exit_status = 1;
 	}
-	ft_putendl_fd("No such file or directory", STDERR_FILENO);
-	return (1);
+	if (errno == 13)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(filename, STDERR_FILENO);
+		ft_putstr_fd(": ", STDERR_FILENO);
+		ft_putendl_fd("Permission denied", STDERR_FILENO);
+		g_exit_status = 1;
+	}
+	if (errno == 18)
+	{
+		ft_putstr_fd("minishell: ", STDERR_FILENO);
+		ft_putstr_fd(filename, STDERR_FILENO);
+		ft_putendl_fd(": ", STDERR_FILENO);
+		ft_putendl_fd("No such file or directory", STDERR_FILENO);
+		g_exit_status = 126;
+	}
+	return (ERROR);
 }
 
 void	error_cmd_not_found(char *cmd)
@@ -59,7 +70,7 @@ void	error_cmd_not_found(char *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": no such file or directory", 2);
-		exit(2);
+		exit(127);
 	}
 	else
 	{

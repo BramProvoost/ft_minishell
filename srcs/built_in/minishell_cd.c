@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/23 14:29:25 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/08 00:38:27 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,17 @@ int	chdir_error(char *str, int32_t error)
 		write_error_with_strings("minishell: cd: ", str, \
 								": Permission denied\n");
 	else if (error == ENOENT)
+	{
 		write_error_with_strings("minishell: cd: ", str, \
 								": No such file or directory\n");
+		g_exit_status = 1;
+	}
 	else if (error == ENOTDIR)
+	{
 		write_error_with_strings("minishell: cd: ", str, \
 								": Not a directory\n");
+		g_exit_status = 1;
+	}
 	else
 		write_error_with_strings("minishell: cd: ", str, \
 								": Change directory error\n");
