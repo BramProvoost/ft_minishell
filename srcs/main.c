@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 15:31:50 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 16:18:33 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,11 +156,11 @@ int	test_shell(char *line, t_env *env)
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
-	// temp_print_tokens(tokens, "Tokens");	// temp using for visualizing
+	temp_print_tokens(tokens, "Tokens");	// temp using for visualizing
 	expander(&tokens, env);
-	// temp_print_tokens(tokens, "Expand Tokens");	// temp using for visualizing
+	temp_print_tokens(tokens, "Expand Tokens");	// temp using for visualizing
 	cmd = get_cmd_from_token(tokens, env);
-	// temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
+	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	return (EXIT_SUCCESS);

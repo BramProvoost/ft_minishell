@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 14:30:31 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 16:37:21 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_value_from_env(char *key, t_env *env)
 	{
 		if (env->has_value == true)
 		{
-			if (!ft_strncmp(env->key, key, ft_strlen(key))) // TODO: USER != USER_ZDOTDIR
+			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
 				return (env->value);
 		}
 		env = env->next;
@@ -147,7 +147,8 @@ void	expander(t_token **tokens, t_env *env)
 	tmp = *tokens;
 	while (tmp)
 	{
-		tmp->value = expand(tmp->value, env);
+		if (!(tmp->prev && tmp->prev->type == HEREDOC))
+			tmp->value = expand(tmp->value, env);
 		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
 			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
