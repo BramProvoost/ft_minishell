@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/04 18:36:47 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 15:31:50 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	test_shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line)
+	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
@@ -171,7 +171,7 @@ int	shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line)
+	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
