@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/21 10:43:52 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 18:02:58 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,12 +23,12 @@ void	pipe_case(t_token **token)
 	last->len = 1;
 }
 
-void	input_case(t_token **token, t_line line)
+void	input_case(t_token **token, t_line *line)
 {
 	t_token	*last;
 	char	n;
 
-	n = get_next_char(line);
+	n = get_next_char(*line);
 	add_token_back(token, create_token());
 	last = last_token(*token);
 	if (n == '<')
@@ -43,14 +43,16 @@ void	input_case(t_token **token, t_line line)
 		last->value = ft_strdup("<");
 		last->len = 1;
 	}
+	next_char(line);
+	data_to_token(token, line);
 }
 
-void	output_case(t_token **token, t_line line)
+void	output_case(t_token **token, t_line *line)
 {
 	t_token	*last;
 	char	n;
 
-	n = get_next_char(line);
+	n = get_next_char(*line);
 	add_token_back(token, create_token());
 	last = last_token(*token);
 	if (n == '>')
@@ -65,6 +67,8 @@ void	output_case(t_token **token, t_line line)
 		last->value = ft_strdup(">");
 		last->len = 1;
 	}
+	next_char(line);
+	data_to_token(token, line);
 }
 
 void	word_case(t_token **token, t_line *line)
@@ -74,6 +78,8 @@ void	word_case(t_token **token, t_line *line)
 	char	c;
 
 	if (!*token || (get_prev_char(*line) == ' ' && line->quote == 0))
+		add_token_back(token, create_token());
+	if (last_token(*token)->type != WORD)
 		add_token_back(token, create_token());
 	c = get_current_char(*line);
 	if (c == '\0')
