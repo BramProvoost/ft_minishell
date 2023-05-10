@@ -15,14 +15,14 @@ RL_INC			:= -I/Users/$(USER)/homebrew/opt/readline/include
 all: $(NAME)
 
 # Link object files to create NAME
-$(NAME): libft $(OBJECTS)
+$(NAME): $(LIBS) $(OBJECTS)
 	$(CC) $(CFLAGS) $(OBJECTS) $(LIBS) $(RL_LIB) -o $@
 
 # Compile source files to object files
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< $(RL_INC) -o $@
 
-libft:
+$(LIBS):
 	@$(MAKE) bonus -C $(LIBFT)
 
 # Clean up object files and NAME
@@ -44,3 +44,6 @@ resan: fclean
 
 debug:
 	@$(MAKE) DEBUG=1
+
+rebug: fclean
+	@$(MAKE) debug
