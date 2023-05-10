@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/26 19:37:08 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/03 20:28:55 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,18 @@ t_file	*new_t_file(void)
 	return (type);
 }
 
+void	rm_quotes_from_2d_array(char **array)
+{
+	int		i;
+
+	i = 0;
+	while (array[i])
+	{
+		array[i] = rm_quotes(array[i]);
+		i++;
+	}
+}
+
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 {
 	t_cmd	*tmp;
@@ -83,6 +95,8 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
 	tmp->exec = new_t_exec();
 	tmp->exec->cmd_path = ft_strdup(path_and_cmd);
+	if (ft_strncmp(split_cmd_and_args[0], "export", 7) != 0)
+		rm_quotes_from_2d_array(split_cmd_and_args);
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
 }
 
