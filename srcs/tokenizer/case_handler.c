@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   case_handler.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/21 10:43:52 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   case_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/26 16:57:00 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/10 18:19:35 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,10 @@ void	word_case(t_token **token, t_line *line)
 {
 	t_token	*word_token;
 	char	*last_char;
+	char	*temp;
 	char	c;
 
+	temp = NULL;
 	if (!*token || (get_prev_char(*line) == ' ' && line->quote == 0))
 		add_token_back(token, create_token());
 	c = get_current_char(*line);
@@ -81,7 +83,10 @@ void	word_case(t_token **token, t_line *line)
 	word_token = last_token(*token);
 	last_char = ft_strlendump(&line->text[line->position], 1);
 	word_token->type = WORD;
-	word_token->value = ft_strjoin(word_token->value, last_char);
+	temp = word_token->value;
+	word_token->value = ft_strjoin(temp, last_char);
+	free(temp);
+	free(last_char);
 	word_token->len++;
 	if (c == '\'' || c == '"')
 		quote_case(line);

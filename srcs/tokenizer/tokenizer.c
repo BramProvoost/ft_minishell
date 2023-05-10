@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   tokenizer.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 11:09:28 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   tokenizer.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:36:39 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/10 18:15:05 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,5 +66,6 @@ t_token	*tokenizer(char *raw_line)
 		data_to_token(&token_lst, &line);
 		move_position(token_lst, &line);
 	}
+	free(line.text);
 	return (token_lst);
 }

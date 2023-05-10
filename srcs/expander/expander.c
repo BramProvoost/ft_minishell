@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   expander.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/20 18:53:53 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/10 18:49:07 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,6 +122,7 @@ char *expand(char *str, t_env *env)
 {
 	char 	*newstr;
 	char	*varname;
+	char	*tmp;
 	int		i;
 
 	newstr = NULL;
@@ -136,21 +137,30 @@ char *expand(char *str, t_env *env)
 			free(varname);
 		}
 		else
-			newstr = ft_strjoin(newstr, ft_strlendump(&str[i], 1));
+		{
+			tmp = newstr;
+			newstr = ft_strjoin(tmp, ft_strlendump(&str[i], 1));
+			free(tmp);
+		}
 		i++;
 	}
+	// system("leaks minishell");
 	return (newstr);
 }
 
 void	expander(t_token **tokens, t_env *env)
 {
 	t_token	*tmp;
+	char	*tmp_val;
 
 	tmp = *tokens;
 	while (tmp)
 	{
-		tmp->value = expand(tmp->value, env);
+		tmp_val = tmp->value;
+		tmp->value = expand(tmp_val, env);
+		free(tmp_val);
 		tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
+	system("leaks minishell");
 }

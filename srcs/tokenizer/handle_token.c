@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   handle_token.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/26 16:47:48 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/01/27 11:05:09 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   handle_token.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/26 16:47:48 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/10 18:07:28 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ void	delete_tokens(t_token *head)
 		temp = head;
 		head = head->next;
 		free(temp->value);
+		free_2d(temp->paths);
 		free(temp);
 	}
 }

@@ -1,16 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/26 17:54:45 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/10 18:46:01 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+void	delete_cmd(t_cmd *cmd)
+{
+	// generate code that frees all the cmd's linked list members
+	// and then frees the cmd itself
+	
+	t_cmd	*temp;
+	
+	fprintf(stderr, "WE ARE IN THE DELETE CMD FUNCTION\n");
+	while (cmd)
+	{
+		fprintf(stderr, "WE ARE IN THE DELETE CMD LOOP\n");
+		temp = cmd;
+		// free(temp->value);
+		free_2d(temp->exec->cmd_args);
+		free(temp->exec->cmd_path);
+		free(temp->exec);
+		free(temp);
+		cmd = cmd->next;
+	}
+}
 
 int	is_exit(t_token *tokens)
 {
@@ -157,12 +178,17 @@ int	test_shell(char *line, t_env *env)
 	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
 	temp_print_tokens(tokens, "Tokens");	// temp using for visualizing
+	// delete_tokens(tokens);
 	expander(&tokens, env);
+	exit(0);
 	temp_print_tokens(tokens, "Expand Tokens");	// temp using for visualizing
 	cmd = get_cmd_from_token(tokens, env);
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
+	fprintf(stderr, "BEFORE DELETE CMD\n");
+	delete_cmd(cmd);
+	fprintf(stderr, "AFTER DELETE CMD\n");
 	return (EXIT_SUCCESS);
 }
 
@@ -181,14 +207,23 @@ int	shell(char *line, t_env *env)
 	cmd = get_cmd_from_token(tokens, env);
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
+	fprintf(stderr, "BEFORE DELETE CMD\n");
+	delete_cmd(cmd);
+	fprintf(stderr, "AFTER DELETE CMD\n");
 	return (EXIT_SUCCESS);
 }
+
+// void	check(void)
+// {
+// 	system("leaks minishell");
+// }
 
 int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
 	t_env		*env;
 
+	// atexit(check);
 	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();
@@ -199,6 +234,7 @@ int	main(int argc, char *argv[], char **envp)
 		// shell(line, env); // use before eval
 	}
 	free_env_list(&env);
+	free(line);
 	(void)argc;
 	(void)argv;
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/08 00:26:31 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/10 17:14:36 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -184,6 +184,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, \
 void	file_to_t_cmd(t_cmd **cmd, t_type type, \
 		char *value);
 void	free_t_cmd(t_cmd *cmd);
+void	delete_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
 /* temp_token_printer.c */
