@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   env_functions.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 23:24:17 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   env_functions.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/26 18:57:18 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/11 15:02:13 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*new_env_node(char *env)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	while (env[i])
+	while (env[i] && new->has_value == false)
 	{
 		if (env[i] == '=')
 		{

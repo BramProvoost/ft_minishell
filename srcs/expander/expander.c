@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/10 18:49:07 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   expander.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/11 11:56:25 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,5 +164,5 @@ void	expander(t_token **tokens, t_env *env)
 			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
-	system("leaks minishell");
+	// system("leaks minishell");
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/10 18:46:01 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/11 14:52:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -172,6 +172,7 @@ int	test_shell(char *line, t_env *env)
 
 	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
+	// system("leaks minishell");
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
@@ -213,19 +214,22 @@ int	shell(char *line, t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-// void	check(void)
-// {
-// 	system("leaks minishell");
-// }
+void	check(void)
+{
+	system("leaks minishell");
+}
 
 int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
 	t_env		*env;
 
-	// atexit(check);
+	atexit(check);
 	g_exit_status = 0;
 	create_env_list(&env, envp);
+	free_env_list(&env);// temp
+	exit(0);
+	// system("leaks minishell");
 	init_signals();
 	while ("you don't close me")
 	{
