@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   case_handler.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/26 16:57:00 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/10 18:19:35 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   case_handler.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/11 17:39:42 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	output_case(t_token **token, t_line line)
 void	word_case(t_token **token, t_line *line)
 {
 	t_token	*word_token;
-	char	*last_char;
 	char	*temp;
 	char	c;
 
@@ -81,12 +80,10 @@ void	word_case(t_token **token, t_line *line)
 	if (c == '\0')
 		return ;
 	word_token = last_token(*token);
-	last_char = ft_strlendump(&line->text[line->position], 1);
 	word_token->type = WORD;
 	temp = word_token->value;
-	word_token->value = ft_strjoin(temp, last_char);
+	word_token->value = ft_append_char_to_string(temp, c);
 	free(temp);
-	free(last_char);
 	word_token->len++;
 	if (c == '\'' || c == '"')
 		quote_case(line);
