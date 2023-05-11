@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/10 16:12:09 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/10 22:27:46 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,12 +76,27 @@ int	create_heredoc_file(char *delimiter, char *file_name, t_env *env)
 	return (SUCCESS);
 }
 
-int	run_heredoc(t_file *file)
+int	run_heredoc(t_file *file, bool is_heredoc)
 {
 	int	fd;
+	pid_t	pid;
 
-	fd = open(file->file_name, O_RDONLY);
-	unlink(file->file_name);
+	fd = -1;
+	pid = fork();
+	if (pid == ERROR)
+		ft_error();
+	if (pid == 0)
+	{
+		fd = open(file->file_name, O_RDONLY);
+		unlink(file->file_name);
+		// fprintf(stderr, "%d\n", fd);
+		dup2(fd, STDIN_FILENO);
+		is_heredoc = true;
+		// close(fd);
+		// exit(0);
+	}
+	fprintf(stderr, "%d\n", is_heredoc);
+	fprintf(stderr, "%d\n", fd);
 	return (fd);
 }
 
