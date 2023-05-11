@@ -13,16 +13,18 @@
 #ifndef MAIN_H
 # define MAIN_H
 
-# define METACHARACTER " \t\n|&;()<>"
-# define NC "\033[0m"
-# define RED "\033[38;5;1m"
-# define GREEN "\033[38;5;2m"
-# define YELLOW "\033[38;5;3m"
-# define BLUE "\033[38;5;4m"
-# define MAGENTA "\033[38;5;5m"
-# define CYAN "\033[38;5;6m"
-# define WHITE "\033[38;5;7m"
-# define GRAY "\033[38;5;8m"
+# define NC			"\033[0m"
+# define RED		"\033[38;5;1m"
+# define GREEN		"\033[38;5;2m"
+# define YELLOW		"\033[38;5;3m"
+# define BLUE		"\033[38;5;4m"
+# define MAGENTA	"\033[38;5;5m"
+# define CYAN		"\033[38;5;6m"
+# define WHITE		"\033[38;5;7m"
+# define GRAY		"\033[38;5;8m"
+# define CC_CLEAR	"\x1b[H\x1b[0J"
+# define CC_1UP		"\033[F\x1b[0J"
+# define CC_LINE	"\r\x1b[0J"
 
 # define CHILD 0
 # define READ 0
@@ -34,6 +36,8 @@
 # define SUCCESS 0
 # define OUTPUT 1
 # define APPEND 2
+
+#include <termios.h>
 
 # include <unistd.h>
 # include <stdlib.h>
@@ -172,6 +176,7 @@ int		gramer_is_valid(t_token *tokens);
 
 /* signals.c */
 void	init_signals(void);
+void	sigquit_handler(int signum);
 
 /* cmds_handler.c */
 char	*get_full_cmd(char *cmd, char **paths);
@@ -192,6 +197,8 @@ char	*temp_type_to_string(t_type type);
 
 /* expander.c */
 void	temp_print_tokens(t_token *tokens, char *header);
+char	*rm_quotes(char *str);
+char	*expand(char *str, t_env *env);
 void	expander(t_token **tokens, t_env *env);
 
 //Executor functions
@@ -225,7 +232,7 @@ int		redirect_output(t_exec_data *exec_data);
 int		redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_exec_data *exec_data);
 int		run_heredoc(t_file *file);
-int		create_heredoc_file(char *delimiter, char *file_name);
+int		create_heredoc_file(char *delimiter, char *file_name, t_env *env);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);

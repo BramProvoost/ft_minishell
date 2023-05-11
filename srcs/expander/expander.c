@@ -28,7 +28,10 @@ char	*rm_quotes(char *str)
 			else if (quote == '0')
 				quote = str[i];
 			if (quote == '0' || quote == str[i])
+			{
 				ft_memmove(&str[i], &str[i + 1], ft_strlen(&str[i]));
+				i--;
+			}
 		}
 		i++;
 	}
@@ -41,7 +44,7 @@ char	*get_value_from_env(char *key, t_env *env)
 	{
 		if (env->has_value == true)
 		{
-			if (!ft_strncmp(env->key, key, ft_strlen(key))) // TODO: USER != USER_ZDOTDIR
+			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
 				return (env->value);
 		}
 		env = env->next;
@@ -79,11 +82,6 @@ char	*get_varname(char *str)
 
 char	*expand_special_cases(char *str)
 {
-	int	pid;
-
-	pid = 15201;	// todo: get pid
-	if (str[1] == '$')
-		return ft_itoa(pid);
 	if (str[1] == '?')
 		return ft_itoa(g_exit_status);
 	return ft_strdup("$");
@@ -93,7 +91,7 @@ char	*expand_variable(char *varname, t_env *env)
 {
 	char	*expanded;
 
-	if (varname[1] && (varname[1] == '?' || varname[1] == '$'))
+	if (varname[1] && (varname[1] == '?'))
 		expanded = expand_special_cases(varname);
 	else if (!varname[1] || varname[1] == ' ')
 		expanded = ft_strdup("$");
@@ -102,7 +100,7 @@ char	*expand_variable(char *varname, t_env *env)
 	return (expanded);
 }
 
-int	in_quotes(char *str, int index)
+int	in_single_quotes(char *str, int index)
 {
 	int	i;
 	int	is_in_quotes;
@@ -118,7 +116,7 @@ int	in_quotes(char *str, int index)
 	return (is_in_quotes);
 }
 
-char *expand(char *str, t_env *env)
+char	*expand(char *str, t_env *env)
 {
 	char 	*newstr;
 	char	*varname;
@@ -129,7 +127,7 @@ char *expand(char *str, t_env *env)
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == '$' && !in_quotes(str, i))
+		if (str[i] == '$' && !in_single_quotes(str, i))
 		{
 			varname = get_varname(&str[i]);
 			newstr = ft_strjoin(newstr, expand_variable(varname, env));
@@ -156,10 +154,14 @@ void	expander(t_token **tokens, t_env *env)
 	tmp = *tokens;
 	while (tmp)
 	{
-		tmp_val = tmp->value;
-		tmp->value = expand(tmp_val, env);
-		free(tmp_val);
-		tmp->value = rm_quotes(tmp->value);
+		if (!(tmp->prev && tmp->prev->type == HEREDOC))
+    {
+      tmp_val = tmp->value;
+		  tmp->value = expand(tmp_val, env);
+		  free(tmp_val);
+    }
+		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
+			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
 	system("leaks minishell");

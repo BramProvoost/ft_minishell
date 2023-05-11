@@ -170,7 +170,7 @@ int	test_shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line)
+	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
@@ -180,7 +180,7 @@ int	test_shell(char *line, t_env *env)
 	temp_print_tokens(tokens, "Tokens");	// temp using for visualizing
 	// delete_tokens(tokens);
 	expander(&tokens, env);
-	exit(0);
+// 	exit(0);
 	temp_print_tokens(tokens, "Expand Tokens");	// temp using for visualizing
 	cmd = get_cmd_from_token(tokens, env);
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
@@ -197,7 +197,7 @@ int	shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line)
+	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	if (!gramer_is_valid(tokens))
