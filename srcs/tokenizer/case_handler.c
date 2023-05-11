@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 18:02:58 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/11 11:36:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ void	input_case(t_token **token, t_line *line)
 		last->type = HEREDOC;
 		last->value = ft_strdup("<<");
 		last->len = 2;
+		next_char(line);
 	}
 	else
 	{
@@ -60,6 +61,7 @@ void	output_case(t_token **token, t_line *line)
 		last->type = OUTPUT_APPEND;
 		last->value = ft_strdup(">>");
 		last->len = 2;
+		next_char(line);
 	}
 	else
 	{
