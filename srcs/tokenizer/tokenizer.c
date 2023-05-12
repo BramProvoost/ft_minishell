@@ -41,9 +41,9 @@ void	data_to_token(t_token **token, t_line *line)
 		else if (c == '|')
 			pipe_case(token);
 		else if (c == '<')
-			input_case(token, *line);
+			input_case(token, line);
 		else if (c == '>')
-			output_case(token, *line);
+			output_case(token, line);
 		else if (c != '\0')
 			word_case(token, line);
 	}

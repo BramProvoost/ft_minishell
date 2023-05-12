@@ -167,8 +167,8 @@ void	move_position(t_token *token_lst, t_line *line);
 
 /* case_handler.c */
 void	pipe_case(t_token **token);
-void	input_case(t_token **token, t_line line);
-void	output_case(t_token **token, t_line line);
+void	input_case(t_token **token, t_line *line);
+void	output_case(t_token **token, t_line *line);
 void	word_case(t_token **token, t_line *line);
 
 /* check_grammer.c */
