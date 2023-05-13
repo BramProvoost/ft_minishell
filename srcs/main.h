@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/10 22:08:01 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/13 02:54:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ int		gramer_is_valid(t_token *tokens);
 /* signals.c */
 void	init_signals(void);
 void	sigquit_handler(int signum);
+void	heredoc_signal_handler(int signum);
 
 /* cmds_handler.c */
 char	*get_full_cmd(char *cmd, char **paths);
@@ -224,6 +225,7 @@ int		file_error(char *filename);
 void	error_exit(int code, char *cmd);
 void	ft_error(void);
 int		chdir_error(char *str, int32_t error);
+void	error_heredoc(char *file_name, t_exec_data *exec_data);
 
 //File handler functions
 int		duplicate(int fd, int fileno);
@@ -231,8 +233,9 @@ int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
 int		redirect_in_simple_cmd(t_exec_data *exec_data);
 int		heredoc(t_exec_data *exec_data);
-int		run_heredoc(t_file *file, bool is_heredoc);
-int		create_heredoc_file(char *delimiter, char *file_name, t_env *env);
+void	unlink_heredoc_files(t_exec_data *exec_data);
+void	run_heredoc(t_file *file);
+int		create_heredoc_file(t_file *file, t_exec_data *exec_data);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);

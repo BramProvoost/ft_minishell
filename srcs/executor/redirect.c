@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/10 22:08:08 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/13 00:07:52 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ int	redirect_input(t_exec_data *exec_data, int fd)
 				return (file_error(tmp->file_name));
 		}
 		if (tmp->type == HEREDOC)
-			return (run_heredoc(tmp, exec_data->is_heredoc));
+			run_heredoc(tmp);
 		tmp = tmp->next;
 	}
 	return (duplicate(fd, STDIN_FILENO));
