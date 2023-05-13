@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/04/07 11:09:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/10 17:53:06 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,9 +41,9 @@ void	data_to_token(t_token **token, t_line *line)
 		else if (c == '|')
 			pipe_case(token);
 		else if (c == '<')
-			input_case(token, *line);
+			input_case(token, line);
 		else if (c == '>')
-			output_case(token, *line);
+			output_case(token, line);
 		else if (c != '\0')
 			word_case(token, line);
 	}
