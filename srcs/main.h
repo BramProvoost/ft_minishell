@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/13 05:33:26 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/17 22:43:40 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@
 # define OUTPUT 1
 # define APPEND 2
 
-#include <termios.h>
-
+# include <termios.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
@@ -232,10 +231,18 @@ int		duplicate(int fd, int fileno);
 int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
 int		redirect_in_simple_cmd(t_exec_data *exec_data);
+
+//Heredoc functions
 int		heredoc(t_exec_data *exec_data);
 void	unlink_heredoc_files(t_exec_data *exec_data);
 void	run_heredoc(t_file *file);
 int		create_heredoc_file(t_file *file, t_exec_data *exec_data);
+char	*heredoc_file(uintptr_t n);
+void	unlink_heredoc_files(t_exec_data *exec_data);
+int		heredoc_child(t_exec_data *exec_data);
+int		str_start_stop_with_quotes(char *str);
+int	write_line_to_file(t_exec_data *exec_data, \
+						char *line, int do_expand, int fd);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);

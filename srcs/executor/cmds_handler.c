@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 21:15:05 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/15 18:37:49 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,8 @@ void	ft_execute(t_exec_data *exec_data)
 {
 	char	**env_list;
 
-	if (execute_built_in_cmd(exec_data, exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
+	if (execute_built_in_cmd(exec_data, \
+		exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
 		exit(g_exit_status);
 	env_list = env_to_list(exec_data->env);
 	execve(exec_data->cmd->exec->cmd_path, \
