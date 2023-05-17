@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executor_utils.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/03/27 20:56:52 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/10 14:27:22 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executor_utils.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/27 20:56:52 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/10 22:12:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,10 @@ void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, \
 int	redirect_in_simple_cmd(t_exec_data *exec_data)
 {
 	if (redirect_input(exec_data, STDIN_FILENO) == ERROR)
+	{
+		fprintf(stderr, "TESTING HEREDOC\n");
 		return (ERROR);
+	}
 	if (redirect_output(exec_data) == ERROR)
 		return (ERROR);
 	return (SUCCESS);
