@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/13 05:33:26 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/18 15:41:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,6 +142,7 @@ typedef struct s_heredoc
 
 /* main.c */
 char	**get_paths(t_env *env);
+int		is_rederect(t_type type);
 
 /* line_reader.c */
 void	line_reader(char **line, const char *display_name);
@@ -188,8 +189,7 @@ t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, \
 		char **split_cmd_and_args, t_env *env);
-void	file_to_t_cmd(t_cmd **cmd, t_type type, \
-		char *value);
+void	file_to_t_cmd(t_cmd **cmd, t_token *tokens);
 void	free_t_cmd(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 

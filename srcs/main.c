@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 13:44:41 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 16:46:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,19 @@ void	replace_first_word_with_cmd(t_token *tokens)
 	}
 }
 
+int	is_rederect(t_type type)
+{
+	if (type == INPUT_SINGLE)
+		return (1);
+	if (type == HEREDOC)
+		return (1);
+	if (type == OUTPUT_SINGLE)
+		return (1);
+	if (type == OUTPUT_APPEND)
+		return (1);
+	return (0);
+}
+
 void	replace_word_with_file(t_token *tokens)
 {
 	while (tokens)
@@ -69,7 +82,7 @@ void	replace_word_with_file(t_token *tokens)
 			if (tokens->prev->type != PIPE
 				&& tokens->prev->type != WORD
 				&& tokens->prev->type != FILE_T
-				&& tokens->prev->type != INPUT_SINGLE)
+				&& !is_rederect(tokens->type))
 				tokens->type = FILE_T;
 		tokens = tokens->next;
 	}
@@ -103,19 +116,6 @@ char	**add_to_2d(char **old_arr, char *new_str)
 	return (new_arr);
 }
 
-int	is_rederect(t_token *tokens)
-{
-	if (tokens->type == INPUT_SINGLE)
-		return (1);
-	if (tokens->type == HEREDOC)
-		return (1);
-	if (tokens->type == OUTPUT_SINGLE)
-		return (1);
-	if (tokens->type == OUTPUT_APPEND)
-		return (1);
-	return (0);
-}
-
 t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd;
@@ -130,8 +130,8 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		else if (tokens->type == WORD && tokens->value)
 			cmd_and_args = add_to_2d(cmd_and_args, tokens->value);
 		else if (tokens->type == FILE_T)
-			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
-		else if ((is_rederect(tokens) || tokens->type == PIPE) && cmd_and_args)
+			file_to_t_cmd(&cmd, tokens);
+		else if ((is_rederect(tokens->type) || tokens->type == PIPE) && cmd_and_args)
 		{
 			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
 			free_2d(cmd_and_args);

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/03 20:28:55 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 15:48:11 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,38 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
 }
 
-void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value)
+// void	file_to_t_cmd_old(t_cmd **cmd, t_type type, char *value)
+// {
+// 	t_cmd	*tmp_cmd;
+// 	t_file	*tmp_file;
+
+// 	if (!*cmd)
+// 		*cmd = new_t_cmd();
+// 	tmp_cmd = *cmd;
+// 	while (tmp_cmd && tmp_cmd->next)
+// 		tmp_cmd = tmp_cmd->next;
+// 	if (!tmp_cmd->file)
+// 	{
+// 		tmp_cmd->file = new_t_file();
+// 		tmp_file = tmp_cmd->file;
+// 	}
+// 	else
+// 	{
+// 		tmp_file = tmp_cmd->file;
+// 		while (tmp_file && tmp_file->next)
+// 			tmp_file = tmp_file->next;
+// 		tmp_file->next = new_t_file();
+// 		tmp_file = tmp_file->next;
+// 	}
+// 	tmp_file->type = type;
+// 	if (type == HEREDOC)
+// 		tmp_file->delimiter = value;
+// 	else
+// 		tmp_file->file_name = value;
+// }
+
+
+void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 {
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
@@ -108,6 +139,8 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value)
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	tmp_cmd = *cmd;
+	if (tokens->prev && is_rederect(tokens->prev->prev->type))
+		file_to_t_cmd(cmd, tokens->prev);
 	while (tmp_cmd && tmp_cmd->next)
 		tmp_cmd = tmp_cmd->next;
 	if (!tmp_cmd->file)
@@ -123,11 +156,11 @@ void	file_to_t_cmd(t_cmd **cmd, t_type type, char *value)
 		tmp_file->next = new_t_file();
 		tmp_file = tmp_file->next;
 	}
-	tmp_file->type = type;
-	if (type == HEREDOC)
-		tmp_file->delimiter = value;
+	tmp_file->type = tokens->prev->type;
+	if (tokens->prev->type == HEREDOC)
+		tmp_file->delimiter = tokens->value;
 	else
-		tmp_file->file_name = value;
+		tmp_file->file_name = tokens->value;
 }
 
 void	free_t_cmd(t_cmd *cmd)
