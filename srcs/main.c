@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 16:18:33 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 13:44:41 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,8 @@ void	replace_word_with_file(t_token *tokens)
 		if (tokens->prev)
 			if (tokens->prev->type != PIPE
 				&& tokens->prev->type != WORD
-				&& tokens->prev->type != FILE_T)
+				&& tokens->prev->type != FILE_T
+				&& tokens->prev->type != INPUT_SINGLE)
 				tokens->type = FILE_T;
 		tokens = tokens->next;
 	}
