@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/17 13:10:20 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 17:39:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,6 +123,7 @@ typedef struct exec_data
 	t_token		*tokens;
 	bool		is_pipe;
 	bool		is_heredoc;
+	bool		has_heredoc;
 	int			pipe_fds[2];
 }	t_exec_data;
 
@@ -142,6 +143,7 @@ typedef struct s_heredoc
 
 /* main.c */
 char	**get_paths(t_env *env);
+int		is_rederect(t_type type);
 
 /* line_reader.c */
 void	line_reader(char **line, const char *display_name);
@@ -188,10 +190,9 @@ t_cmd	*new_t_cmd(void);
 void	add_t_cmd_back(t_cmd *cmd);
 void	path_and_cmd_to_t_cmd(t_cmd **cmd, \
 		char **split_cmd_and_args, t_env *env);
-void	file_to_t_cmd(t_cmd **cmd, t_type type, \
-		char *value);
+void	file_to_t_cmd(t_cmd **cmd, t_token *tokens);
 void	free_t_cmd(t_cmd *cmd);
-void	delete_cmd(t_cmd *cmd);
+void	delete_cmds(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
 /* temp_token_printer.c */
@@ -227,6 +228,7 @@ void	error_exit(int code, char *cmd);
 void	ft_error(void);
 int		chdir_error(char *str, int32_t error);
 void	error_heredoc(char *file_name, t_exec_data *exec_data);
+bool	has_heredoc(t_cmd *cmd);
 
 //File handler functions
 int		duplicate(int fd, int fileno);

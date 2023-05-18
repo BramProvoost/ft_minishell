@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/10 17:16:29 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 16:08:07 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,6 @@ int	minishell_exit(bool print, t_exec_data *exec_data)
 	}
 	if (print)
 		ft_putstr_fd("exit\n", STDERR);
-	delete_cmd(exec_data->cmd);
+	delete_cmds(exec_data->cmd);
 	exit(g_exit_status);
 }

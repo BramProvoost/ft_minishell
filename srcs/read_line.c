@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   read_line.c                                        :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/26 16:04:08 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/12 15:21:58 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   read_line.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/26 16:04:08 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/18 16:28:06 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,5 +33,6 @@ void	line_reader(char **line, const char *display_name)
 	if (!temp)
 		exit(EXIT_SUCCESS);
 	*line = ft_strdup(temp);
+	free(temp);
 	add_line_in_history(line);
 }

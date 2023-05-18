@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/12 12:44:58 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/18 16:42:28 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	delete_cmd(t_cmd *cmd)
+void	delete_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
@@ -25,6 +25,7 @@ void	delete_cmd(t_cmd *cmd)
 		free(tmp_cmd->exec->cmd_path);
 		free_2d(tmp_cmd->exec->cmd_args);
 		free(tmp_cmd->exec);
+		free(tmp_cmd->exec->cmd_path);
 		while (tmp_cmd->file && tmp_cmd->file->next != NULL)
 		{
 			tmp_file = tmp_cmd->file;
@@ -50,6 +51,7 @@ char	**get_paths(t_env *env)
 	int		i;
 	char	*path;
 	char	**paths;
+	char	*tmp;
 
 	i = 0;
 	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
@@ -57,10 +59,16 @@ char	**get_paths(t_env *env)
 	if (env->key == NULL)
 		error_exit(errno, "PATH not found");
 	path = ft_strdup(env->value);
+	if (!path)
+		error_exit(errno, "malloc error");
 	paths = ft_split(path, ':');
+	if (!paths)
+		error_exit(errno, "malloc error");
 	while (paths[i])
 	{
+		tmp = paths[i];
 		paths[i] = ft_strjoin(paths[i], "/");
+		free(tmp);
 		i++;
 	}
 	free(path);
@@ -86,6 +94,19 @@ void	replace_first_word_with_cmd(t_token *tokens)
 	}
 }
 
+int	is_rederect(t_type type)
+{
+	if (type == INPUT_SINGLE)
+		return (1);
+	if (type == HEREDOC)
+		return (1);
+	if (type == OUTPUT_SINGLE)
+		return (1);
+	if (type == OUTPUT_APPEND)
+		return (1);
+	return (0);
+}
+
 void	replace_word_with_file(t_token *tokens)
 {
 	while (tokens)
@@ -93,7 +114,8 @@ void	replace_word_with_file(t_token *tokens)
 		if (tokens->prev)
 			if (tokens->prev->type != PIPE
 				&& tokens->prev->type != WORD
-				&& tokens->prev->type != FILE_T)
+				&& tokens->prev->type != FILE_T
+				&& !is_rederect(tokens->type))
 				tokens->type = FILE_T;
 		tokens = tokens->next;
 	}
@@ -127,19 +149,6 @@ char	**add_to_2d(char **old_arr, char *new_str)
 	return (new_arr);
 }
 
-int	is_rederect(t_token *tokens)
-{
-	if (tokens->type == INPUT_SINGLE)
-		return (1);
-	if (tokens->type == HEREDOC)
-		return (1);
-	if (tokens->type == OUTPUT_SINGLE)
-		return (1);
-	if (tokens->type == OUTPUT_APPEND)
-		return (1);
-	return (0);
-}
-
 t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 {
 	t_cmd	*cmd;
@@ -154,8 +163,8 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		else if (tokens->type == WORD && tokens->value)
 			cmd_and_args = add_to_2d(cmd_and_args, tokens->value);
 		else if (tokens->type == FILE_T)
-			file_to_t_cmd(&cmd, tokens->prev->type, tokens->value);
-		else if ((is_rederect(tokens) || tokens->type == PIPE) && cmd_and_args)
+			file_to_t_cmd(&cmd, tokens);
+		else if ((is_rederect(tokens->type) || tokens->type == PIPE) && cmd_and_args)
 		{
 			path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
 			free_2d(cmd_and_args);
@@ -164,7 +173,11 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		tokens = tokens->next;
 	}
 	if (cmd_and_args)
+	{
+		// fprintf(stderr, "TEST\n");
 		path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
+		// exit(0);
+	}
 	free_2d(cmd_and_args);
 	return (cmd);
 }
@@ -189,7 +202,9 @@ int	test_shell(char *line, t_env *env)
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
-	delete_cmd(cmd);
+	delete_cmds(cmd);
+	free_env_list(&env);
+	// exit(0);
 	return (EXIT_SUCCESS);
 }
 
@@ -210,15 +225,15 @@ int	shell(char *line, t_env *env)
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	// fprintf(stderr, "BEFORE DELETE CMD\n");
-	delete_cmd(cmd);
+	delete_cmds(cmd);
 	// fprintf(stderr, "AFTER DELETE CMD\n");
 	return (EXIT_SUCCESS);
 }
 
-// void	check(void)
-// {
-// 	system("leaks minishell");
-// }
+void	check(void)
+{
+	system("leaks -q minishell");
+}
 
 int	g_exit_status;
 
@@ -227,7 +242,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env		*env;
 
-	// atexit(check);
+	atexit(check);
 	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();
