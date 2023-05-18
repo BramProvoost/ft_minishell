@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/18 16:42:28 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/18 21:18:11 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	delete_cmds(t_cmd *cmd)
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
 
-	// exit(0);
 	while (cmd && cmd->next != NULL)
 	{
 		tmp_cmd = cmd;
@@ -203,7 +202,7 @@ int	test_shell(char *line, t_env *env)
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	delete_cmds(cmd);
-	free_env_list(&env);
+	// free_env_list(&env);	// free it in exit
 	// exit(0);
 	return (EXIT_SUCCESS);
 }
