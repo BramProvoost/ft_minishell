@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   errors_handler.c                                   :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/14 15:34:00 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/10 14:27:14 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   errors_handler.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 15:34:00 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/13 02:54:25 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,15 @@ bool	export_error(char *str)
 	ft_putstr_fd(str, 2);
 	ft_putendl_fd("': not a valid identifier", 2);
 	return (false);
+}
+
+void	error_heredoc(char *file_name, t_exec_data *exec_data)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(file_name, 2);
+	ft_putendl_fd(": No such file or directory", 2);
+	unlink_heredoc_files(exec_data);
+	exit(1);
 }
 
 void	error_exit(int code, char *cmd)

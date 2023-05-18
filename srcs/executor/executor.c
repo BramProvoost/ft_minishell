@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executor.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/10 14:27:28 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/10 22:10:42 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ static pid_t	simple_command(t_exec_data *exec_data)
 	pid_t	fork_pid;
 
 	fork_pid = -1;
+	exec_data->is_heredoc = false;
 	if (redirect_in_simple_cmd(exec_data) == ERROR)
 		return (fork_pid);
 	if (exec_data->cmd->exec == NULL)
@@ -52,8 +53,15 @@ static pid_t	simple_command(t_exec_data *exec_data)
 			ft_error();
 		if (fork_pid == CHILD)
 			ft_execute(exec_data);
+		if (exec_data->is_heredoc == true)
+		{
+			fprintf(stderr, "TESTING IS HEREDOC\n");
+			exit(g_exit_status);
+		}
 		return (fork_pid);
 	}
+	if (exec_data->is_heredoc == true)
+		exit(g_exit_status);
 	return (fork_pid);
 }
 
