@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/12 12:44:58 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/18 13:01:45 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	delete_cmd(t_cmd *cmd)
 		free(tmp_cmd->exec->cmd_path);
 		free_2d(tmp_cmd->exec->cmd_args);
 		free(tmp_cmd->exec);
+		free(tmp_cmd->exec->cmd_path);
 		while (tmp_cmd->file && tmp_cmd->file->next != NULL)
 		{
 			tmp_file = tmp_cmd->file;
@@ -50,6 +51,7 @@ char	**get_paths(t_env *env)
 	int		i;
 	char	*path;
 	char	**paths;
+	char	*tmp;
 
 	i = 0;
 	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
@@ -57,10 +59,16 @@ char	**get_paths(t_env *env)
 	if (env->key == NULL)
 		error_exit(errno, "PATH not found");
 	path = ft_strdup(env->value);
+	if (!path)
+		error_exit(errno, "malloc error");
 	paths = ft_split(path, ':');
+	if (!paths)
+		error_exit(errno, "malloc error");
 	while (paths[i])
 	{
+		tmp = paths[i];
 		paths[i] = ft_strjoin(paths[i], "/");
+		free(tmp);
 		i++;
 	}
 	free(path);
@@ -164,7 +172,11 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		tokens = tokens->next;
 	}
 	if (cmd_and_args)
+	{
+		// fprintf(stderr, "TEST\n");
 		path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
+		// exit(0);
+	}
 	free_2d(cmd_and_args);
 	return (cmd);
 }
@@ -190,6 +202,8 @@ int	test_shell(char *line, t_env *env)
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	delete_cmd(cmd);
+	free_env_list(&env);
+	exit(0);
 	return (EXIT_SUCCESS);
 }
 
@@ -215,10 +229,10 @@ int	shell(char *line, t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-// void	check(void)
-// {
-// 	system("leaks minishell");
-// }
+void	check(void)
+{
+	system("leaks minishell");
+}
 
 int	g_exit_status;
 
@@ -227,7 +241,7 @@ int	main(int argc, char *argv[], char **envp)
 	static char	*line;
 	t_env		*env;
 
-	// atexit(check);
+	atexit(check);
 	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();

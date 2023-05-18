@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   env_functions.c                                    :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/26 18:57:18 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/11 15:02:13 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   env_functions.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/18 14:15:00 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	**env_to_list(t_env *env)
 	char	**env_list;
 	int		i;
 	int		env_len;
+	char	*tmp;
 
 	i = 0;
 	env_len = get_env_len(env);
@@ -115,8 +116,13 @@ char	**env_to_list(t_env *env)
 	{
 		if (!env->key || !env->value)
 			return (errno = EINVAL, NULL);
-		env_list[i] = ft_strjoin(env->key, "=");
-		env_list[i] = ft_strjoin(env_list[i], env->value);
+		tmp = ft_strjoin(env->key, "=");
+		if (!tmp)
+			return (errno = EINVAL, NULL);
+		env_list[i] = ft_strjoin(tmp, env->value);
+		if (!env_list[i])
+			return (errno = EINVAL, NULL);
+		free(tmp);
 		env = env->next;
 		i++;
 	}
