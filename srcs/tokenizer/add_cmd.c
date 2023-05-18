@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/18 14:13:23 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 16:23:37 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,12 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 	while (tmp->next)
 		tmp = tmp->next;
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
-		path_and_cmd = split_cmd_and_args[0];
+		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
 	tmp->exec = new_t_exec();
 	tmp->exec->cmd_path = ft_strdup(path_and_cmd);
+	free(path_and_cmd);
 	if (ft_strncmp(split_cmd_and_args[0], "export", 7) != 0)
 		rm_quotes_from_2d_array(split_cmd_and_args);
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);

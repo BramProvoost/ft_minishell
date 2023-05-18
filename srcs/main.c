@@ -6,13 +6,13 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/18 13:01:45 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 16:42:28 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-void	delete_cmd(t_cmd *cmd)
+void	delete_cmds(t_cmd *cmd)
 {
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
@@ -201,9 +201,9 @@ int	test_shell(char *line, t_env *env)
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
-	delete_cmd(cmd);
+	delete_cmds(cmd);
 	free_env_list(&env);
-	exit(0);
+	// exit(0);
 	return (EXIT_SUCCESS);
 }
 
@@ -224,14 +224,14 @@ int	shell(char *line, t_env *env)
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	// fprintf(stderr, "BEFORE DELETE CMD\n");
-	delete_cmd(cmd);
+	delete_cmds(cmd);
 	// fprintf(stderr, "AFTER DELETE CMD\n");
 	return (EXIT_SUCCESS);
 }
 
 void	check(void)
 {
-	system("leaks minishell");
+	system("leaks -q minishell");
 }
 
 int	g_exit_status;

@@ -6,11 +6,25 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/13 03:23:55 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 16:40:00 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+bool	has_heredoc(t_cmd *cmd)
+{
+	t_file	*file;
+
+	file = cmd->file;
+	while (file)
+	{
+		if (file->type == HEREDOC)
+			return (true);
+		file = file->next;
+	}
+	return (false);
+}
 
 char	*heredoc_file_named(uintptr_t n)
 {
@@ -161,6 +175,7 @@ int	heredoc(t_exec_data *exec_data)
 	file = exec_data->cmd->file;
 	cmd = exec_data->cmd;
 	create_file(exec_data);
+	fprintf(stderr, "heredoc\n");
 	pid = fork();
 	if (pid == ERROR)
 		ft_error();
