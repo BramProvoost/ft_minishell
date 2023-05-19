@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 21:18:11 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 12:13:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,15 +17,14 @@ void	delete_cmds(t_cmd *cmd)
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
 
-	while (cmd && cmd->next != NULL)
+	while (cmd)
 	{
 		tmp_cmd = cmd;
 		cmd = cmd->next;
 		free(tmp_cmd->exec->cmd_path);
 		free_2d(tmp_cmd->exec->cmd_args);
 		free(tmp_cmd->exec);
-		free(tmp_cmd->exec->cmd_path);
-		while (tmp_cmd->file && tmp_cmd->file->next != NULL)
+		while (tmp_cmd->file)
 		{
 			tmp_file = tmp_cmd->file;
 			tmp_cmd->file = tmp_cmd->file->next;
@@ -172,11 +171,7 @@ t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env)
 		tokens = tokens->next;
 	}
 	if (cmd_and_args)
-	{
-		// fprintf(stderr, "TEST\n");
 		path_and_cmd_to_t_cmd(&cmd, cmd_and_args, env);
-		// exit(0);
-	}
 	free_2d(cmd_and_args);
 	return (cmd);
 }
@@ -202,8 +197,6 @@ int	test_shell(char *line, t_env *env)
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
 	delete_cmds(cmd);
-	// free_env_list(&env);	// free it in exit
-	// exit(0);
 	return (EXIT_SUCCESS);
 }
 

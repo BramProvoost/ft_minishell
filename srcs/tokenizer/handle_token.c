@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:47:48 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 20:01:08 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 12:09:14 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,19 +16,13 @@ void	delete_tokens(t_token *head)
 {
 	t_token	*temp;
 
-	while (head && head->next != NULL)
+	while (head)
 	{
 		temp = head;
 		head = head->next;
 		free(temp->value);
 		free_2d(temp->paths);
 		free(temp);
-	}
-	if (head)
-	{
-		free(head->value);
-		free_2d(head->paths);
-		free(head);
 	}
 }
 
