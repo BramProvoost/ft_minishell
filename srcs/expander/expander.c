@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/11 17:44:22 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 18:17:16 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*get_value_from_env(char *key, t_env *env)
 		if (env->has_value == true)
 		{
 			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
-				return (env->value);
+				return (ft_strdup(env->value));
 		}
 		env = env->next;
 	}
@@ -65,6 +65,7 @@ char	*get_varname(char *str)
 {
 	int		i;
 	char	*varname;
+	char	*tmp;
 
 	i = 0;
 	varname = NULL;
@@ -77,7 +78,9 @@ char	*get_varname(char *str)
 	}
 	while (is_valid_varname_char(str[i]) || i == 0)
 	{
-		varname = ft_append_char_to_string(varname, str[i]);
+		tmp = varname;
+		varname = ft_append_char_to_string(tmp, str[i]);
+		free(tmp);
 		i += 1;
 	}
 	return (varname);
@@ -87,7 +90,7 @@ char	*expand_special_cases(char *str)
 {
 	if (str[1] == '?')
 		return ft_itoa(g_exit_status);
-	return ft_strdup("$");
+	return ft_strdup("$"); 
 }
 
 char	*expand_variable(char *varname, t_env *env)
@@ -125,6 +128,7 @@ char	*expand(char *str, t_env *env)
 	char	*varname;
 	char	*tmp;
 	int		i;
+	char	*tmp_val;
 
 	newstr = NULL;
 	i = 0;
@@ -133,7 +137,9 @@ char	*expand(char *str, t_env *env)
 		if (str[i] == '$' && !in_single_quotes(str, i))
 		{
 			varname = get_varname(&str[i]);
-			newstr = ft_strjoin(newstr, expand_variable(varname, env));
+			tmp_val = expand_variable(varname, env);
+			newstr = ft_strjoin(newstr,tmp_val);
+			free(tmp_val);
 			i += ft_strlen(varname) - 1;
 			free(varname);
 		}
