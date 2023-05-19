@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/02/01 14:12:42 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/13 03:24:28 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:22:06 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	heredoc_signal_handler(int signum)
 static void	sigint_ctr_c_handler(int signum)
 {
 	(void)signum;
-	// rl_replace_line("", 0);
+	rl_replace_line("", 0);
 	ft_putchar_fd('\n', 2);
 	rl_on_new_line();
 	rl_redisplay();

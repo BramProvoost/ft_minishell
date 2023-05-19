@@ -1,18 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/13 03:23:55 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/19 15:17:27 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-char	*heredoc_file_named(uintptr_t n)
+bool	has_heredoc(t_cmd *cmd)
+{
+	t_file	*file;
+
+	file = cmd->file;
+	while (file)
+	{
+		if (file->type == HEREDOC)
+			return (true);
+		file = file->next;
+	}
+	return (false);
+}
+
+char	*heredoc_file_named(unsigned long n)
 {
 	char	*str;
 	char	*hex;
@@ -86,7 +100,7 @@ bool	create_file(t_exec_data *exec_data)
 		{
 			if (file->type == HEREDOC)
 			{
-				file->file_name = heredoc_file_named((uintptr_t)file->delimiter);
+				file->file_name = heredoc_file_named((unsigned long)file->delimiter);
 				fd = open(file->file_name, O_WRONLY | O_CREAT | O_RDONLY, 0700);
 				if (fd == ERROR)
 					return (false);
@@ -118,6 +132,7 @@ int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 			line = readline("> ");
 			if (write_line_to_file(line, file->delimiter, do_expand, fd, exec_data->env) == 0)
 				break ;
+			free(line);
 		}
 		close(fd);
 	}

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   read_line.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:04:08 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/02/10 13:37:37 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 10:05:57 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,11 +14,8 @@
 
 void	make_sure_line_is_empty(char **line)
 {
-	if (*line)
-	{
-		free (*line);
+	if (line && *line)
 		*line = (char *) NULL;
-	}
 }
 
 void	add_line_in_history(char **line)
@@ -35,6 +32,7 @@ void	line_reader(char **line, const char *display_name)
 	temp = readline(display_name);
 	if (!temp)
 		exit(EXIT_SUCCESS);
-	*line = temp;
+	*line = ft_strdup(temp);
+	free(temp);
 	add_line_in_history(line);
 }

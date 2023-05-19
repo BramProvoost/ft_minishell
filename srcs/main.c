@@ -6,11 +6,41 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 16:46:56 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 15:29:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
+
+void	delete_cmds(t_cmd *cmd)
+{
+	t_cmd	*tmp_cmd;
+	t_file	*tmp_file;
+
+	while (cmd)
+	{
+		tmp_cmd = cmd;
+		cmd = cmd->next;
+		if (tmp_cmd->exec)
+		{
+			free(tmp_cmd->exec->cmd_path);
+			free_2d(tmp_cmd->exec->cmd_args);
+			free(tmp_cmd->exec);
+		}
+		while (tmp_cmd->file)
+		{
+			tmp_file = tmp_cmd->file;
+			tmp_cmd->file = tmp_cmd->file->next;
+			if (tmp_file)
+			{
+				if (tmp_file->file_name)
+					free(tmp_file->file_name);
+				free(tmp_file);
+			}
+		}
+		free(tmp_cmd);
+	}
+}
 
 int	is_exit(t_token *tokens)
 {
@@ -25,6 +55,7 @@ char	**get_paths(t_env *env)
 	int		i;
 	char	*path;
 	char	**paths;
+	char	*tmp;
 
 	i = 0;
 	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
@@ -32,10 +63,16 @@ char	**get_paths(t_env *env)
 	if (env->key == NULL)
 		error_exit(errno, "PATH not found");
 	path = ft_strdup(env->value);
+	if (!path)
+		error_exit(errno, "malloc error");
 	paths = ft_split(path, ':');
+	if (!paths)
+		error_exit(errno, "malloc error");
 	while (paths[i])
 	{
+		tmp = paths[i];
 		paths[i] = ft_strjoin(paths[i], "/");
+		free(tmp);
 		i++;
 	}
 	free(path);
@@ -153,6 +190,7 @@ int	test_shell(char *line, t_env *env)
 	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
+	free(line);
 	if (!gramer_is_valid(tokens))
 		return (EXIT_FAILURE);
 	replace_word_with_file(tokens);
@@ -164,6 +202,7 @@ int	test_shell(char *line, t_env *env)
 	temp_t_cmd_printer(cmd, "Commands");	// temp using for visualizing
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
+	delete_cmds(cmd);
 	return (EXIT_SUCCESS);
 }
 
@@ -180,16 +219,28 @@ int	shell(char *line, t_env *env)
 	replace_word_with_file(tokens);
 	replace_first_word_with_cmd(tokens);
 	cmd = get_cmd_from_token(tokens, env);
+	// exit(0);
 	executor(cmd, tokens, env);
 	delete_tokens(tokens);
+	// fprintf(stderr, "BEFORE DELETE CMD\n");
+	delete_cmds(cmd);
+	// fprintf(stderr, "AFTER DELETE CMD\n");
 	return (EXIT_SUCCESS);
 }
+
+void	check(void)
+{
+	system("leaks -q minishell");
+}
+
+int	g_exit_status;
 
 int	main(int argc, char *argv[], char **envp)
 {
 	static char	*line;
 	t_env		*env;
 
+	atexit(check);
 	g_exit_status = 0;
 	create_env_list(&env, envp);
 	init_signals();

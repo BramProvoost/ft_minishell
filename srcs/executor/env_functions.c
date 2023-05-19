@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 23:24:17 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/18 14:15:00 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ t_env	*new_env_node(char *env)
 	if (!new)
 		return (NULL);
 	new->next = NULL;
-	while (env[i])
+	while (env[i] && new->has_value == false)
 	{
 		if (env[i] == '=')
 		{
@@ -102,6 +102,7 @@ char	**env_to_list(t_env *env)
 	char	**env_list;
 	int		i;
 	int		env_len;
+	char	*tmp;
 
 	i = 0;
 	env_len = get_env_len(env);
@@ -115,8 +116,13 @@ char	**env_to_list(t_env *env)
 	{
 		if (!env->key || !env->value)
 			return (errno = EINVAL, NULL);
-		env_list[i] = ft_strjoin(env->key, "=");
-		env_list[i] = ft_strjoin(env_list[i], env->value);
+		tmp = ft_strjoin(env->key, "=");
+		if (!tmp)
+			return (errno = EINVAL, NULL);
+		env_list[i] = ft_strjoin(tmp, env->value);
+		if (!env_list[i])
+			return (errno = EINVAL, NULL);
+		free(tmp);
 		env = env->next;
 		i++;
 	}
