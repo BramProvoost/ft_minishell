@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cmds_handler.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/19 15:03:19 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cmds_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/19 19:57:08 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,16 @@ char	*get_full_cmd(char *cmd, char **paths)
 
 	i = 0;
 	if (cmd && *cmd == '\0')
+	{
+		free_2d(paths);
 		return (NULL);
+	}
 	if (access(cmd, X_OK) == SUCCESS)
-		return (cmd);
+	{
+		fprintf(stderr, "cmd: %s\n", cmd);
+		free_2d(paths);
+		return (ft_strdup(cmd));
+	}
 	while (paths[i])
 	{
 		temp_path = ft_strjoin(paths[i], cmd);
@@ -65,6 +72,5 @@ void	ft_execute(t_exec_data *exec_data)
 	env_list = env_to_list(exec_data->env);
 	execve(exec_data->cmd->exec->cmd_path, \
 			exec_data->cmd->exec->cmd_args, env_list);
-	// exit(0);
 	error_cmd_not_found(exec_data->cmd->exec->cmd_args[0]);
 }

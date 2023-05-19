@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 18:02:29 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/19 19:58:12 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ int	test_shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line || line[0] == '\0')
+	fprintf(stderr, "line: %s\n", line);
+	if (!line)
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	free(line);

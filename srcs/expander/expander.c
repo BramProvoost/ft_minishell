@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   expander.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 18:17:16 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/19 19:59:33 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*expand(char *str, t_env *env)
 	char	*varname;
 	char	*tmp;
 	int		i;
-	char	*tmp_val;
+	char	*tmp2;
 
 	newstr = NULL;
 	i = 0;
@@ -137,9 +137,10 @@ char	*expand(char *str, t_env *env)
 		if (str[i] == '$' && !in_single_quotes(str, i))
 		{
 			varname = get_varname(&str[i]);
-			tmp_val = expand_variable(varname, env);
-			newstr = ft_strjoin(newstr,tmp_val);
-			free(tmp_val);
+			tmp2 = newstr;
+			newstr = ft_strjoin(tmp2, expand_variable(varname, env));
+			free(tmp2);
+			// exit(0);
 			i += ft_strlen(varname) - 1;
 			free(varname);
 		}
