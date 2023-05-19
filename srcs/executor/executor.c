@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/10 22:10:42 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/19 15:57:53 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,7 @@ static pid_t	simple_command(t_exec_data *exec_data)
 		if (fork_pid == CHILD)
 			ft_execute(exec_data);
 		if (exec_data->is_heredoc == true)
-		{
-			fprintf(stderr, "TESTING IS HEREDOC\n");
 			exit(g_exit_status);
-		}
 		return (fork_pid);
 	}
 	if (exec_data->is_heredoc == true)

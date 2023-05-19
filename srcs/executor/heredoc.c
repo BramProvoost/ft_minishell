@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/13 03:23:55 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/19 15:56:52 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,6 +116,8 @@ int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 		while (1)
 		{
 			line = readline("> ");
+			if (line[0] == '\0')
+				continue ;
 			if (write_line_to_file(line, file->delimiter, do_expand, fd, exec_data->env) == 0)
 				break ;
 		}
