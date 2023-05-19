@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 12:12:04 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 17:06:13 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,18 @@ t_token	*create_token(void);
 t_token	*last_token(t_token *lst);
 void	add_token_back(t_token **lst, t_token *new);
 
+/* get_cmd_form_token.c */
+void	delete_cmds(t_cmd *cmd);
+char	**get_paths(t_env *env);
+char	**add_to_2d(char **old_arr, char *new_str);
+int		is_ready_adding_path(t_token *tokens);
+t_cmd	*get_cmd_from_token(t_token *tokens, t_env *env);
+
+/* update_cmd.c */
+void	replace_first_word_with_cmd(t_token *tokens);
+int		is_rederect(t_type type);
+void	replace_word_with_file(t_token *tokens);
+
 /* line_functions.c */
 void	next_char(t_line *line);
 char	get_next_char(t_line line);
@@ -194,6 +206,13 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens);
 void	free_t_cmd(t_cmd *cmd);
 void	delete_cmds(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
+void	rm_quotes_from_2d_array(char **array);
+
+/* add_cmd_helper.c */
+t_cmd	*new_t_cmd(void);
+void	add_t_cmd_back(t_cmd *cmd);
+t_exec	*new_t_exec(void);
+t_file	*new_t_file(void);
 
 /* temp_token_printer.c */
 char	*temp_type_to_string(t_type type);
