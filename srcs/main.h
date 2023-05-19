@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 15:41:03 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 12:12:04 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@
 # include "../lib/libft/libft.h"
 
 /* Global variable declaration */
-int	g_exit_status;
+extern int	g_exit_status;
 
 typedef enum e_type {
 	WORD,
@@ -123,6 +123,7 @@ typedef struct exec_data
 	t_token		*tokens;
 	bool		is_pipe;
 	bool		is_heredoc;
+	bool		has_heredoc;
 	int			pipe_fds[2];
 }	t_exec_data;
 
@@ -191,6 +192,7 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, \
 		char **split_cmd_and_args, t_env *env);
 void	file_to_t_cmd(t_cmd **cmd, t_token *tokens);
 void	free_t_cmd(t_cmd *cmd);
+void	delete_cmds(t_cmd *cmd);
 void	temp_t_cmd_printer(t_cmd *cmd, char *header);
 
 /* temp_token_printer.c */
@@ -226,6 +228,7 @@ void	error_exit(int code, char *cmd);
 void	ft_error(void);
 int		chdir_error(char *str, int32_t error);
 void	error_heredoc(char *file_name, t_exec_data *exec_data);
+bool	has_heredoc(t_cmd *cmd);
 
 //File handler functions
 int		duplicate(int fd, int fileno);

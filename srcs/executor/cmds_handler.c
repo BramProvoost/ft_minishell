@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cmds_handler.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 21:15:05 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cmds_handler.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/19 15:03:19 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,12 @@ char	*get_full_cmd(char *cmd, char **paths)
 			return (NULL);
 		}
 		if (access(temp_path, X_OK) == SUCCESS)
+		{
+			free_2d(paths);
 			return (temp_path);
+		}
 		i++;
+		free(temp_path);
 	}
 	free_2d(paths);
 	return (NULL);
@@ -61,5 +65,6 @@ void	ft_execute(t_exec_data *exec_data)
 	env_list = env_to_list(exec_data->env);
 	execve(exec_data->cmd->exec->cmd_path, \
 			exec_data->cmd->exec->cmd_args, env_list);
+	// exit(0);
 	error_cmd_not_found(exec_data->cmd->exec->cmd_args[0]);
 }

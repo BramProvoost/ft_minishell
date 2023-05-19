@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   tokenizer.c                                        :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 17:53:06 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 17:39:47 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ t_token	*tokenizer(char *raw_line)
 	t_line	line;
 	t_token *token_lst;
 
-	line.text = raw_line;
+	line.text = ft_strdup(raw_line);
 	line.len = ft_strlen(raw_line);
 	line.position = 0;
 	line.quote = 0;
@@ -66,5 +66,6 @@ t_token	*tokenizer(char *raw_line)
 		data_to_token(&token_lst, &line);
 		move_position(token_lst, &line);
 	}
+	free(line.text);
 	return (token_lst);
 }

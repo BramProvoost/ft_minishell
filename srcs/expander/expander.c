@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   expander.c                                         :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/10 16:37:21 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/11 17:44:22 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,13 +68,16 @@ char	*get_varname(char *str)
 
 	i = 0;
 	varname = NULL;
-	if (str[1] == '\0' || str[1] == ' ')
-		return (ft_strlendump(str, 1));
-	if (str[1] == '?' || str[1] == '$')
-		return (ft_strlendump(str, 2));
+	if (str[1] == '\0' || str[1] == ' ' || str[1] == '?' || str[1] == '$')
+	{
+		varname = (char *)malloc(sizeof(char) * 2);
+		varname[0] = str[1];
+		varname[1] = '\0';
+		return (varname);
+	}
 	while (is_valid_varname_char(str[i]) || i == 0)
 	{
-		varname = ft_strjoin(varname, ft_strlendump(&str[i], 1));
+		varname = ft_append_char_to_string(varname, str[i]);
 		i += 1;
 	}
 	return (varname);
@@ -120,6 +123,7 @@ char	*expand(char *str, t_env *env)
 {
 	char 	*newstr;
 	char	*varname;
+	char	*tmp;
 	int		i;
 
 	newstr = NULL;
@@ -134,7 +138,11 @@ char	*expand(char *str, t_env *env)
 			free(varname);
 		}
 		else
-			newstr = ft_strjoin(newstr, ft_strlendump(&str[i], 1));
+		{
+			tmp = newstr;
+			newstr = ft_append_char_to_string(tmp, str[i]);
+			free(tmp);
+		}
 		i++;
 	}
 	return (newstr);
@@ -143,12 +151,17 @@ char	*expand(char *str, t_env *env)
 void	expander(t_token **tokens, t_env *env)
 {
 	t_token	*tmp;
+	char	*tmp_val;
 
 	tmp = *tokens;
 	while (tmp)
 	{
 		if (!(tmp->prev && tmp->prev->type == HEREDOC))
-			tmp->value = expand(tmp->value, env);
+		{
+			tmp_val = tmp->value;
+			tmp->value = expand(tmp_val, env);
+			free(tmp_val);
+		}
 		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
 			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;

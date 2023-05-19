@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_exit.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 21:23:56 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_exit.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 18:21:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/19 09:55:34 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,9 @@ int	minishell_exit(bool print, t_exec_data *exec_data)
 	}
 	if (print)
 		ft_putstr_fd("exit\n", STDERR);
+	delete_cmds(exec_data->cmd);
+	free_env_list(&exec_data->env);
+	delete_tokens(exec_data->tokens);
+	// free(exec_data); // attempting free on address which was not malloc()-ed
 	exit(g_exit_status);
 }

@@ -3,10 +3,10 @@
 /*                                                        ::::::::            */
 /*   case_handler.c                                     :+:    :+:            */
 /*                                                     +:+                    */
-/*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:57:00 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/11 11:36:15 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/18 17:40:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,10 @@ void	output_case(t_token **token, t_line *line)
 void	word_case(t_token **token, t_line *line)
 {
 	t_token	*word_token;
-	char	*last_char;
+	char	*temp;
 	char	c;
 
+	temp = NULL;
 	if (!*token || (get_prev_char(*line) == ' ' && line->quote == 0))
 		add_token_back(token, create_token());
 	if (last_token(*token)->type != WORD)
@@ -87,9 +88,10 @@ void	word_case(t_token **token, t_line *line)
 	if (c == '\0')
 		return ;
 	word_token = last_token(*token);
-	last_char = ft_strlendump(&line->text[line->position], 1);
 	word_token->type = WORD;
-	word_token->value = ft_strjoin(word_token->value, last_char);
+	temp = word_token->value;
+	word_token->value = ft_append_char_to_string(temp, c);
+	free(temp);
 	word_token->len++;
 	if (c == '\'' || c == '"')
 		quote_case(line);

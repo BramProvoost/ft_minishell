@@ -90,11 +90,12 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args, t_env *env)
 	while (tmp->next)
 		tmp = tmp->next;
 	if (is_buld_in_cmd(split_cmd_and_args[0]))
-		path_and_cmd = split_cmd_and_args[0];
+		path_and_cmd = ft_strdup(split_cmd_and_args[0]);
 	else
 		path_and_cmd = get_full_cmd(split_cmd_and_args[0], get_paths(env));
 	tmp->exec = new_t_exec();
 	tmp->exec->cmd_path = ft_strdup(path_and_cmd);
+	free(path_and_cmd);
 	if (ft_strncmp(split_cmd_and_args[0], "export", 7) != 0)
 		rm_quotes_from_2d_array(split_cmd_and_args);
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
@@ -159,31 +160,6 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 		tmp_file->delimiter = tokens->value;
 	else
 		tmp_file->file_name = tokens->value;
-}
-
-void	free_t_cmd(t_cmd *cmd)
-{
-	t_cmd	*temp;
-	t_file	*file;
-
-	while (cmd && cmd->next) 
-	{
-		temp = cmd;
-		cmd = cmd->next;
-		if (temp->exec->cmd_path)
-			free(temp->exec->cmd_path);
-		if (temp->exec->cmd_args)
-			free_2d(temp->exec->cmd_args);
-		free(temp->exec);
-		while (temp->file && temp->file->next)
-		{
-			file = temp->file;
-			temp->file = temp->file->next;
-			free(file->file_name);
-			free(file);
-		}
-		free(temp);
-	}
 }
 
 void	temp_t_cmd_printer(t_cmd *cmd, char *header)

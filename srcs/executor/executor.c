@@ -73,8 +73,11 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env *env)
 	exec_data_init(&exec_data, cmd, tokens, env);
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
-	if (heredoc(&exec_data) == ERROR)
-		return ;
+	if (exec_data.has_heredoc == true)
+	{
+		if (heredoc(&exec_data) == ERROR)
+			return ;
+	}
 	if (!cmd)
 		return ;
 	if (exec_data.is_pipe == true)

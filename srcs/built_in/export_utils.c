@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 23:32:17 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:29:34 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,25 +45,18 @@ void	export_util(char *key, char *value, t_env *env)
 		free(value);
 }
 
-bool	is_not_alpha_second_arg(char *str)
+bool	value_in_quotes(char *str, int i)
 {
-	int	i;
-
-	i = 0;
+	fprintf(stderr, "i is %d\n", i);
 	while (str[i])
 	{
-		if (i == 0)
-		{
-			if (ft_isalpha(str[i]) == 0 && str[i] != '_' \
-				&& str[i] != '?' && str[i] != '=')
-				return (export_error(str));
-		}
-		if ((ft_isalnum(str[i]) == 0) && str[i] != '_' \
-			&& str[i] != '?' && str[i] != '=')
-			return (export_error(str));
+		fprintf(stderr, "str[%d] = %c\n", i, str[i]);
+		if (str[i] == '"')
+			return (true);
 		i++;
 	}
-	return (true);
+	export_error(str);
+	return (false);
 }
 
 bool	is_not_alpha(char *str)
@@ -79,6 +72,8 @@ bool	is_not_alpha(char *str)
 				&& str[i] != '?' && str[i] != '=')
 				return (export_error(str));
 		}
+		if (str[i] == '=' && str[i + 1] == '"')
+			return (value_in_quotes(str, i + 2));
 		if ((ft_isalnum(str[i]) == 0) && str[i] != '_' \
 			&& str[i] != '?' && str[i] != '=')
 			return (export_error(str));
@@ -89,8 +84,15 @@ bool	is_not_alpha(char *str)
 
 bool	check_if_cmd_is_word(t_cmd *cmd, int i)
 {
+	char	*tmp;
+
 	if (!(is_not_alpha(cmd->exec->cmd_args[i])))
 		return (false);
+	tmp = rm_quotes(cmd->exec->cmd_args[i]);
+	if (tmp)
+		cmd->exec->cmd_args[i] = tmp;
+	free(tmp);
+	tmp = NULL;
 	if (cmd->exec->cmd_args[i][0] == '=')
 		return (export_error(cmd->exec->cmd_args[i]));
 	return (true);
