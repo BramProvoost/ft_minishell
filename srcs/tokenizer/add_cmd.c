@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 15:28:38 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 15:46:51 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,8 +140,6 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 	if (!*cmd)
 		*cmd = new_t_cmd();
 	tmp_cmd = *cmd;
-	if (tokens->prev && is_rederect(tokens->prev->prev->type))
-		file_to_t_cmd(cmd, tokens->prev);
 	while (tmp_cmd && tmp_cmd->next)
 		tmp_cmd = tmp_cmd->next;
 	if (!tmp_cmd->file)
