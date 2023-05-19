@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 12:33:16 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/19 13:29:34 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,11 +90,9 @@ bool	check_if_cmd_is_word(t_cmd *cmd, int i)
 		return (false);
 	tmp = rm_quotes(cmd->exec->cmd_args[i]);
 	if (tmp)
-	{
-		free(cmd->exec->cmd_args[i]);
 		cmd->exec->cmd_args[i] = tmp;
-	}
 	free(tmp);
+	tmp = NULL;
 	if (cmd->exec->cmd_args[i][0] == '=')
 		return (export_error(cmd->exec->cmd_args[i]));
 	return (true);
