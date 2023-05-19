@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   add_cmd.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/18 16:23:37 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   add_cmd.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/19 15:28:38 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,31 +162,6 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 		tmp_file->delimiter = tokens->value;
 	else
 		tmp_file->file_name = tokens->value;
-}
-
-void	free_t_cmd(t_cmd *cmd)
-{
-	t_cmd	*temp;
-	t_file	*file;
-
-	while (cmd && cmd->next) 
-	{
-		temp = cmd;
-		cmd = cmd->next;
-		if (temp->exec->cmd_path)
-			free(temp->exec->cmd_path);
-		if (temp->exec->cmd_args)
-			free_2d(temp->exec->cmd_args);
-		free(temp->exec);
-		while (temp->file && temp->file->next)
-		{
-			file = temp->file;
-			temp->file = temp->file->next;
-			free(file->file_name);
-			free(file);
-		}
-		free(temp);
-	}
 }
 
 void	temp_t_cmd_printer(t_cmd *cmd, char *header)

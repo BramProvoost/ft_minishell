@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 12:13:30 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/19 15:29:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,16 +21,22 @@ void	delete_cmds(t_cmd *cmd)
 	{
 		tmp_cmd = cmd;
 		cmd = cmd->next;
-		free(tmp_cmd->exec->cmd_path);
-		free_2d(tmp_cmd->exec->cmd_args);
-		free(tmp_cmd->exec);
+		if (tmp_cmd->exec)
+		{
+			free(tmp_cmd->exec->cmd_path);
+			free_2d(tmp_cmd->exec->cmd_args);
+			free(tmp_cmd->exec);
+		}
 		while (tmp_cmd->file)
 		{
 			tmp_file = tmp_cmd->file;
 			tmp_cmd->file = tmp_cmd->file->next;
-			free(tmp_file->file_name);
-			free(tmp_file->delimiter);
-			free(tmp_file);
+			if (tmp_file)
+			{
+				if (tmp_file->file_name)
+					free(tmp_file->file_name);
+				free(tmp_file);
+			}
 		}
 		free(tmp_cmd);
 	}
