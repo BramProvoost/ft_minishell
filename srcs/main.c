@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/19 19:58:12 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/21 13:53:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,7 @@ int	test_shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	fprintf(stderr, "line: %s\n", line);
-	if (!line)
+	if (!line || line[0] == '\0')
 		return (EXIT_FAILURE);
 	tokens = tokenizer(line);
 	free(line);

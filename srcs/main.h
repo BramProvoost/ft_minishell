@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 17:06:13 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/21 13:42:19 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@
 # define OUTPUT 1
 # define APPEND 2
 
-#include <termios.h>
-
+# include <termios.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>

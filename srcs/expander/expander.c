@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/19 19:59:33 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/21 14:29:51 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	*get_value_from_env(char *key, t_env *env)
 	{
 		if (env->has_value == true)
 		{
-			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
+			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))				
 				return (ft_strdup(env->value));
 		}
 		env = env->next;
@@ -138,11 +138,15 @@ char	*expand(char *str, t_env *env)
 		{
 			varname = get_varname(&str[i]);
 			tmp2 = newstr;
+			// fprintf(stderr, "%s\n", tmp2);
+			// newstr = ft_strdup("");
 			newstr = ft_strjoin(tmp2, expand_variable(varname, env));
 			free(tmp2);
-			// exit(0);
 			i += ft_strlen(varname) - 1;
 			free(varname);
+			fprintf(stderr, "newstr: %s\n", newstr);
+			// free(newstr);
+			// free(str);
 		}
 		else
 		{
@@ -159,18 +163,26 @@ void	expander(t_token **tokens, t_env *env)
 {
 	t_token	*tmp;
 	char	*tmp_val;
+	char	*tmp2;
 
 	tmp = *tokens;
+	tmp_val = NULL;
+	tmp2 = NULL;
 	while (tmp)
 	{
 		if (!(tmp->prev && tmp->prev->type == HEREDOC))
 		{
 			tmp_val = tmp->value;
 			tmp->value = expand(tmp_val, env);
+			// fprintf(stderr, "tmp->value: %s\n", tmp->value);
 			free(tmp_val);
 		}
 		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
-			tmp->value = rm_quotes(tmp->value);
+		{
+			tmp2 = tmp->value;
+			tmp->value = rm_quotes(tmp2);
+			free(tmp2);
+		}
 		tmp = (tmp)->next;
 	}
 }
