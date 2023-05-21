@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/19 21:22:53 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/03 12:28:34 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/21 13:54:43 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,15 @@ static bool	check_n_flag(t_cmd *cmd, int i)
 	return (false);
 }
 
+static void	set_bools_values(t_cmd *cmd, int i)
+{
+	if (check_n_flag(cmd, i) && cmd->echo_n_flag == false)
+	{
+		cmd->echo_n_flag = true;
+		cmd->echo_print_flag = true;
+	}
+}
+
 int	minishell_echo(t_cmd *cmd)
 {
 	int		i;
@@ -41,11 +50,7 @@ int	minishell_echo(t_cmd *cmd)
 	cmd->echo_arg = false;
 	while (cmd->exec->cmd_args[i])
 	{
-		if (check_n_flag(cmd, i) && cmd->echo_n_flag == false)
-		{
-			cmd->echo_n_flag = true;
-			cmd->echo_print_flag = true;
-		}
+		set_bools_values(cmd, i);
 		if (cmd->echo_print_flag == true)
 		{
 			cmd->echo_print_flag = false;
