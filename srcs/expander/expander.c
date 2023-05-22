@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/22 15:45:23 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 17:35:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,19 @@ char	*get_varname(char *str)
 
 	i = 0;
 	varname = NULL;
-	if (str[1] == '\0' || str[1] == ' ' || str[1] == '?' || str[1] == '$')
+	if (str[1] == '\0' || str[1] == ' ')
 	{
 		varname = (char *)malloc(sizeof(char) * 2);
 		varname[0] = str[1];
 		varname[1] = '\0';
+		return (varname);
+	}
+	else if (str[1] == '?' || str[1] == '$')
+	{
+		varname = (char *)malloc(sizeof(char) * 3);
+		varname[0] = str[0];
+		varname[1] = str[1];
+		varname[2] = '\0';
 		return (varname);
 	}
 	while (is_valid_varname_char(str[i]) || i == 0)
