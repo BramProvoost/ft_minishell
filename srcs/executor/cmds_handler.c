@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 19:57:08 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:31:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,6 @@ char	*get_full_cmd(char *cmd, char **paths)
 	}
 	if (access(cmd, X_OK) == SUCCESS)
 	{
-		fprintf(stderr, "cmd: %s\n", cmd);
 		free_2d(paths);
 		return (ft_strdup(cmd));
 	}

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:34:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/13 02:54:25 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 11:07:16 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,13 +79,13 @@ void	error_cmd_not_found(char *cmd)
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": no such file or directory", 2);
-		exit(127);
+		_exit(127);
 	}
 	else
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd(cmd, 2);
 		ft_putendl_fd(": command not found", 2);
-		exit(127);
+		_exit(127);
 	}
 }
