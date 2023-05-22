@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 13:29:34 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:21:05 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,10 @@ void	export_util(char *key, char *value, t_env *env)
 		set_env(key, NULL, env);
 	free(key);
 	if (value)
+	{
+		fprintf(stderr, "value is %p, %s\n", value, value);
 		free(value);
+	}
 }
 
 bool	value_in_quotes(char *str, int i)
@@ -91,8 +94,9 @@ bool	check_if_cmd_is_word(t_cmd *cmd, int i)
 	tmp = rm_quotes(cmd->exec->cmd_args[i]);
 	if (tmp)
 		cmd->exec->cmd_args[i] = tmp;
-	free(tmp);
-	tmp = NULL;
+	fprintf(stderr, "tmp is %p, %s\n", tmp, tmp);
+	// free(tmp);
+	// tmp = NULL;
 	if (cmd->exec->cmd_args[i][0] == '=')
 		return (export_error(cmd->exec->cmd_args[i]));
 	return (true);

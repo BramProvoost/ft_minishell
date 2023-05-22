@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 23:31:05 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:21:16 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ void	set_env(char *key, char *value, t_env *env)
 	char	*tmp;
 	char	*tmp2;
 
+	fprintf(stderr, "key: %p, value: %p\n", key, value);
+	fprintf(stderr, "key: %s, value: %s\n", key, value);
 	if (value)
 	{
 		tmp = ft_strjoin(key, "=");
@@ -49,10 +51,14 @@ void	set_env(char *key, char *value, t_env *env)
 	while (env)
 	{
 		if (check_if_env_key_exists(env, key, value))
+		{
+			free(tmp2);
 			return ;
+		}
 		if (!env->next)
 		{
 			env->next = new_env_node(tmp2);
+			// free(tmp2);
 			return ;
 		}
 		else
@@ -94,6 +100,7 @@ int	minishell_export(t_cmd *cmd, t_env *env)
 			j++;
 		key = ft_substr(cmd->exec->cmd_args[i], 0, j);
 		value = get_export_value(cmd, i, j);
+		fprintf(stderr, "key: %p, value: %p\n", key, value);
 		export_util(key, value, env);
 		i++;
 	}

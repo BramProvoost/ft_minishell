@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/08 00:38:27 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:29:43 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,11 +57,13 @@ int	minishell_cd(t_cmd *cmd, t_env *env)
 {
 	char	*home_path;
 	char	*pwd;
+	char	*newpwd;
 
 	home_path = get_path(env, "HOME");
 	if (!home_path)
 		return (ft_putendl_fd("minishell: cd: HOME not set", 2), SUCCESS);
 	pwd = get_path(env, "PWD");
+	fprintf(stderr, "pwd: %p\n", pwd);
 	if (!pwd)
 		return (ft_putendl_fd("minishell: cd: PWD not set", 2), SUCCESS);
 	if (!cmd->exec->cmd_args[1])
@@ -75,6 +77,8 @@ int	minishell_cd(t_cmd *cmd, t_env *env)
 			chdir_error(cmd->exec->cmd_args[1], errno);
 	}
 	set_env("OLDPWD", pwd, env);
-	set_env("PWD", getcwd(NULL, 0), env);
+	newpwd = getcwd(NULL, 0);
+	set_env("PWD", newpwd, env);
+	free(newpwd);
 	return (SUCCESS);
 }
