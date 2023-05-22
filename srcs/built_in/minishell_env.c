@@ -6,14 +6,19 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 16:24:14 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 13:05:39 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:41:59 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-int	minishell_env(t_env *env)
+int	minishell_env(t_cmd *cmd, t_env *env)
 {
+	if (cmd->exec->cmd_args[1])
+	{
+		ft_putendl_fd("env: too many arguments", 1);
+		return (SUCCESS);
+	}
 	while (env)
 	{
 		if (env->has_value == true)
