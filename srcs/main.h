@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/22 13:39:20 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:06:29 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -221,6 +221,7 @@ void	temp_print_tokens(t_token *tokens, char *header);
 char	*rm_quotes(char *str);
 char	*expand(char *str, t_env *env);
 void	expander(t_token **tokens, t_env *env);
+char	*ft_strjoin_exp(char *s1, char *s2);
 
 //Executor functions
 void	executor(t_cmd *cmd, t_token *tokens, t_env *env);

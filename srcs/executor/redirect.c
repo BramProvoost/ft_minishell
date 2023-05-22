@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 19:24:25 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 20:27:38 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ static int	open_file(char *file_name, int type)
 {
 	int	fd;
 
+	if (file_name == NULL || file_name[0] == '\0')
+		return (ERROR);
 	if (type == OUTPUT)
 		fd = open(file_name, O_CREAT | O_TRUNC | O_RDWR, 0700);
 	if (type == APPEND)
@@ -77,6 +79,8 @@ int	redirect_output(t_exec_data *exec_data)
 			fd = open_file(tmp->file_name, OUTPUT);
 		else if (tmp->type == OUTPUT_APPEND)
 			fd = open_file(tmp->file_name, APPEND);
+		if (fd == ERROR)
+			return (ERROR);
 		tmp = tmp->next;
 	}
 	return (duplicate(fd, STDOUT_FILENO));

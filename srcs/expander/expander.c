@@ -6,13 +6,13 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/22 17:35:57 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 18:05:46 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-static char	*ft_strjoin_exp(char *s1, char *s2)
+char	*ft_strjoin_exp(char *s1, char *s2)
 {
 	int		i;
 	int		c;
