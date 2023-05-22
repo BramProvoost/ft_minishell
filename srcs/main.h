@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/21 13:42:19 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 13:39:20 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -276,7 +276,7 @@ int		minishell_exit(bool print, t_exec_data *exec_data);
 int		minishell_unset(t_cmd *cmd, t_env *env);
 
 //env functions
-int		minishell_env(t_env *env);
+int		minishell_env(t_cmd *cmd, t_env *env);
 void	free_env_list(t_env **head);
 t_env	*new_env_node(char *env);
 bool	create_env_list(t_env **head, char **envp);

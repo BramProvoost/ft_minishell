@@ -6,11 +6,40 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/21 14:29:51 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/22 15:45:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+static char	*ft_strjoin_exp(char *s1, char *s2)
+{
+	int		i;
+	int		c;
+	char	*str;
+
+	if (!s1 && !s2)
+		return (NULL);
+	if (!s1)
+		s1 = ft_calloc(1, sizeof(char));
+	str = ft_calloc((ft_strlen(s1) + ft_strlen(s2) + 1), sizeof(char));
+	if (!str)
+		return (NULL);
+	i = -1;
+	c = 0;
+	if (s1)
+		while (s1[++i] != '\0')
+			str[i] = s1[i];
+	while (s2[c] != '\0')
+		str[i++] = s2[c++];
+	str[ft_strlen(s1) + ft_strlen(s2)] = '\0';
+	if (s1)
+	{
+		free(s1);
+		s1 = NULL;
+	}
+	return (str);
+}
 
 char	*rm_quotes(char *str)
 {
@@ -44,12 +73,12 @@ char	*get_value_from_env(char *key, t_env *env)
 	{
 		if (env->has_value == true)
 		{
-			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))				
+			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
 				return (ft_strdup(env->value));
 		}
 		env = env->next;
 	}
-	return ("");
+	return (ft_strdup(""));
 }
 
 int	is_valid_varname_char(char c)
@@ -80,8 +109,8 @@ char	*get_varname(char *str)
 	{
 		tmp = varname;
 		varname = ft_append_char_to_string(tmp, str[i]);
-		free(tmp);
 		i += 1;
+		free(tmp);
 	}
 	return (varname);
 }
@@ -90,13 +119,14 @@ char	*expand_special_cases(char *str)
 {
 	if (str[1] == '?')
 		return ft_itoa(g_exit_status);
-	return ft_strdup("$"); 
+	return ft_strdup("$");
 }
 
 char	*expand_variable(char *varname, t_env *env)
 {
 	char	*expanded;
 
+	expanded = NULL;
 	if (varname[1] && (varname[1] == '?'))
 		expanded = expand_special_cases(varname);
 	else if (!varname[1] || varname[1] == ' ')
@@ -129,6 +159,7 @@ char	*expand(char *str, t_env *env)
 	char	*tmp;
 	int		i;
 	char	*tmp2;
+	char	*tmp3;
 
 	newstr = NULL;
 	i = 0;
@@ -138,15 +169,12 @@ char	*expand(char *str, t_env *env)
 		{
 			varname = get_varname(&str[i]);
 			tmp2 = newstr;
-			// fprintf(stderr, "%s\n", tmp2);
-			// newstr = ft_strdup("");
-			newstr = ft_strjoin(tmp2, expand_variable(varname, env));
+			tmp3 = expand_variable(varname, env);
+			newstr = ft_strjoin_exp(tmp2, tmp3);
 			free(tmp2);
+			free(tmp3);
 			i += ft_strlen(varname) - 1;
 			free(varname);
-			fprintf(stderr, "newstr: %s\n", newstr);
-			// free(newstr);
-			// free(str);
 		}
 		else
 		{
@@ -163,26 +191,20 @@ void	expander(t_token **tokens, t_env *env)
 {
 	t_token	*tmp;
 	char	*tmp_val;
-	char	*tmp2;
 
 	tmp = *tokens;
 	tmp_val = NULL;
-	tmp2 = NULL;
 	while (tmp)
 	{
 		if (!(tmp->prev && tmp->prev->type == HEREDOC))
 		{
 			tmp_val = tmp->value;
 			tmp->value = expand(tmp_val, env);
-			// fprintf(stderr, "tmp->value: %s\n", tmp->value);
 			free(tmp_val);
+			tmp_val = NULL;
 		}
 		if (tmp->type != WORD && !(tmp->prev && tmp->prev->type == HEREDOC))
-		{
-			tmp2 = tmp->value;
-			tmp->value = rm_quotes(tmp2);
-			free(tmp2);
-		}
+			tmp->value = rm_quotes(tmp->value);
 		tmp = (tmp)->next;
 	}
 }
