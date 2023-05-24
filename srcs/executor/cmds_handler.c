@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   cmds_handler.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 13:31:57 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   cmds_handler.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/24 17:21:59 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,10 @@ void	child_process(t_exec_data *exec_data, int prev_fd)
 		if (redirect_output(exec_data) != SUCCESS)
 			exit(g_exit_status);
 	}
-	ft_execute(exec_data);
+	if (exec_data->cmd->exec != NULL)
+		ft_execute(exec_data);
+	else
+		exit(g_exit_status);
 }
 
 void	ft_execute(t_exec_data *exec_data)

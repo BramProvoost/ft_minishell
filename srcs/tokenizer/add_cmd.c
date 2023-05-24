@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   add_cmd.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/19 19:55:12 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   add_cmd.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/24 17:24:43 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,8 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 
 	if (!*cmd)
 		*cmd = new_t_cmd();
+	if (tokens->prev && is_rederect(tokens->prev->type))
+		add_t_cmd_back(*cmd);
 	tmp_cmd = *cmd;
 	while (tmp_cmd && tmp_cmd->next)
 		tmp_cmd = tmp_cmd->next;
