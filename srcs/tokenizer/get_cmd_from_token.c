@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   get_cmd_from_token.c                               :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/05/19 16:32:21 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/19 19:43:43 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   get_cmd_from_token.c                               :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/05/19 16:32:21 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/24 18:13:02 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,6 @@ void	delete_cmds(t_cmd *cmd)
 		{
 			tmp_file = tmp_cmd->file;
 			tmp_cmd->file = tmp_cmd->file->next;
-			// if (tmp_file && tmp_file->file_name)
-			// 	free(tmp_file->file_name);
 			if (tmp_file)
 				free(tmp_file);
 		}

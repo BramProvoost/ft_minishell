@@ -6,28 +6,18 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/24 17:21:59 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/24 20:07:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-char	*get_full_cmd(char *cmd, char **paths)
+char	*create_temp_path(char **paths, char *cmd)
 {
 	int		i;
 	char	*temp_path;
 
 	i = 0;
-	if (cmd && *cmd == '\0')
-	{
-		free_2d(paths);
-		return (NULL);
-	}
-	if (access(cmd, X_OK) == SUCCESS)
-	{
-		free_2d(paths);
-		return (ft_strdup(cmd));
-	}
 	while (paths[i])
 	{
 		temp_path = ft_strjoin(paths[i], cmd);
@@ -37,15 +27,38 @@ char	*get_full_cmd(char *cmd, char **paths)
 			return (NULL);
 		}
 		if (access(temp_path, X_OK) == SUCCESS)
-		{
-			free_2d(paths);
 			return (temp_path);
-		}
 		i++;
 		free(temp_path);
 	}
-	free_2d(paths);
 	return (NULL);
+}
+
+char	*check_and_copy_cmd(char *cmd)
+{
+	if (access(cmd, X_OK) == SUCCESS)
+		return (ft_strdup(cmd));
+	return (NULL);
+}
+
+char	*get_full_cmd(char *cmd, char **paths)
+{
+	char	*temp_path;
+
+	if (cmd && *cmd == '\0')
+	{
+		free_2d(paths);
+		return (NULL);
+	}
+	temp_path = check_and_copy_cmd(cmd);
+	if (temp_path != NULL)
+	{
+		free_2d(paths);
+		return (temp_path);
+	}
+	temp_path = create_temp_path(paths, cmd);
+	free_2d(paths);
+	return (temp_path);
 }
 
 void	child_process(t_exec_data *exec_data, int prev_fd)
@@ -69,7 +82,8 @@ void	ft_execute(t_exec_data *exec_data)
 {
 	char	**env_list;
 
-	if (execute_built_in_cmd(exec_data, exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
+	if (execute_built_in_cmd(exec_data, \
+		exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
 		exit(g_exit_status);
 	env_list = env_to_list(exec_data->env);
 	execve(exec_data->cmd->exec->cmd_path, \

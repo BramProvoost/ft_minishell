@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   expander.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/17 10:03:55 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/22 18:05:46 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   expander.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/17 10:03:55 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/24 20:16:53 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,10 +84,38 @@ char	*get_value_from_env(char *key, t_env *env)
 int	is_valid_varname_char(char c)
 {
 	if (ft_isalpha(c) || c == '_')
-		return true;
+		return (1);
 	if (ft_isdigit(c))
-		return true;
-	return false;
+		return (1);
+	return (0);
+}
+
+char	*allocate_memory(char *str, int size)
+{
+	int		i;
+	char	*varname;
+
+	varname = (char *)malloc(sizeof(char) * size);
+	if (varname == NULL)
+	{
+		ft_putendl_fd("malloc fail", 1);
+		exit(EXIT_FAILURE);
+	}
+	i = 0;
+	while (i < size - 1)
+	{
+		varname[i] = str[i];
+		i++;
+	}
+	varname[size - 1] = '\0';
+	return (varname);
+}
+
+char	*process_special_chars(char *str)
+{
+	if (str[1] == '?')
+		return (allocate_memory(str, 3));
+	return (NULL);
 }
 
 char	*get_varname(char *str)
@@ -96,23 +124,10 @@ char	*get_varname(char *str)
 	char	*varname;
 	char	*tmp;
 
+	varname = process_special_chars(str);
+	if (varname != NULL)
+		return (varname);
 	i = 0;
-	varname = NULL;
-	if (str[1] == '\0' || str[1] == ' ')
-	{
-		varname = (char *)malloc(sizeof(char) * 2);
-		varname[0] = str[1];
-		varname[1] = '\0';
-		return (varname);
-	}
-	else if (str[1] == '?' || str[1] == '$')
-	{
-		varname = (char *)malloc(sizeof(char) * 3);
-		varname[0] = str[0];
-		varname[1] = str[1];
-		varname[2] = '\0';
-		return (varname);
-	}
 	while (is_valid_varname_char(str[i]) || i == 0)
 	{
 		tmp = varname;
@@ -126,8 +141,8 @@ char	*get_varname(char *str)
 char	*expand_special_cases(char *str)
 {
 	if (str[1] == '?')
-		return ft_itoa(g_exit_status);
-	return ft_strdup("$");
+		return (ft_itoa(g_exit_status));
+	return (ft_strdup("$"));
 }
 
 char	*expand_variable(char *varname, t_env *env)
@@ -162,7 +177,7 @@ int	in_single_quotes(char *str, int index)
 
 char	*expand(char *str, t_env *env)
 {
-	char 	*newstr;
+	char	*newstr;
 	char	*varname;
 	char	*tmp;
 	int		i;

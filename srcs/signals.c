@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   signals.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/01 14:12:42 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/18 14:22:06 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   signals.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/02/01 14:12:42 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/24 19:48:10 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ void	sigquit_handler(int signum)
 
 void	init_signals(void)
 {
-	struct termios termAttributes;
+	struct termios	term_attributes;
 
-	tcgetattr(STDIN_FILENO, &termAttributes);
-	termAttributes.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSAFLUSH, &termAttributes);
+	tcgetattr(STDIN_FILENO, &term_attributes);
+	term_attributes.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term_attributes);
 	signal(SIGINT, sigint_ctr_c_handler);
 	signal(SIGQUIT, sigquit_handler);
 }

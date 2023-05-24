@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/24 17:24:43 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/24 18:10:44 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,36 +37,21 @@ void	path_and_cmd_to_t_cmd(t_cmd **cmd, char **split_cmd_and_args,
 	tmp->exec->cmd_args = ft_strdup2d(split_cmd_and_args);
 }
 
-// t_file	*add_new_file(t_cmd *tmp_cmd)
-// {
-// 	t_file	*tmp_file;
-
-// 	tmp_file = tmp_cmd->file;
-// 	if (!tmp_file)
-// 	{
-// 		tmp_cmd->file = new_t_file();
-// 		tmp_file = tmp_cmd->file;
-// 	}
-// 	else
-// 	{
-// 		while (tmp_file->next)
-// 			tmp_file = tmp_file->next;
-// 		tmp_file->next = new_t_file();
-// 		tmp_file = tmp_file->next;
-// 	}
-// 	return (tmp_file);
-// }
+t_cmd	*init_cmd_for_file(t_cmd **cmd, t_token *token)
+{
+	if (!*cmd)
+		*cmd = new_t_cmd();
+	if (token->prev && is_rederect(token->prev->type))
+		add_t_cmd_back(*cmd);
+	return (*cmd);
+}
 
 void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 {
 	t_cmd	*tmp_cmd;
 	t_file	*tmp_file;
 
-	if (!*cmd)
-		*cmd = new_t_cmd();
-	if (tokens->prev && is_rederect(tokens->prev->type))
-		add_t_cmd_back(*cmd);
-	tmp_cmd = *cmd;
+	tmp_cmd = init_cmd_for_file(cmd, tokens);
 	while (tmp_cmd && tmp_cmd->next)
 		tmp_cmd = tmp_cmd->next;
 	tmp_file = tmp_cmd->file;
@@ -87,44 +72,4 @@ void	file_to_t_cmd(t_cmd **cmd, t_token *tokens)
 		tmp_file->delimiter = tokens->value;
 	else
 		tmp_file->file_name = tokens->value;
-}
-
-void	temp_t_cmd_printer(t_cmd *cmd, char *header)
-{
-	int		i;
-	int		j;
-	t_file	*tmp_file;
-
-	i = 0;
-	printf(BLUE"%s"NC"\n", header);
-	while (cmd)
-	{
-		if (cmd->exec)
-		{
-			if (cmd->exec->cmd_path)
-				printf(GRAY"cmd[%d]->exec->cmd_path = '"GREEN"%s"GRAY"'"NC"\n", i, cmd->exec->cmd_path);
-			if (cmd->exec->cmd_args)
-			{
-				j = 0;
-				while (cmd->exec->cmd_args[j])
-				{
-					printf(GRAY"cmd[%d]->exec->cmd_args[%d] = '"GREEN"%s"GRAY"'"NC"\n", i, j, cmd->exec->cmd_args[j]);
-					j++;
-				}
-			}
-		}
-		tmp_file = cmd->file;
-		j = 0;
-		while (tmp_file)
-		{
-			printf(GRAY"cmd[%d]->file[%d]->type = '"GREEN"%s"GRAY"'"NC"\n", i, j, temp_type_to_string(tmp_file->type));
-			printf(GRAY"cmd[%d]->file[%d]->file_name = '"GREEN"%s"GRAY"'"NC"\n", i, j, tmp_file->file_name);
-			printf(GRAY"cmd[%d]->file[%d]->delimiter = '"GREEN"%s"GRAY"'"NC"\n", i, j, tmp_file->delimiter);
-			tmp_file = tmp_file->next;
-			j++;
-		}
-		cmd = cmd->next;
-		i++;
-	}
-	printf(BLUE"End %s"NC"\n", header);
 }

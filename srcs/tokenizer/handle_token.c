@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/26 16:47:48 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/19 12:09:14 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/24 18:13:35 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ void	delete_tokens(t_token *head)
 	}
 }
 
-t_token *create_token(void)
+t_token	*create_token(void)
 {
-	t_token *new_token;
+	t_token	*new_token;
 
 	new_token = ft_calloc(1, sizeof(t_token));
 	if (!new_token)
