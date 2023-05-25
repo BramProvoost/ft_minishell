@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 16:44:34 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:54:15 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ int	main(int argc, char *argv[], char **envp)
 	t_env		*env;
 
 	g_exit_status = 0;
+	if (argc > 1)
+		return (ft_putendl_fd("minishell: too many arguments", STDERR));
 	atexit(ft_exit);
 	create_env_list(&env, envp);
 	init_signals();
