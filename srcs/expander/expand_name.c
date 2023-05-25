@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 12:34:42 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/25 13:26:56 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/25 17:15:17 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ char	*get_value_from_env(char *key, t_env *env)
 	{
 		if (env->has_value == true)
 		{
-			if (!ft_strncmp(env->key, key, ft_strlen(env->key)))
+			if (!ft_strncmp(env->key, key, ft_strlen(key) + 1))
 				return (ft_strdup(env->value));
 		}
 		env = env->next;
