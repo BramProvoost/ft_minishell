@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:34:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 11:07:16 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:14:39 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,13 @@ void	error_exit(int code, char *cmd)
 	ft_putstr_fd(cmd, 2);
 	ft_putendl_fd(": no such file or directory", 2);
 	exit(code);
+}
+
+int	error_ambiguous(void)
+{
+	ft_putendl_fd("minishell: ambiguous redirect", 2);
+	g_exit_status = 1;
+	return (ERROR);
 }
 
 int	file_error(char *filename)

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/22 18:06:29 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:14:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -248,6 +248,7 @@ void	ft_error(void);
 int		chdir_error(char *str, int32_t error);
 void	error_heredoc(char *file_name, t_exec_data *exec_data);
 bool	has_heredoc(t_cmd *cmd);
+int		error_ambiguous(void);
 
 //File handler functions
 int		duplicate(int fd, int fileno);

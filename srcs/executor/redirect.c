@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 20:27:38 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:15:30 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ int	redirect_input(t_exec_data *exec_data, int fd)
 			if (fd == ERROR)
 				return (file_error(tmp->file_name));
 		}
+		if (fd == ERROR)
+			return (error_ambiguous());
 		if (tmp->type == HEREDOC)
 			run_heredoc(tmp);
 		tmp = tmp->next;
@@ -80,7 +82,7 @@ int	redirect_output(t_exec_data *exec_data)
 		else if (tmp->type == OUTPUT_APPEND)
 			fd = open_file(tmp->file_name, APPEND);
 		if (fd == ERROR)
-			return (ERROR);
+			return (error_ambiguous());
 		tmp = tmp->next;
 	}
 	return (duplicate(fd, STDOUT_FILENO));
