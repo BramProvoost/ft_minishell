@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:30:44 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:50:03 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ int	minishell_exit(bool print, t_exec_data *exec_data)
 		if (print)
 			ft_putstr_fd("exit\n", STDERR);
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR);
+		g_exit_status = 1;
 		return (SUCCESS);
 	}
 	if (exec_data->cmd->exec->cmd_args[1])
