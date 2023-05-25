@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/02/01 14:12:42 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/24 19:48:10 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:24:01 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ void	init_signals(void)
 	term_attributes.c_lflag &= ~ECHOCTL;
 	tcsetattr(STDIN_FILENO, TCSAFLUSH, &term_attributes);
 	signal(SIGINT, sigint_ctr_c_handler);
-	signal(SIGQUIT, sigquit_handler);
+	signal(SIGQUIT, SIG_IGN);
 }
