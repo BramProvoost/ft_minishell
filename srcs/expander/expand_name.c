@@ -6,7 +6,7 @@
 /*   By: bprovoos <bprovoos@student.codam.nl>         +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/05/25 12:34:42 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/25 12:34:59 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/25 13:26:56 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,10 @@ char	*expand_variable(char *varname, t_env *env)
 	if (varname[0] == '\0')
 		return (ft_strdup("$"));
 	if (varname[1] && (varname[1] == '?'))
+	{
 		expanded = expand_special_cases(varname);
+		g_exit_status = 0;
+	}
 	else if (!varname[1] || varname[1] == ' ')
 		expanded = ft_strdup("$");
 	else
