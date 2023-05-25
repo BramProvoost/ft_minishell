@@ -6,26 +6,26 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/25 14:31:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/03/19 16:32:44 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 19:37:10 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-void	free_list(t_cmd *cmd, t_env *env, int i)
+void	free_list(t_cmd *cmd, t_env **env, int i)
 {
 	t_env	*current;
 	t_env	*previous;
 
 	previous = NULL;
-	current = env;
+	current = *env;
 	while (current != NULL)
 	{
 		if (!ft_strncmp(current->key, cmd->exec->cmd_args[i], \
 			ft_strlen(current->key)))
 		{
 			if (previous == NULL)
-				env = current->next;
+				*env = current->next;
 			else
 				previous->next = current->next;
 			free(current->key);
@@ -41,7 +41,7 @@ void	free_list(t_cmd *cmd, t_env *env, int i)
 	}
 }
 
-int	minishell_unset(t_cmd *cmd, t_env *env)
+int	minishell_unset(t_cmd *cmd, t_env **env)
 {
 	int		i;
 

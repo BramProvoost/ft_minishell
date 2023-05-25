@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:23:55 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 19:36:26 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	prepare_to_pipe_and_fork(t_exec_data *exec_data, int fd)
 	return (prepare_to_pipe_and_fork(exec_data, exec_data->pipe_fds[READ]));
 }
 
-static pid_t	simple_command(t_exec_data *exec_data)
+static pid_t	simple_command(t_exec_data *exec_data, t_env **env)
 {
 	pid_t	fork_pid;
 
@@ -45,7 +45,7 @@ static pid_t	simple_command(t_exec_data *exec_data)
 	if (exec_data->cmd->exec == NULL)
 		return (fork_pid);
 	if (execute_built_in_cmd(exec_data, \
-		exec_data->cmd->exec->cmd_args[0], true) == SUCCESS)
+		exec_data->cmd->exec->cmd_args[0], true, env) == SUCCESS)
 		return (fork_pid);
 	else
 	{
@@ -63,12 +63,13 @@ static pid_t	simple_command(t_exec_data *exec_data)
 	return (fork_pid);
 }
 
-void	executor(t_cmd *cmd, t_token *tokens, t_env *env)
+void	executor(t_cmd *cmd, t_token *tokens, t_env **env_double_ptr)
 {
 	pid_t		last_pid;
 	t_exec_data	exec_data;
 	int			fd_in;
 	int			fd_out;
+	t_env       *env = *env_double_ptr;
 
 	last_pid = 0;
 	exec_data_init(&exec_data, cmd, tokens, env);
@@ -84,7 +85,8 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env *env)
 	if (exec_data.is_pipe == true)
 		last_pid = prepare_to_pipe_and_fork(&exec_data, STDIN_FILENO);
 	else
-		last_pid = simple_command(&exec_data);
+		last_pid = simple_command(&exec_data, env_double_ptr);
+	
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	wait_for_pids(last_pid);
