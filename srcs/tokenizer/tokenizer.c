@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/07 19:36:39 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 17:39:47 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/24 18:30:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,14 +54,14 @@ void	data_to_token(t_token **token, t_line *line)
 t_token	*tokenizer(char *raw_line)
 {
 	t_line	line;
-	t_token *token_lst;
+	t_token	*token_lst;
 
 	line.text = ft_strdup(raw_line);
 	line.len = ft_strlen(raw_line);
 	line.position = 0;
 	line.quote = 0;
 	token_lst = NULL;
-	while(line.position < line.len)
+	while (line.position < line.len)
 	{
 		data_to_token(&token_lst, &line);
 		move_position(token_lst, &line);

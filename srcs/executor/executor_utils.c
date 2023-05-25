@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/27 20:56:52 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 15:57:42 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:24:12 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	exec_data_init(t_exec_data *exec_data, t_cmd *cmd, \
 	exec_data->is_pipe = has_pipe(cmd);
 	exec_data->is_heredoc = false;
 	exec_data->has_heredoc = has_heredoc(cmd);
-	
 }
 
 int	redirect_in_simple_cmd(t_exec_data *exec_data)

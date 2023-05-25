@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/07 23:31:05 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:33:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,26 +33,38 @@ bool	check_if_env_key_exists(t_env *env, char *key, char *value)
 	return (false);
 }
 
+char	*assign_tmps(char **tmp, char **tmp2, char *key, char *value)
+{
+	if (value)
+	{
+		*tmp = ft_strjoin(key, "=");
+		*tmp2 = ft_strjoin(*tmp, value);
+		free(*tmp);
+	}
+	else
+		tmp2 = &key;
+	return (*tmp2);
+}
+
 void	set_env(char *key, char *value, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
 
-	if (value)
-	{
-		tmp = ft_strjoin(key, "=");
-		tmp2 = ft_strjoin(tmp, value);
-		free(tmp);
-	}
-	else
-		tmp2 = key;
+	tmp2 = assign_tmps(&tmp, &tmp2, key, value);
 	while (env)
 	{
 		if (check_if_env_key_exists(env, key, value))
+		{
+			if (value)
+				free(tmp2);
 			return ;
+		}
 		if (!env->next)
 		{
 			env->next = new_env_node(tmp2);
+			if (value)
+				free(tmp2);
 			return ;
 		}
 		else

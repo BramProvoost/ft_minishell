@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/27 09:49:34 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/18 17:18:46 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/24 18:30:51 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,8 @@ int	gramer_is_valid(t_token *tokens)
 			return (print_grammer_error(tokens->type));
 		if (tokens->type == PIPE && (!tokens->prev || last_type != WORD))
 			return (print_grammer_error(PIPE));
-		if (tokens->prev && is_rederect(tokens->prev->type) && is_rederect(tokens->type))
+		if (tokens->prev && is_rederect(tokens->prev->type) && \
+			is_rederect(tokens->type))
 			return (print_grammer_error(tokens->type));
 		last_type = tokens->type;
 		tokens = tokens->next;
