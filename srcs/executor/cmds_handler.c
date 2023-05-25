@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/24 20:07:01 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/25 18:30:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	ft_execute(t_exec_data *exec_data)
 		exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
 		exit(g_exit_status);
 	env_list = env_to_list(exec_data->env);
+	signal(SIGQUIT, sigquit_handler);
 	execve(exec_data->cmd->exec->cmd_path, \
 			exec_data->cmd->exec->cmd_args, env_list);
 	error_cmd_not_found(exec_data->cmd->exec->cmd_args[0]);
