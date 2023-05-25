@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 13:48:40 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:44:34 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,11 @@ int	test_shell(char *line, t_env *env)
 	t_token	*tokens;
 	t_cmd	*cmd;
 
-	if (!line || line[0] == '\0')
+	if (!line || line[0] == '\0' || line[0] == ' ')
+	{
+		free(line);
 		return (EXIT_FAILURE);
+	}
 	tokens = tokenizer(line);
 	free(line);
 	if (!gramer_is_valid(tokens))
