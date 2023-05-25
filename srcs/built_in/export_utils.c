@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 18:26:43 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:25:02 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,7 @@ bool	check_if_cmd_is_word(t_cmd *cmd, int i)
 	tmp = rm_quotes(cmd->exec->cmd_args[i]);
 	if (tmp)
 		cmd->exec->cmd_args[i] = tmp;
-	fprintf(stderr, "tmp: %s\n", tmp);
 	if (cmd->exec->cmd_args[i][0] == '=')
 		return (export_error(cmd->exec->cmd_args[i]));
-	system("leaks -q minishell");
-	// free(cmd->exec->cmd_args[i]);
 	return (true);
 }

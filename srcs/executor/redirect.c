@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:15:30 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:23:23 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	redirect_input(t_exec_data *exec_data, int fd)
 	tmp = exec_data->cmd->file;
 	while (tmp)
 	{
-		if (fd != STDIN_FILENO && (tmp->type == HEREDOC || tmp->type == INPUT_SINGLE))
+		if (fd != STDIN_FILENO && (tmp->type == HEREDOC \
+			|| tmp->type == INPUT_SINGLE))
 			close(fd);
 		if (tmp->type == INPUT_SINGLE)
 		{
@@ -66,7 +67,7 @@ int	redirect_input(t_exec_data *exec_data, int fd)
 
 int	redirect_output(t_exec_data *exec_data)
 {
-	int	fd;
+	int		fd;
 	t_file	*tmp;
 
 	tmp = exec_data->cmd->file;
@@ -75,7 +76,8 @@ int	redirect_output(t_exec_data *exec_data)
 		fd = exec_data->pipe_fds[WRITE];
 	while (tmp)
 	{
-		if (fd != STDOUT_FILENO && (tmp->type == OUTPUT_SINGLE || tmp->type == OUTPUT_APPEND))
+		if (fd != STDOUT_FILENO && (tmp->type == OUTPUT_SINGLE \
+			|| tmp->type == OUTPUT_APPEND))
 			close(fd);
 		if (tmp->type == OUTPUT_SINGLE)
 			fd = open_file(tmp->file_name, OUTPUT);

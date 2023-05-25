@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 18:32:49 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:33:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,19 +33,25 @@ bool	check_if_env_key_exists(t_env *env, char *key, char *value)
 	return (false);
 }
 
+char	*assign_tmps(char **tmp, char **tmp2, char *key, char *value)
+{
+	if (value)
+	{
+		*tmp = ft_strjoin(key, "=");
+		*tmp2 = ft_strjoin(*tmp, value);
+		free(*tmp);
+	}
+	else
+		tmp2 = &key;
+	return (*tmp2);
+}
+
 void	set_env(char *key, char *value, t_env *env)
 {
 	char	*tmp;
 	char	*tmp2;
 
-	if (value)
-	{
-		tmp = ft_strjoin(key, "=");
-		tmp2 = ft_strjoin(tmp, value);
-		free(tmp);
-	}
-	else
-		tmp2 = key;
+	tmp2 = assign_tmps(&tmp, &tmp2, key, value);
 	while (env)
 	{
 		if (check_if_env_key_exists(env, key, value))
@@ -100,7 +106,6 @@ int	minishell_export(t_cmd *cmd, t_env *env)
 			j++;
 		key = ft_substr(cmd->exec->cmd_args[i], 0, j);
 		value = get_export_value(cmd, i, j);
-		// system("leaks -q minishell");
 		export_util(key, value, env);
 		i++;
 	}

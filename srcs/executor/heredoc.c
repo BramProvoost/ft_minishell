@@ -1,85 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   heredoc.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/24 20:15:55 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   heredoc.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/25 13:40:39 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-bool	has_heredoc(t_cmd *cmd)
+int	write_line_to_file(t_exec_data *exec_data, char *line, \
+						int do_expand, int fd)
 {
 	t_file	*file;
 
-	file = cmd->file;
-	while (file)
-	{
-		if (file->type == HEREDOC)
-			return (true);
-		file = file->next;
-	}
-	return (false);
-}
-
-char	*heredoc_file_named(unsigned long n)
-{
-	char	*str;
-	char	*hex;
-	int		i;
-
-	hex = "0123456789abcdef";
-	i = 0;
-	str = malloc(sizeof(char) * 100);
-	if (!str)
-		return (NULL);
-	while (n)
-	{
-		str[i] = hex[n % 16];
-		n /= 16;
-		i++;
-	}
-	str[i] = '\0';
-	return (str);
-}
-
-int	str_start_stop_with_quotes(char *str)
-{
-	int	i;
-	int	start_quote;
-	int	stop_quote;
-
-	i = 0;
-	start_quote = 0;
-	stop_quote = 0;
-	if (str[0] == '\'' || str[0] == '"')
-		start_quote = str[0];
-	while (str[i])
-		i++;
-	if (i == 0)
-		return (0);
-	else
-		i--;
-	if (str[i] == '\'' || str[i] == '"')
-		stop_quote = str[i];
-	return (start_quote != 0 && start_quote == stop_quote);
-}
-
-int	write_line_to_file(char *line, char *delimiter, int do_expand, int fd, t_env *env)
-{
+	file = exec_data->cmd->file;
 	if (!line)
 		return (0);
-	if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0)
+	if (ft_strncmp(line, file->delimiter, ft_strlen(file->delimiter)) == 0)
 	{
 		free(line);
 		return (0);
 	}
 	if (do_expand)
-		line = expand(line, env);
+		line = expand(line, exec_data->env);
 	write (fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
 	free(line);
@@ -90,7 +37,7 @@ bool	create_file(t_exec_data *exec_data)
 {
 	t_file	*file;
 	t_cmd	*cmd;
-	int		fd;
+	char	*tmp;
 
 	file = exec_data->cmd->file;
 	cmd = exec_data->cmd;
@@ -100,12 +47,11 @@ bool	create_file(t_exec_data *exec_data)
 		{
 			if (file->type == HEREDOC)
 			{
-				file->file_name = heredoc_file_named(\
-					(unsigned long)file->delimiter);
-				fd = open(file->file_name, O_WRONLY | O_CREAT | O_RDONLY, 0700);
-				if (fd == ERROR)
+				tmp = heredoc_file_named((unsigned long)file->delimiter);
+				file->file_name = ft_strdup(tmp);
+				free(tmp);
+				if (!open_heredoc(file->file_name))
 					return (false);
-				close(fd);
 			}
 			file = file->next;
 		}
@@ -133,8 +79,8 @@ int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 			line = readline("> ");
 			if (line[0] == '\0')
 				continue ;
-			if (write_line_to_file(line, file->delimiter, \
-				do_expand, fd, exec_data->env) == 0)
+			if (write_line_to_file(exec_data, line, \
+				do_expand, fd) == 0)
 				break ;
 			free(line);
 		}
@@ -152,52 +98,17 @@ void	run_heredoc(t_file *file)
 	dup2(fd, STDIN_FILENO);
 }
 
-void	unlink_heredoc_files(t_exec_data *exec_data)
-{
-	t_cmd	*cmd;
-	t_file	*file;
-
-	cmd = exec_data->cmd;
-	file = cmd->file;
-	while (cmd)
-	{
-		while (file)
-		{
-			unlink(file->file_name);
-			file = file->next;
-		}
-		cmd = cmd->next;
-	}
-}
-
 int	heredoc(t_exec_data *exec_data)
 {
-	t_file	*file;
-	t_cmd	*cmd;
 	pid_t	pid;
 	int		wifexited;
 
-	file = exec_data->cmd->file;
-	cmd = exec_data->cmd;
 	create_file(exec_data);
 	pid = fork();
 	if (pid == ERROR)
 		ft_error();
 	if (pid == 0)
-	{
-		signal(SIGINT, SIG_DFL);
-		while (cmd)
-		{
-			while (file)
-			{
-				if (file->type == HEREDOC)
-					create_heredoc_file(file, exec_data);
-				file = file->next;
-			}
-			cmd = cmd->next;
-		}
-		exit(0);
-	}
+		heredoc_child(exec_data);
 	signal(SIGINT, heredoc_signal_handler);
 	waitpid(pid, &wifexited, 0);
 	init_signals();
@@ -206,7 +117,10 @@ int	heredoc(t_exec_data *exec_data)
 		if (WIFSIGNALED(wifexited))
 			write(1, "\n", 1);
 		unlink_heredoc_files(exec_data);
+		free_files(exec_data);
 		return (ERROR);
 	}
+	unlink_heredoc_files(exec_data);
+	free_files(exec_data);
 	return (SUCCESS);
 }
