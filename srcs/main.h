@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.h                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/25 12:35:39 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.h                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/25 13:48:53 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -257,16 +257,26 @@ void	ft_error(void);
 int		chdir_error(char *str, int32_t error);
 void	error_heredoc(char *file_name, t_exec_data *exec_data);
 bool	has_heredoc(t_cmd *cmd);
+int		error_ambiguous(void);
 
 //File handler functions
 int		duplicate(int fd, int fileno);
 int		redirect_input(t_exec_data *exec_data, int fd);
 int		redirect_output(t_exec_data *exec_data);
 int		redirect_in_simple_cmd(t_exec_data *exec_data);
+
+//heredoc functions
 int		heredoc(t_exec_data *exec_data);
 void	unlink_heredoc_files(t_exec_data *exec_data);
 void	run_heredoc(t_file *file);
 int		create_heredoc_file(t_file *file, t_exec_data *exec_data);
+bool	has_heredoc(t_cmd *cmd);
+char	*heredoc_file_named(unsigned long n);
+void	unlink_heredoc_files(t_exec_data *exec_data);
+int		str_start_stop_with_quotes(char *str);
+void	heredoc_child(t_exec_data *exec_data);
+void	free_files(t_exec_data *exec_data);
+bool	open_heredoc(char *file_name);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);

@@ -6,25 +6,17 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 18:57:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/19 18:32:19 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 11:50:57 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
 
-t_env	*new_env_node(char *env)
+void	set_env_node(t_env *new, char *env, int len)
 {
-	t_env	*new;
-	int		i;
-	int		len;
+	int	i;
 
 	i = 0;
-	len = ft_strlen(env);
-	new = (t_env *)malloc(sizeof(t_env));
-	new->has_value = false;
-	if (!new)
-		return (NULL);
-	new->next = NULL;
 	while (env[i] && new->has_value == false)
 	{
 		if (env[i] == '=')
@@ -40,21 +32,21 @@ t_env	*new_env_node(char *env)
 		new->key = ft_substr(env, 0, len);
 		new->value = NULL;
 	}
-	return (new);
 }
 
-void	free_env_list(t_env **head)
+t_env	*new_env_node(char *env)
 {
-	t_env	*tmp;
+	t_env	*new;
+	int		len;
 
-	while (*head)
-	{
-		tmp = *head;
-		*head = (*head)->next;
-		free(tmp->key);
-		free(tmp->value);
-		free(tmp);
-	}
+	len = ft_strlen(env);
+	new = (t_env *)malloc(sizeof(t_env));
+	if (!new)
+		return (NULL);
+	new->has_value = false;
+	new->next = NULL;
+	set_env_node(new, env, len);
+	return (new);
 }
 
 bool	create_env_list(t_env **head, char **envp)
@@ -84,34 +76,16 @@ bool	create_env_list(t_env **head, char **envp)
 	return (true);
 }
 
-int	get_env_len(t_env *env)
-{
-	int	i;
-
-	i = 0;
-	while (env)
-	{
-		env = env->next;
-		i++;
-	}
-	return (i);
-}
-
 char	**env_to_list(t_env *env)
 {
 	char	**env_list;
 	int		i;
-	int		env_len;
 	char	*tmp;
 
 	i = 0;
-	env_len = get_env_len(env);
-	env_list = (char **)malloc(sizeof(char *) * (env_len + 1));
+	env_list = (char **)malloc(sizeof(char *) * (get_env_len(env) + 1));
 	if (!env_list)
-	{
-		errno = ENOMEM;
-		return (NULL);
-	}
+		return (errno = ENOMEM, NULL);
 	while (env)
 	{
 		if (!env->key || !env->value)

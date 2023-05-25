@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   main.c                                             :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/25 13:03:17 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   main.c                                             :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/25 13:48:40 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,10 +57,10 @@ int	shell(char *line, t_env *env)
 	return (EXIT_SUCCESS);
 }
 
-// void	ft_exit(void)
-// {
-// 	system("leaks -q minishell");
-// }
+void	ft_exit(void)
+{
+	system("leaks -q minishell");
+}
 
 int	g_exit_status;
 
@@ -70,7 +70,7 @@ int	main(int argc, char *argv[], char **envp)
 	t_env		*env;
 
 	g_exit_status = 0;
-	// atexit(ft_exit);
+	atexit(ft_exit);
 	create_env_list(&env, envp);
 	init_signals();
 	while ("you don't close me")

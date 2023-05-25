@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   add_cmd.c                                          :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2023/02/17 13:29:03 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/25 12:11:55 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   add_cmd.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/02/17 13:29:03 by bprovoos          #+#    #+#             */
+/*   Updated: 2023/05/25 13:47:56 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ t_cmd	*init_cmd_for_file(t_cmd **cmd, t_token *token)
 {
 	if (!*cmd)
 		*cmd = new_t_cmd();
-	if (token->prev && is_rederect(token->prev->type))
+	if (token->prev && token->prev->prev && token->prev->prev->type == PIPE)
 		add_t_cmd_back(*cmd);
 	return (*cmd);
 }
