@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   cmds_handler.c                                     :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/15 12:05:22 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/25 18:30:09 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   cmds_handler.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/25 19:39:13 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ void	ft_execute(t_exec_data *exec_data)
 	char	**env_list;
 
 	if (execute_built_in_cmd(exec_data, \
-		exec_data->cmd->exec->cmd_args[0], false) == SUCCESS)
+		exec_data->cmd->exec->cmd_args[0], false, &exec_data->env) == SUCCESS)
 		exit(g_exit_status);
 	env_list = env_to_list(exec_data->env);
 	signal(SIGQUIT, sigquit_handler);
