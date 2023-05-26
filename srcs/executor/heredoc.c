@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/26 13:29:28 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/26 13:31:54 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	write_line_to_file(t_exec_data *exec_data, char *line, \
 	file = exec_data->cmd->file;
 	if (!line)
 		return (0);
-	if (ft_strncmp(line, file->delimiter, ft_strlen(file->delimiter)) == 0)
+	if (ft_strncmp(line, file->delimiter, ft_strlen(file->delimiter) + 1) == 0)
 	{
 		free(line);
 		return (0);
