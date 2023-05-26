@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 13:48:40 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 17:20:31 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	shell(char *line, t_env *env)
 void	ft_exit(void)
 {
 	system("leaks -q minishell");
+	system("lsof -c minishell");
 }
 
 int	g_exit_status;
