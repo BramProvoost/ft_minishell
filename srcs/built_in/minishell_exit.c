@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_exit.c                                   :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 18:21:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:30:44 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_exit.c                                   :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 18:21:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/26 14:09:26 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ static void	in_error_exit(t_exec_data *exec_data)
 	exit(255);
 }
 
+static void	delete_befoce_exit(t_exec_data *exec_data)
+{
+	delete_cmds(exec_data->cmd);
+	free_env_list(&exec_data->env);
+	delete_tokens(exec_data->tokens);
+}
+
 int	minishell_exit(bool print, t_exec_data *exec_data)
 {
 	if (exec_data->cmd->exec->cmd_args[1] && exec_data->cmd->exec->cmd_args[2] \
@@ -28,6 +35,7 @@ int	minishell_exit(bool print, t_exec_data *exec_data)
 		if (print)
 			ft_putstr_fd("exit\n", STDERR);
 		ft_putstr_fd("minishell: exit: too many arguments\n", STDERR);
+		g_exit_status = 1;
 		return (SUCCESS);
 	}
 	if (exec_data->cmd->exec->cmd_args[1])
@@ -43,8 +51,6 @@ int	minishell_exit(bool print, t_exec_data *exec_data)
 	}
 	if (print)
 		ft_putstr_fd("exit\n", STDERR);
-	delete_cmds(exec_data->cmd);
-	free_env_list(&exec_data->env);
-	delete_tokens(exec_data->tokens);
+	delete_befoce_exit(exec_data);
 	exit(g_exit_status);
 }

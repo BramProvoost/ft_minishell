@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/12 14:46:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/22 18:35:14 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/25 16:41:18 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,6 @@ int	minishell_cd(t_cmd *cmd, t_env *env)
 	}
 	set_env("OLDPWD", pwd, env);
 	newpwd = getcwd(NULL, 0);
-	fprintf(stderr, "newpwd: %p\n", newpwd);
 	set_env("PWD", newpwd, env);
 	free(newpwd);
 	return (SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/26 18:15:49 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:44:56 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -232,7 +232,7 @@ char	*get_varname(char *str);
 char	*expand_variable(char *varname, t_env *env);
 
 //Executor functions
-void	executor(t_cmd *cmd, t_token *tokens, t_env *env);
+void	executor(t_cmd *cmd, t_token *tokens, t_env **env);
 void	ft_execute(t_exec_data *exec_data);
 void	child_process(t_exec_data *exec_data, int prev_fd);
 void	close_fds(int *pipe_fds, int fd_in, bool is_pipe);
@@ -279,7 +279,8 @@ bool	open_heredoc(char *file_name);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
-int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd, bool exit_flag);
+int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd, \
+		bool exit_flag, t_env **env);
 int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd(void);
@@ -292,7 +293,7 @@ bool	is_not_alpha_second_arg(char *str);
 bool	check_if_cmd_is_word(t_cmd *cmd, int i);
 void	set_env(char *key, char *value, t_env *env);
 int		minishell_exit(bool print, t_exec_data *exec_data);
-int		minishell_unset(t_cmd *cmd, t_env *env);
+int		minishell_unset(t_cmd *cmd, t_env **env);
 
 //env functions
 int		minishell_env(t_cmd *cmd, t_env *env);
