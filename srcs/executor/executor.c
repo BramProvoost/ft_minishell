@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/26 18:42:44 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:44:26 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,12 @@ static void	close_main_fds(int fd_in, int fd_out)
 {
 	close(fd_in);
 	close(fd_out);
+}
+
+static void	dup_fds(int fd_in, int fd_out)
+{
+	dup2(fd_in, STDIN_FILENO);
+	dup2(fd_out, STDOUT_FILENO);
 }
 
 int	prepare_to_pipe_and_fork(t_exec_data *exec_data, int fd)
@@ -87,8 +93,7 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env **env_double_ptr)
 		last_pid = prepare_to_pipe_and_fork(&exec_data, STDIN_FILENO);
 	else
 		last_pid = simple_command(&exec_data, env_double_ptr);
-	dup2(fd_in, STDIN_FILENO);
-	dup2(fd_out, STDOUT_FILENO);
+	dup_fds(fd_in, fd_out);
 	close_main_fds(fd_in, fd_out);
 	wait_for_pids(last_pid);
 }

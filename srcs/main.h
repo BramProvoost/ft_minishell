@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/26 18:44:56 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:39:22 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,7 +125,6 @@ typedef struct exec_data
 	int			pipe_fds[2];
 }	t_exec_data;
 
-// verwijder next en heredoc. Gebruik andere enum
 typedef struct s_file {
 	t_type			type;
 	char			*file_name;
@@ -276,6 +275,11 @@ int		str_start_stop_with_quotes(char *str);
 void	heredoc_child(t_exec_data *exec_data);
 void	free_files(t_exec_data *exec_data);
 bool	open_heredoc(char *file_name);
+int		check_line(char *line);
+int		expand_heredoc(t_file *file);
+int		check_open(char *file_name, t_exec_data *exec_data);
+int		write_line_to_file(t_exec_data *exec_data, char *line, \
+						int do_expand, int fd);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 13:25:00 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/26 18:38:39 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:41:46 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ bool	open_heredoc(char *file_name)
 	return (true);
 }
 
-void	check_open(char *file_name, t_exec_data *exec_data)
+int	check_open(char *file_name, t_exec_data *exec_data)
 {
 	int		fd;
 
@@ -65,23 +65,12 @@ int	expand_heredoc(t_file *file)
 	return (do_expand);
 }
 
-void	read_loop(t_exec_data *exec_data, int fd, int do_expand)
+int	check_line(char *line)
 {
-	char	*line;
-
-	while (1)
+	if (line == NULL)
 	{
-		line = readline("> ");
-		if (!line)
-		{
-			write(1, "\n", 1);
-			break ;
-		}
-		if (line[0] == '\0')
-			continue ;
-		if (write_line_to_file(exec_data, line, \
-			do_expand, fd) == 0)
-			break ;
-		free(line);
+		write(1, "\n", 1);
+		return (1);
 	}
+	return (0);
 }

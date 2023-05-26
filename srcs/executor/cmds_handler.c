@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 12:05:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 19:39:13 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:32:05 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ char	*get_full_cmd(char *cmd, char **paths)
 {
 	char	*temp_path;
 
+	if (!paths)
+		return (NULL);
 	if (cmd && *cmd == '\0')
 	{
 		free_2d(paths);

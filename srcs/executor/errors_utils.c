@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/25 11:42:28 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:42:48 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:27:15 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,10 @@ int	error_ambiguous(void)
 	g_exit_status = 1;
 	return (ERROR);
 }
+
+// char	*error_path(void)
+// {
+// 	ft_putstr_fd("minishell: ", 2);
+// 	ft_putstr_fd(cmd, 2);
+// 	ft_putendl_fd(": no such file or directory", 2);
+// }

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/05/19 16:32:21 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 12:47:54 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:35:46 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,16 +46,16 @@ char	**get_paths(t_env *env)
 	char	*tmp;
 
 	i = 0;
-	while (env->key && env->has_value && ft_strncmp("PATH", env->key, 4))
+	while (env && env->key && env->has_value && ft_strncmp("PATH", env->key, 5))
 		env = env->next;
-	if (env->key == NULL)
-		error_exit(errno, "PATH not found");
+	if (env == NULL)
+		return (NULL);
 	path = ft_strdup(env->value);
 	if (!path)
-		error_exit(errno, "malloc error");
+		return (NULL);
 	paths = ft_split(path, ':');
 	if (!paths)
-		error_exit(errno, "malloc error");
+		return (NULL);
 	while (paths[i])
 	{
 		tmp = paths[i];

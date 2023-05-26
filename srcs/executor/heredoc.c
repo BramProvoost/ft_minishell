@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/26 18:38:31 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 21:00:02 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,25 @@ bool	create_file(t_exec_data *exec_data)
 int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 {
 	int		fd;
+	char	*line;
 	int		do_expand;
 
 	if (file->file_name != NULL)
 	{
-		do_expand = expand_here_doc(file);
+		do_expand = expand_heredoc(file);
 		fd = check_open(file->file_name, exec_data);
-		read_loop(exec_data, do_expand, fd);
+		while (1)
+		{
+			line = readline("> ");
+			if (check_line(line))
+				break ;
+			if (line[0] == '\0')
+				continue ;
+			if (write_line_to_file(exec_data, line, \
+				do_expand, fd) == 0)
+				break ;
+			free(line);
+		}
 		close(fd);
 	}
 	return (SUCCESS);
