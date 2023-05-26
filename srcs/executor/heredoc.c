@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 13:40:39 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:38:31 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,8 +19,12 @@ int	write_line_to_file(t_exec_data *exec_data, char *line, \
 
 	file = exec_data->cmd->file;
 	if (!line)
+	{
+		free(line);
+		free(file->file_name);
 		return (0);
-	if (ft_strncmp(line, file->delimiter, ft_strlen(file->delimiter)) == 0)
+	}
+	if (ft_strncmp(line, file->delimiter, ft_strlen(file->delimiter) + 1) == 0)
 	{
 		free(line);
 		return (0);
@@ -37,7 +41,6 @@ bool	create_file(t_exec_data *exec_data)
 {
 	t_file	*file;
 	t_cmd	*cmd;
-	char	*tmp;
 
 	file = exec_data->cmd->file;
 	cmd = exec_data->cmd;
@@ -47,9 +50,8 @@ bool	create_file(t_exec_data *exec_data)
 		{
 			if (file->type == HEREDOC)
 			{
-				tmp = heredoc_file_named((unsigned long)file->delimiter);
-				file->file_name = ft_strdup(tmp);
-				free(tmp);
+				file->file_name = \
+					heredoc_file_named((unsigned long)file->delimiter);
 				if (!open_heredoc(file->file_name))
 					return (false);
 			}
@@ -63,27 +65,13 @@ bool	create_file(t_exec_data *exec_data)
 int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 {
 	int		fd;
-	char	*line;
 	int		do_expand;
 
 	if (file->file_name != NULL)
 	{
-		do_expand = !str_start_stop_with_quotes(file->delimiter);
-		if (!do_expand)
-			file->delimiter = rm_quotes(file->delimiter);
-		fd = open(file->file_name, O_TRUNC | O_RDWR, 0700);
-		if (fd == ERROR || access(file->file_name, 0) != 0)
-			error_heredoc(file->file_name, exec_data);
-		while (1)
-		{
-			line = readline("> ");
-			if (line[0] == '\0')
-				continue ;
-			if (write_line_to_file(exec_data, line, \
-				do_expand, fd) == 0)
-				break ;
-			free(line);
-		}
+		do_expand = expand_here_doc(file);
+		fd = check_open(file->file_name, exec_data);
+		read_loop(exec_data, do_expand, fd);
 		close(fd);
 	}
 	return (SUCCESS);
@@ -96,6 +84,8 @@ void	run_heredoc(t_file *file)
 	fd = open(file->file_name, O_RDONLY);
 	unlink(file->file_name);
 	dup2(fd, STDIN_FILENO);
+	free(file->file_name);
+	close(fd);
 }
 
 int	heredoc(t_exec_data *exec_data)
@@ -117,10 +107,7 @@ int	heredoc(t_exec_data *exec_data)
 		if (WIFSIGNALED(wifexited))
 			write(1, "\n", 1);
 		unlink_heredoc_files(exec_data);
-		free_files(exec_data);
 		return (ERROR);
 	}
-	unlink_heredoc_files(exec_data);
-	free_files(exec_data);
 	return (SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/15 10:48:18 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 17:02:41 by edawood          ###   ########.fr       */
+/*   Updated: 2023/05/26 18:44:16 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,10 @@ int	duplicate(int fd, int fileno)
 	{
 		perror(ft_itoa(errno));
 		g_exit_status = errno;
+		close(fd);
 		return (ERROR);
 	}
+	close(fd);
 	return (SUCCESS);
 }
 

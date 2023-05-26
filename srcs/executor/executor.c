@@ -1,16 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        ::::::::            */
-/*   executor.c                                         :+:    :+:            */
-/*                                                     +:+                    */
-/*   By: edawood <edawood@student.42.fr>              +#+                     */
-/*                                                   +#+                      */
-/*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/26 14:10:30 by bprovoos      ########   odam.nl         */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
+/*   Updated: 2023/05/26 18:42:44 by edawood          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../main.h"
+
+static void	close_main_fds(int fd_in, int fd_out)
+{
+	close(fd_in);
+	close(fd_out);
+}
 
 int	prepare_to_pipe_and_fork(t_exec_data *exec_data, int fd)
 {
@@ -39,7 +45,6 @@ static pid_t	simple_command(t_exec_data *exec_data, t_env **env)
 	pid_t	fork_pid;
 
 	fork_pid = -1;
-	exec_data->is_heredoc = false;
 	if (redirect_in_simple_cmd(exec_data) == ERROR)
 		return (fork_pid);
 	if (exec_data->cmd->exec == NULL)
@@ -54,12 +59,7 @@ static pid_t	simple_command(t_exec_data *exec_data, t_env **env)
 			ft_error();
 		if (fork_pid == CHILD)
 			ft_execute(exec_data);
-		if (exec_data->is_heredoc == true)
-			exit(g_exit_status);
-		return (fork_pid);
 	}
-	if (exec_data->is_heredoc == true)
-		exit(g_exit_status);
 	return (fork_pid);
 }
 
@@ -73,21 +73,22 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env **env_double_ptr)
 
 	last_pid = 0;
 	env = *env_double_ptr;
+	if (!cmd)
+		return ;
 	exec_data_init(&exec_data, cmd, tokens, env);
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
 	if (exec_data.has_heredoc == true)
 	{
 		if (heredoc(&exec_data) == ERROR)
-			return ;
+			return (NULL, close_main_fds(fd_in, fd_out));
 	}
-	if (!cmd)
-		return ;
 	if (exec_data.is_pipe == true)
 		last_pid = prepare_to_pipe_and_fork(&exec_data, STDIN_FILENO);
 	else
 		last_pid = simple_command(&exec_data, env_double_ptr);
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
+	close_main_fds(fd_in, fd_out);
 	wait_for_pids(last_pid);
 }
