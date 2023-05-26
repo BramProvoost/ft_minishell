@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 18:08:07 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/26 14:06:15 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,9 @@ int	test_shell(char *line, t_env **env_double_ptr)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
-	t_env	*env = *env_double_ptr;
+	t_env	*env;
 
+	env = *env_double_ptr;
 	if (!line || line[0] == '\0' || line[0] == ' ')
 	{
 		free(line);
@@ -39,27 +40,6 @@ int	test_shell(char *line, t_env **env_double_ptr)
 	delete_cmds(cmd);
 	return (EXIT_SUCCESS);
 }
-
-// int	shell(char *line, t_env *env)
-// {
-// 	t_token	*tokens;
-// 	t_cmd	*cmd;
-
-// 	if (!line || line[0] == '\0')
-// 		return (EXIT_FAILURE);
-// 	tokens = tokenizer(line);
-// 	free(line);
-// 	if (!gramer_is_valid(tokens))
-// 		return (EXIT_FAILURE);
-// 	replace_word_with_file(tokens);
-// 	replace_first_word_with_cmd(tokens);
-// 	expander(&tokens, env);
-// 	cmd = get_cmd_from_token(tokens, env);
-// 	executor(cmd, tokens, env);
-// 	delete_tokens(tokens);
-// 	delete_cmds(cmd);
-// 	return (EXIT_SUCCESS);
-// }
 
 void	ft_exit(void)
 {

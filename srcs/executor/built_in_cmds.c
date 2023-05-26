@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   built_in_cmds.c                                    :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 19:50:22 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 19:36:53 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   built_in_cmds.c                                    :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/29 19:50:22 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/26 14:09:41 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ int	is_buld_in_cmd(char *cmd)
 	return (0);
 }
 
-int	execute_built_in_cmd(t_exec_data *exec_data, char *cmd, bool exit_flag, t_env **env)
+int	execute_built_in_cmd(t_exec_data *exec_data, char *cmd, \
+	bool exit_flag, t_env **env)
 {
 	if (!cmd)
 		return (ERROR);

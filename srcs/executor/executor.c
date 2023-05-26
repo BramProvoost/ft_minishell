@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/14 15:07:04 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 19:36:26 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   executor.c                                         :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/14 15:07:04 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/26 14:10:30 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,9 +69,10 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env **env_double_ptr)
 	t_exec_data	exec_data;
 	int			fd_in;
 	int			fd_out;
-	t_env       *env = *env_double_ptr;
+	t_env		*env;
 
 	last_pid = 0;
+	env = *env_double_ptr;
 	exec_data_init(&exec_data, cmd, tokens, env);
 	fd_in = dup(STDIN_FILENO);
 	fd_out = dup(STDOUT_FILENO);
@@ -86,7 +87,6 @@ void	executor(t_cmd *cmd, t_token *tokens, t_env **env_double_ptr)
 		last_pid = prepare_to_pipe_and_fork(&exec_data, STDIN_FILENO);
 	else
 		last_pid = simple_command(&exec_data, env_double_ptr);
-	
 	dup2(fd_in, STDIN_FILENO);
 	dup2(fd_out, STDOUT_FILENO);
 	wait_for_pids(last_pid);

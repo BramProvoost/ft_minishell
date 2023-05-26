@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.h                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/07 19:31:40 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/25 18:06:30 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.h                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/07 19:31:40 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/26 14:07:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,8 +249,6 @@ char	*get_all_paths(char *path, t_env *env);
 void	free_2d(char **paths);
 char	**ft_strdup2d(char **str);
 
-
-
 //Errors functions
 void	error_cmd_not_found(char *cmd);
 int		file_error(char *filename);
@@ -282,7 +280,8 @@ bool	open_heredoc(char *file_name);
 
 //built-in functions
 int		is_buld_in_cmd(char *cmd);
-int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd, bool exit_flag, t_env **env);
+int		execute_built_in_cmd(t_exec_data *exec_data, char *cmd, \
+		bool exit_flag, t_env **env);
 int		minishell_cd(t_cmd *cmd, t_env *env);
 int		minishell_echo(t_cmd *cmd);
 int		minishell_pwd(void);
@@ -296,7 +295,6 @@ bool	check_if_cmd_is_word(t_cmd *cmd, int i);
 void	set_env(char *key, char *value, t_env *env);
 int		minishell_exit(bool print, t_exec_data *exec_data);
 int		minishell_unset(t_cmd *cmd, t_env **env);
-
 
 //env functions
 int		minishell_env(t_cmd *cmd, t_env *env);
