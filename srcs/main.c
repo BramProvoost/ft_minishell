@@ -6,13 +6,13 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
-/*   Updated: 2023/05/27 15:58:05 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/27 16:53:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "main.h"
 
-int	shell(char *line, t_env **env_double_ptr)
+int	test_shell(char *line, t_env **env_double_ptr)
 {
 	t_token	*tokens;
 	t_cmd	*cmd;
@@ -62,7 +62,7 @@ int	main(int argc, char *argv[], char **envp)
 	while ("you don't close me")
 	{
 		line_reader(&line, "minishell$ ");
-		shell(line, &env);
+		test_shell(line, &env);
 	}
 	free_env_list(&env);
 	(void)argv;
