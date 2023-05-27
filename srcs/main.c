@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/12/08 11:42:49 by bprovoos          #+#    #+#             */
-/*   Updated: 2023/05/26 21:39:32 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   main.c                                             :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2022/12/08 11:42:49 by bprovoos      #+#    #+#                 */
+/*   Updated: 2023/05/27 14:47:09 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ int	main(int argc, char *argv[], char **envp)
 		test_shell(line, &env);
 	}
 	free_env_list(&env);
-	(void)argc;
 	(void)argv;
 	return (EXIT_SUCCESS);
 }

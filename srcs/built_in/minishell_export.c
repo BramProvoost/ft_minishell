@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   minishell_export.c                                 :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/22 16:13:54 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:33:57 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   minishell_export.c                                 :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/22 16:13:54 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/27 14:31:50 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,15 @@ bool	check_if_env_key_exists(t_env *env, char *key, char *value)
 	return (false);
 }
 
-char	*assign_tmps(char **tmp, char **tmp2, char *key, char *value)
+char	*assign_tmps(char **tmp2, char *key, char *value)
 {
+	char	*tmp;
+
 	if (value)
 	{
-		*tmp = ft_strjoin(key, "=");
-		*tmp2 = ft_strjoin(*tmp, value);
-		free(*tmp);
+		tmp = ft_strjoin(key, "=");
+		*tmp2 = ft_strjoin(tmp, value);
+		free(tmp);
 	}
 	else
 		tmp2 = &key;
@@ -48,10 +50,9 @@ char	*assign_tmps(char **tmp, char **tmp2, char *key, char *value)
 
 void	set_env(char *key, char *value, t_env *env)
 {
-	char	*tmp;
 	char	*tmp2;
 
-	tmp2 = assign_tmps(&tmp, &tmp2, key, value);
+	tmp2 = assign_tmps(&tmp2, key, value);
 	while (env)
 	{
 		if (check_if_env_key_exists(env, key, value))
@@ -86,7 +87,7 @@ char	*get_export_value(t_cmd *cmd, int i, int j)
 		return (NULL);
 }
 
-int	minishell_export(t_cmd *cmd, t_env *env)
+int	minishell_export(t_cmd *cmd, t_env **env)
 {
 	int		i;
 	int		j;
@@ -110,6 +111,6 @@ int	minishell_export(t_cmd *cmd, t_env *env)
 		i++;
 	}
 	if (cmd->exec->cmd_args[1] == NULL)
-		print_export(env);
+		print_export(*env);
 	return (SUCCESS);
 }

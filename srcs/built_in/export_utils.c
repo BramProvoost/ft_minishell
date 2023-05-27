@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   export_utils.c                                     :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/03/19 13:17:36 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/25 11:25:02 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   export_utils.c                                     :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/03/19 13:17:36 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/27 14:45:11 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,14 +32,26 @@ void	print_export(t_env *env)
 	}
 }
 
-void	export_util(char *key, char *value, t_env *env)
+void	export_util(char *key, char *value, t_env **env)
 {
+	char	*tmp2;
+
+	tmp2 = NULL;
 	if (!key)
 		return ;
+	if (!*env)
+	{
+		tmp2 = assign_tmps(&tmp2, key, value);
+
+		*env = new_env_node(tmp2);
+		if (value)
+			free(tmp2);
+		return ;
+	}
 	if (value)
-		set_env(key, value, env);
+		set_env(key, value, *env);
 	else
-		set_env(key, NULL, env);
+		set_env(key, NULL, *env);
 	free(key);
 	if (value)
 		free(value);
