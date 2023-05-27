@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   heredoc.c                                          :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: edawood <edawood@student.42.fr>            +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/01/29 19:36:26 by edawood           #+#    #+#             */
-/*   Updated: 2023/05/26 21:00:02 by edawood          ###   ########.fr       */
+/*                                                        ::::::::            */
+/*   heredoc.c                                          :+:    :+:            */
+/*                                                     +:+                    */
+/*   By: edawood <edawood@student.42.fr>              +#+                     */
+/*                                                   +#+                      */
+/*   Created: 2023/01/29 19:36:26 by edawood       #+#    #+#                 */
+/*   Updated: 2023/05/27 15:28:46 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@ int	write_line_to_file(t_exec_data *exec_data, char *line, \
 						int do_expand, int fd)
 {
 	t_file	*file;
+	char	*tmp;
 
 	file = exec_data->cmd->file;
 	if (!line)
@@ -29,8 +30,12 @@ int	write_line_to_file(t_exec_data *exec_data, char *line, \
 		free(line);
 		return (0);
 	}
+	tmp = line;
 	if (do_expand)
-		line = expand(line, exec_data->env);
+	{
+		line = expand(tmp, exec_data->env);
+		free(tmp);
+	}
 	write (fd, line, ft_strlen(line));
 	write(fd, "\n", 1);
 	free(line);
@@ -82,7 +87,6 @@ int	create_heredoc_file(t_file *file, t_exec_data *exec_data)
 			if (write_line_to_file(exec_data, line, \
 				do_expand, fd) == 0)
 				break ;
-			free(line);
 		}
 		close(fd);
 	}
