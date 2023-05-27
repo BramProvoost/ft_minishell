@@ -6,7 +6,7 @@
 /*   By: edawood <edawood@student.42.fr>              +#+                     */
 /*                                                   +#+                      */
 /*   Created: 2023/03/19 13:17:36 by edawood       #+#    #+#                 */
-/*   Updated: 2023/05/27 14:45:11 by bprovoos      ########   odam.nl         */
+/*   Updated: 2023/05/27 15:29:03 by bprovoos      ########   odam.nl         */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	export_util(char *key, char *value, t_env **env)
 	if (!*env)
 	{
 		tmp2 = assign_tmps(&tmp2, key, value);
-
 		*env = new_env_node(tmp2);
 		if (value)
 			free(tmp2);
